@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   // Testing plugins
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jsxhint');
   grunt.loadNpmTasks('grunt-mocha-test');
 
   // Utility plugins
@@ -12,7 +12,7 @@ module.exports = function(grunt) {
   // Grunt setup
   grunt.initConfig({
     jshint: {
-      files: ['public/**/*.js', 'server/**/*']
+      files: ['public/**/*.js', 'public/**/*.jsx', 'server/**/*']
     },
 
     mochaTest: {

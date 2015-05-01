@@ -6,16 +6,15 @@ var _ = require('underscore');
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: config.gmail.username,
-    pass: config.gmail.password
+    user: process.env.GMAIL_USERNAME || config.gmail.username,
+    pass: process.env.GMAIL_PASSWORD || config.gmail.password
   }
 });
 
-// NB! No need to recreate the transporter object. You can use the same transporter object for all e-mails
 module.exports = function(mailOptions, cb) {
   mailOptions = mailOptions || {};
   _.defaults(mailOptions, {
-    from: 'Tallest Tree App <TallestTreeApp@gmail.com>',
+    from: 'Tallest Tree App <'+config.gmail.email+'>',
     subject: '☎ Visit from Anon',
     text: 'You have an anonymous visitor.',
   });
@@ -24,14 +23,13 @@ module.exports = function(mailOptions, cb) {
     if(err) {
       console.error(err);
     } else {
-      console.log('Message sent: ' + info.response);
+      console.log('Email sent: ' + info.response);
     }
   };
 
   if (!mailOptions.to) {
     cb('Error: No destination address for mail');
   } else {
-    // Send mail with defined transport object
     transporter.sendMail(mailOptions, cb);
   }
 };
