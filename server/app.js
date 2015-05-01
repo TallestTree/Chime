@@ -19,17 +19,6 @@ app.get('/', function(req, res) {
   res.sendFile('/index.html');
 });
 
-var emailUtils = require('./utils/emailUtils');
-app.post('/emailJoe', function(req, res) {
-  emailUtils(function(err, info) {
-    if (err) {
-      res.send(500);
-    } else {
-      res.redirect('/');
-    }
-  });
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -38,10 +27,8 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-  });
-}
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+});
 
 module.exports = app;
