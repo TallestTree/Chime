@@ -3,30 +3,30 @@ var assert = chai.assert;
 var should = chai.should();
 var expect = chai.expect;
 
-describe('emailUtils', function() {
+describe('smsUtils', function() {
   var rewire = require('rewire');
-  var emailUtils = rewire('../../../server/utils/emailUtils');
+  var smsUtils = rewire('../../../server/utils/smsUtils');
 
   before(function() {
-    emailUtils.__set__('transporter', {
-      sendMail: function(mailOptions, cb) {
+    smsUtils.__set__('client', {
+      altsms: function(smsOptions, cb) {
         cb(null, {
-          response: 250
+          body: {ok: true}
         });
       }
     });
   });
 
-  describe('emailUtils', function() {
-    it('sends an email', function(done) {
-      emailUtils({to:'anon@somesite.com'}, function(err, info) {
+  describe('smsUtils', function() {
+    it('sends a text', function(done) {
+      smsUtils({to:'5551234567'}, function(err, response, data) {
         expect(err).to.equal(null);
-        expect(info.response).to.equal(250);
+        expect(response.body.ok).to.equal(true);
         done();
       });
     });
     it('throws an error if there is no destination address', function(done) {
-      emailUtils({}, function(err, info) {
+      smsUtils({}, function(err, response, data) {
         expect(err.substring(0,5)).to.equal('Error');
         done();
       });
