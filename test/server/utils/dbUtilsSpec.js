@@ -7,16 +7,16 @@ var rewire = require('rewire');
 describe('dbUtils', function() {
   var pg = require('pg');
   var dbUtils = rewire('../../../server/utils/dbUtils');
-  var config = require('../../../server/config/config').testdb.config;
+  var config = process.env.TEST_DB_URL || require('../../../server/config/config').testdb.config;
 
-  // For testing on localhost instead (if postgres is installed)
-  config = {
-    user: 'myuser',
-    database: 'mydb',
-    password: 'test',
-    port: 5432,
-    host: 'localhost'
-  };
+  // // For testing on localhost instead (if postgres is installed)
+  // config = {
+  //   user: 'myuser',
+  //   database: 'mydb',
+  //   password: 'test',
+  //   port: 5432,
+  //   host: 'localhost'
+  // };
 
   dbUtils.__set__('config', config);
 
@@ -40,9 +40,9 @@ describe('dbUtils', function() {
     });
   });
 
-  describe('dbUtils', function() {
+  describe('adds and retrieves a user', function() {
     it('adds a user', function(testDone) {
-      dbUtils.addUser({first_name: 'John', last_name: 'Doe'}, function(err) {
+      dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com'}, function(err) {
         expect(err).to.equal(null);
         pg.connect(config, function(err, client, pgDone) {
           if (err) {
@@ -62,19 +62,41 @@ describe('dbUtils', function() {
         });
       });
     });
-    it('throws an error if a required field is missing', function(testDone) {
-      dbUtils.addUser({first_name: 'Jane'}, function(err) {
-        expect(err.substring(0,5)).to.equal('Error');
-        testDone();
-      });
-    });
-    it('grabs a user\'s entry', function(testDone) {
+    it('grabs a user\'s entry by id', function(testDone) {
       dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}, function(err) {
         expect(err).to.equal(null);
-        dbUtils.getUser(1, function(err, info) {
+        dbUtils.getUser({id: 1}, function(err, info) {
           expect(err).to.equal(null);
           expect(info.email).to.equal('janedoe@myurl.com');
           expect(info.phone).to.equal('5551234567');
+          testDone();
+        });
+      });
+    });
+    it('grabs a user\'s entry by name', function(testDone) {
+      dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567}, function(err) {
+        expect(err).to.equal(null);
+        dbUtils.getUser({first_name: 'John', last_name: 'Doe'}, function(err, info) {
+          expect(err).to.equal(null);
+          expect(info.email).to.equal('johndoe@myurl.com');
+          expect(info.phone).to.equal('5551234567');
+          testDone();
+        });
+      });
+    });
+  });
+  describe('it properly throws errors', function() {
+    it('throws an error if a required field is missing', function(testDone) {
+      dbUtils.addUser({first_name: 'Jane', last_name: 'Doe'}, function(err) {
+        expect(err).to.not.equal(null);
+        testDone();
+      });
+    });
+    it('throws an error if a unique field is inserted twice', function(testDone) {
+      dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567}, function(err) {
+        expect(err).to.equal(null);
+        dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', phone: 5551234567}, function(err, info) {
+          expect(err).to.not.equal(null);
           testDone();
         });
       });

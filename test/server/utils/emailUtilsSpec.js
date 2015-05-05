@@ -24,7 +24,7 @@ describe('emailUtils', function() {
     });
     it('throws an error if there is no destination address', function(done) {
       emailUtils({}, function(err, info) {
-        expect(err.substring(0,5)).to.equal('Error');
+        expect(err).to.not.equal(null);
         done();
       });
     });

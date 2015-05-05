@@ -12,11 +12,11 @@ var config = process.env.DATABASE_URL || require('../config/config').testdb.conf
 
 // TODO: Support update user, update organization
 
-var userFields = {
-  required: ['first_name', 'last_name'],
-  optional: ['organization_id', 'username', 'middle_name', 'password_hash', 'phone', 'email', 'photo', 'department', 'title']
+var allUserFields = {
+  required: ['first_name', 'last_name', 'email'],
+  optional: ['organization_id', 'middle_name', 'password_hash', 'phone', 'photo', 'department', 'title'],
+  auto: ['id', 'created_at', 'updated_at'],
 };
-userFields.all = userFields.required.concat(userFields.optional);
 
 var defaultCb = function(err) {
   console.error(err);
@@ -39,7 +39,7 @@ var augmentFields = function(entry, fields) {
 
 // Takes a user entry and adds it
 exports.addUser = function(user, cb) {
-  user = augmentFields(user, userFields);
+  user = augmentFields(user, allUserFields);
   cb = cb || defaultCb;
   if (!user) {
     return cb('Error adding user: required field missing');
@@ -48,9 +48,11 @@ exports.addUser = function(user, cb) {
     if (err) {
       return cb('Error adding user: failed database request - ' + err);
     }
-    var parameters = '$'+userFields.all.map(function(current, index) {return index+1;}).join(',$');
-    var userFieldValues = userFields.all.map(function(current) {return user[current];});
-    client.query('INSERT INTO users ('+userFields.all.join(',')+') VALUES ('+parameters+')', userFieldValues, function(err, result) {
+    var userFields = allUserFields.required.concat(allUserFields.optional);
+    var userFieldString = userFields.join(',');
+    var parameters = '$'+userFields.map(function(current, index) {return index+1;}).join(',$');
+    var userFieldValues = userFields.map(function(current) {return user[current];});
+    client.query('INSERT INTO users ('+userFieldString+') VALUES ('+parameters+')', userFieldValues, function(err, result) {
       if (err) {
         done(client);
         return cb('Error adding user: failed client request - ' + err);
@@ -61,23 +63,45 @@ exports.addUser = function(user, cb) {
   });
 };
 
-// Takes a user id and returns user entry
-exports.getUser = function(id, cb) {
+// Takes partial user fields and returns user entry
+exports.getUser = function(entry, cb) {
   cb = cb || defaultCb;
-  if (!id) {
-    return cb('Error getting user: id missing');
+  if (!entry) {
+    return cb('Error getting user: no fields supplied');
   }
+
+  // Validate against possible fields
+  var userFields = [];
+  var possibleUserFields = allUserFields.required.concat(allUserFields.optional, allUserFields.auto);
+  for (var i=0; i<possibleUserFields.length; i++) {
+    if (entry[possibleUserFields[i]]) {
+      userFields.push(possibleUserFields[i]);
+    }
+  }
+  if (!userFields.length) {
+    return cb('Error getting user: no fields supplied');
+  }
+
   pg.connect(config, function(err, client, done) {
     if (err) {
       return cb('Error getting user: failed database request - ' + err);
     }
-    client.query('SELECT * FROM users where id=$1', [id], function(err, result) {
+    var userFieldString = userFields.join(',');
+    var parameters = '$'+userFields.map(function(current, index) {return index+1;}).join(',$');
+    var userFieldValues = userFields.map(function(current) {return entry[current];});
+    client.query('SELECT * FROM users WHERE ('+userFieldString+') = ('+parameters+')', userFieldValues, function(err, result) {
       if (err) {
         done(client);
         return cb('Error getting user: failed client request - ' + err);
       }
       done();
-      cb(null, result.rows[0]);
+      if (result.rows.length > 1) {
+        cb('Error getting user: multiple user matches');
+      } else if (result.rows.length) {
+        cb(null, result.rows[0]);
+      } else {
+        cb('Error getting user: no user matches');
+      }
     });
   });
 };

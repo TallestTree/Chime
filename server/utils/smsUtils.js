@@ -1,5 +1,7 @@
 var voicejs = require('voice.js');
-var config = require('../config/config');
+try {
+  var config = require('../config/config');
+} catch(e) {}
 var _ = require('underscore');
 
 // Create reusable client object

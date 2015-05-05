@@ -60,6 +60,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['jshint', 'mochaTest']);
-  grunt.registerTask('serve', ['jshint', 'mochaTest', 'nodemon']);
-  grunt.registerTask('client', ['jshint', 'mochaTest', 'concurrent']);
+  grunt.registerTask('serve', ['jshint', 'mochaTest', 'concurrent']);
 };

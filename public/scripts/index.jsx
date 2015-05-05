@@ -7,14 +7,15 @@ var React = require('react');
 
 var MainContent = React.createClass({
   componentWillMount: function() {
-    this.setState({page: 'login'})
+    this.setState({page: 'login'});
   },
   switchToSignup: function() {
     this.setState({page: 'signup'});
   },
   render: function() {
+    var form;
     if (this.state.page === 'login') {
-      var form = ( <LoginForm /> );
+      form = ( <LoginForm /> );
     } else {
       form = ( <SignupForm /> );
     }
@@ -53,7 +54,7 @@ var SignupForm = React.createClass({
       </form>
     );
   }
-})
+});
 
 // Login form class, which contains the input fields and submits those details to the server.
 var LoginForm = React.createClass({

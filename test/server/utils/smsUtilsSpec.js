@@ -24,7 +24,7 @@ describe('smsUtils', function() {
     });
     it('throws an error if there is no destination address', function(done) {
       smsUtils({}, function(err, response, data) {
-        expect(err.substring(0,5)).to.equal('Error');
+        expect(err).to.not.equal(null);
         done();
       });
     });
