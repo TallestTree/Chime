@@ -9,22 +9,20 @@
 
 ## Installing Dependencies
 #####`npm install`
-#####`bower install`
 
 ####For running Grunt tasks:
-#####`nodemon -g install`
 #####`npm install -g grunt-cli`
 
 ## Running Tests
 
-#####`Grunt Test`
+#####`grunt test`
    - Runs jshint and tests
 
 ## Serving
 
-#####`Grunt Serve`
+#####`grunt serve`
    - Runs jshint and tests
-   - Starts up a server with nodemon.
+   - Starts up a server with nodemon and browserify
 
 ## Tallest Tree
 
