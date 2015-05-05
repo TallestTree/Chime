@@ -14,9 +14,18 @@ module.exports = function(grunt) {
   // Grunt setup
   grunt.initConfig({
     browserify: {
+      admin: {
+        src: ['public/scripts/admin/*.jsx'],
+        dest: 'public/build/admin.js',
+        options: {
+          watch: true,
+          keepAlive: true,
+          transform: ['reactify']
+        }
+      },
       client: {
-        src: ['public/scripts/**/*.jsx'],
-        dest: 'public/build/app.js',
+        src: ['public/scripts/client/*.jsx'],
+        dest: 'public/build/client.js',
         options: {
           watch: true,
           keepAlive: true,
@@ -27,7 +36,7 @@ module.exports = function(grunt) {
 
     concurrent: {
       app: {
-        tasks: ['browserify', 'nodemon'],
+        tasks: ['browserify:admin', 'browserify:client', 'nodemon'],
         options: {
           logConcurrentOutput: true
         }
