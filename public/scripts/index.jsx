@@ -1,29 +1,19 @@
 // This is the login page
+var React = require('react');
+var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
 
 // May require a larger container for other details like logo, nav links, etc.
 
 // Main content class that holds everything on the page
-var React = require('react');
-
 var MainContent = React.createClass({
-  componentWillMount: function() {
-    this.setState({page: 'login'});
-  },
-  switchToSignup: function() {
-    this.setState({page: 'signup'});
-  },
   render: function() {
-    var form;
-    if (this.state.page === 'login') {
-      form = ( <LoginForm /> );
-    } else {
-      form = ( <SignupForm /> );
-    }
     return (
       <div>
         <h1>App</h1>
-        <SignupButton onButtonSubmit={this.switchToSignup} />
-        {form}
+        <SignupButton />
+        <RouteHandler />
       </div>
     );
   }
@@ -34,7 +24,7 @@ var SignupButton = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
 
-    this.props.onButtonSubmit();
+    router.transitionTo('/signup');
   },
   render: function() {
     return (
@@ -73,5 +63,21 @@ var LoginForm = React.createClass({
   }
 });
 
+// The routes that the index page will use
+var routes = (
+  <Route handler={MainContent}>
+    <Route path="/" handler={LoginForm} />
+    <Route path="/signup" handler={SignupForm} />
+  </Route>
+);
+
+// Create a router instance to be able to access the history location and transition routes
+var router = Router.create({
+  routes: routes,
+  location: Router.HistoryLocation
+});
+
 // Render the Login form on the page
-React.render(<MainContent />, document.getElementsByClassName('main-content')[0]);
+router.run(function(Handler) {
+  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
+});
