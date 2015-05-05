@@ -3,6 +3,8 @@
 // May require a larger container for other details like logo, nav links, etc.
 
 // Main content class that holds everything on the page
+var React = require('react');
+
 var MainContent = React.createClass({
   componentWillMount: function() {
     this.setState({page: 'login'});
