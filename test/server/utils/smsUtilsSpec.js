@@ -2,19 +2,16 @@ var chai = require('chai');
 var assert = chai.assert;
 var should = chai.should();
 var expect = chai.expect;
+var rewire = require('rewire');
 
 describe('smsUtils', function() {
-  var rewire = require('rewire');
   var smsUtils = rewire('../../../server/utils/smsUtils');
-
-  before(function() {
-    smsUtils.__set__('client', {
-      altsms: function(smsOptions, cb) {
-        cb(null, {
-          body: {ok: true}
-        });
-      }
-    });
+  smsUtils.__set__('client', {
+    altsms: function(smsOptions, cb) {
+      cb(null, {
+        body: {ok: true}
+      });
+    }
   });
 
   describe('smsUtils', function() {

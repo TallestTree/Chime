@@ -2,19 +2,16 @@ var chai = require('chai');
 var assert = chai.assert;
 var should = chai.should();
 var expect = chai.expect;
+var rewire = require('rewire');
 
 describe('emailUtils', function() {
-  var rewire = require('rewire');
   var emailUtils = rewire('../../../server/utils/emailUtils');
-
-  before(function() {
-    emailUtils.__set__('transporter', {
-      sendMail: function(mailOptions, cb) {
-        cb(null, {
-          response: 250
-        });
-      }
-    });
+  emailUtils.__set__('transporter', {
+    sendMail: function(mailOptions, cb) {
+      cb(null, {
+        response: 250
+      });
+    }
   });
 
   describe('emailUtils', function() {
