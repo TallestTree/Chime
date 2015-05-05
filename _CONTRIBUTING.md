@@ -2,7 +2,7 @@
 
 ## General Workflow
 
-1. Cut a namespaced feature branch from master
+1. Cut a namespaced feature branch from development
   - bugfix/...
   - feature/...
   - test/...
@@ -16,7 +16,7 @@
   - [test] ...
   - [doc] ...
 1. When your feature branch is ready for review, push it to GitHub and submit a [pull request][]
-   directly to master. Include a description of your changes.
+   to development. Include a description of your changes.
 1. Your pull request will be reviewed by another maintainer. The point of code
    reviews is to help keep the codebase clean and of high quality and, equally
    as important, to help you grow as a programmer. If your code reviewer
@@ -27,7 +27,7 @@
 
 ## Detailed Workflow
 
-### Cut a namespaced feature branch from master
+### Cut a namespaced feature branch from development
 
 Your branch should follow this naming convention:
   - bugfix/...
@@ -41,15 +41,15 @@ These commands will help you do this:
 ``` bash
 
 # Creates your branch and brings you there
-git branch my-new-branch master
+git branch my-new-branch development
 git checkout my-new-branch
 ```
 
 ### Make commits to your feature branch.
 
 Prefix each commit like so
-  - [feature] Added a new feature
-  - [bugfix] Fixed inconsistent tests [Fixes #0]
+  - [feature] Adds a new feature
+  - [bugfix] Fixes inconsistent tests [Fixes #0]
   - [refactor] ...
   - [cleanup] ...
   - [test] ...
@@ -69,20 +69,20 @@ for those changes later.
   not a detailed description of everything that changed.
 - Follow the initial line with a " - " for any further information we'll need about the commit.
 
-### Rebase master changes into your branch
+### Rebase development changes into your branch
 
 Once you are done making changes, you can begin the process of getting
 your code merged into the main repo. Step 1 is to rebase
-changes in the master branch into your branch by running this command
+changes in the development branch into your branch by running this command
 from your branch:
 
 ```bash
-git pull --rebase origin master
+git pull --rebase upstream development
 ```
 
 This will start the rebase process. You must commit all of your changes
 before doing this. If there are no conflicts, this should just roll all
-of your changes back on top of the changes from master, leading to a
+of your changes back on top of the changes from development, leading to a
 nice, clean, linear commit history.
 
 If there are conflicting changes, git will start yelling at you part way
@@ -90,7 +90,7 @@ through the rebasing process. Git will pause rebasing to allow you to sort
 out the conflicts. You do this the same way you solve merge conflicts,
 by checking all of the files git says have been changed in both histories
 and picking the versions you want. Be aware that these changes will show
-up in your pull request, so try and incorporate changes from master as much
+up in your pull request, so try and incorporate changes from development as much
 as possible.
 
 You pick a file by `git add`ing it - DO NOT commit during a
@@ -116,13 +116,13 @@ you get here again and nothing is broken and all the tests pass.
 
 ### Make a pull request
 
-Make a clear pull request from your branch to the master
+Make a clear pull request from your branch to the development
 branch, detailing exactly what changes you made and what feature this
 should add. The clearer your pull request is the faster you can get
 your changes incorporated into this repo.
 
 At least one other person MUST give your changes a code review, and once
-they are satisfied they will merge your changes into master. Alternatively,
+they are satisfied they will merge your changes into development. Alternatively,
 they may have some requested changes. You should make more commits to your
 branch to fix these, then follow this process again from rebasing onwards.
 
@@ -147,14 +147,14 @@ Thanks for contributing!
 
 This is just to help you organize your process
 
-- [ ] Did I cut my work branch off of master (don't cut new branches from existing feature brances)?
-- [ ] Did I follow the correct naming convention for my branch?
-- [ ] Is my branch focused on a single main change?
+ - [ ] Did I cut my work branch off of development (don't cut new branches from existing feature brances)?
+ - [ ] Did I follow the correct naming convention for my branch?
+ - [ ] Is my branch focused on a single main change?
  - [ ] Do all of my changes directly relate to this change?
-- [ ] Did I rebase the master branch after I finished all my
+ - [ ] Did I rebase the development branch after I finished all my
   work?
-- [ ] Did I write a clear pull request message detailing what changes I made?
-- [ ] Did I get a code review?
+ - [ ] Did I write a clear pull request message detailing what changes I made?
+ - [ ] Did I get a code review?
  - [ ] Did I make any requested changes from that code review?
 
 If you follow all of these guidelines and make good changes, you should have
