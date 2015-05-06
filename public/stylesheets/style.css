@@ -6,3 +6,40 @@ body {
 a {
   color: #00B7FF;
 }
+
+.member-list {
+  margin: 20px 0;
+}
+
+.btn-xl {
+  padding: 18px 28px;
+  width: 300px;
+  font-size: 18px;
+  line-height: normal;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.btn-member {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.member-photo {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+
+.member-info {
+  padding: 5px 0 5px 10px;
+  float: left;
+  text-align: left;
+}
+
+.member-name {
+  font-weight: bold;
+}
