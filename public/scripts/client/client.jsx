@@ -1,59 +1,18 @@
 // This is the client page which shows the members and lets guests ping members
 var React = require('react');
 
-// Mock data for a member list
-var orgInfo = {
-  name: 'Makersquare',
-  members: [
-    {
-      id: 1,
-      first_name: 'Bobby',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/KQjdi0i.jpg',
-      title: 'Student'
-    },
-    {
-      id: 2,
-      first_name: 'Hank',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/sY47Zl6.jpg',
-      title: 'Propane Salesman'
-    },
-    {
-      id: 3,
-      first_name: 'Luanne',
-      last_name: 'Platter',
-      photo: 'http://i.imgur.com/hUoJph9.jpg',
-      title: 'Beautician'
-    },
-    {
-      id: 4,
-      first_name: 'Dale',
-      last_name: 'Gribble',
-      photo: 'http://i.imgur.com/FJw1Nbb.jpg',
-      title: 'Exterminator'
-    },
-    {
-      id: 5,
-      first_name: 'Peggy',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/gnzS7G5.jpg',
-      title: 'Homemaker'
-    }
-  ]
-};
-
 var Directory = React.createClass({
   componentDidMount: function() {
     // Make a request to the server to retrieve the member data
     $.ajax({
-      url: '/',
+      url: '/api/dashboard',
       method: 'GET',
-      data: 'username',
-      success: function(data) {
+      data: 'orgId',
+      success: function(resp) {
+        resp = JSON.parse(resp);
         this.setState({
-          orgName: orgInfo.name,
-          members: orgInfo.members
+          orgName: resp.name,
+          members: resp.members
         });
       }.bind(this),
       error: function(err) {
