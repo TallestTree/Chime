@@ -1,95 +1,93 @@
-// This is the login page
+// This is the client page which shows the members and lets guests ping members
 var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
 
-// May require a larger container for other details like logo, nav links, etc.
+// Mock data for a member list
+var orgInfo = {
+  name: 'Makersquare',
+  members: [
+    {
+      first_name: 'Bobby',
+      last_name: '1',
+      phone: 1234567,
+      email: 'example@example.com',
+      photo: 'url string',
+      title: 'Test dummy'
+    },
+    {
+      first_name: 'Bobby',
+      last_name: '2',
+      phone: 1234567,
+      email: 'example@example.com',
+      photo: 'url string',
+      title: 'Test dummy'
+    }
+  ]
+};
 
-// Main content class that holds everything on the page
-var MainContent = React.createClass({
+var Directory = React.createClass({
+  componentDidMount: function() {
+    // Make a request to the server to retrieve the member data
+    $.ajax({
+      url: '/',
+      method: 'GET',
+      data: 'username',
+      success: function(data) {
+        this.setState({
+          orgName: orgInfo.name,
+          members: orgInfo.members
+        });
+      }.bind(this),
+      error: function(err) {
+        console.log(err);
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {members: []};
+  },
   render: function() {
     return (
       <div>
-        <h1>Client page</h1>
-        <RouteHandler />
-        <SignupButton />
+        <h2>{this.state.orgName}</h2>
+        <h1>Who do you want to see?</h1>
+        <MemberList members={this.state.members} />
       </div>
     );
   }
 });
 
-// The signup button, which should switch the view to show the signup form
-var SignupButton = React.createClass({
-  mixins: [ Router.State ],
-  handleSubmit: function(e) {
-    e.preventDefault();
-
-    if (this.getPathname() === '/') {
-      router.transitionTo('/signup');
-    } else {
-      console.log('submit signup form');
-    }
-  },
+// React class for the member list that will render all of the members
+var MemberList = React.createClass({
   render: function() {
+    // Generate the divs for each member in the data passed in
+    var members = this.props.members.map(function(member) {
+      return (
+        <Member data={member} />
+      );
+    });
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="submit" value="Signup" />
-      </form>
+      <div>
+        {members}
+      </div>
     );
   }
 });
 
-// The signup form class, which displays the form for users to create a new user
-var SignupForm = React.createClass({
-  handleSubmit: function(e) {
-    e.preventDefault();
+// This is the Member class that renders an individual member and its info
+var Member = React.createClass({
+  handleClick: function(e) {
+    console.log(this);
   },
   render: function() {
     return (
-      <form>
-        <h2>Sign up</h2>
-        <label>Username<input type="text" ref="username" /></label>
-        <label>Password<input type="password" ref="password" /></label>
-        <label>Repeat password<input type="password" ref="repeatPassword" /></label>
-      </form>
-    );
+      <div onClick={this.handleClick} className="member">
+        <div className="memberName">{this.props.data.first_name} {this.props.data.last_name}</div>
+        <div className="memberTitle">{this.props.data.title}</div>
+      </div>
+    )
   }
 });
 
-// Login form class, which contains the input fields and submits those details to the server.
-var LoginForm = React.createClass({
-  handleSubmit: function(e) {
-    // TODO: submit to server
-    e.preventDefault();
-  },
-  render: function() {
-    return (
-      <form onSubmit={this.handleSubmit} className="login-form">
-        <h2>Log in</h2>
-        <label>Username<input type="text" ref="username" /></label>
-        <label>Password<input type="password" ref="password" /></label>
-        <input type="submit" value="Log-in" />
-      </form>
-    );
-  }
-});
-
-// The routes that the index page will use
-var routes = (
-  <Route handler={MainContent}>
-    <Route path="/" handler={LoginForm} />
-    <Route path="/signup" handler={SignupForm} />
-  </Route>
-);
-
-// Create a router instance to be able to access the history location and transition routes
-var router = Router.create({
-  routes: routes,
-  location: Router.HistoryLocation
-});
-
-// Render the Login form on the page
-router.run(function(Handler) {
-  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
-});
+// Render the page starting from the Directory class
+React.render(<Directory />, document.getElementsByClassName('main-content')[0]);
