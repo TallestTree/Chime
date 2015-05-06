@@ -10,7 +10,7 @@ CREATE TABLE users (
   last_name TEXT NOT NULL ,
   password_hash TEXT ,
   phone BIGINT UNIQUE,
-  email TEXT UNIQUE,
+  email TEXT NOT NULL UNIQUE,
   photo TEXT ,
   department TEXT ,
   title TEXT ,
@@ -22,8 +22,8 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS organizations CASCADE;
 CREATE TABLE organizations (
   id  SERIAL ,
-  admin_id INTEGER ,
-  name TEXT NOT NULL ,
+  admin_id INTEGER NOT NULL UNIQUE,
+  name TEXT NOT NULL UNIQUE,
   logo TEXT ,
   welcome_message TEXT ,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP ,

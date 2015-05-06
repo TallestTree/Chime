@@ -9,14 +9,14 @@ describe('dbUtils', function() {
   var dbUtils = rewire('../../../server/utils/dbUtils');
   var config = process.env.TEST_DB_URL || require('../../../server/config/config').testdb.config;
 
-  // // For testing on localhost instead (if postgres is installed)
-  // config = {
-  //   user: 'myuser',
-  //   database: 'mydb',
-  //   password: 'test',
-  //   port: 5432,
-  //   host: 'localhost'
-  // };
+  // For testing on localhost instead (if postgres is installed)
+  config = {
+    user: 'myuser',
+    database: 'mydb',
+    password: 'test',
+    port: 5432,
+    host: 'localhost'
+  };
 
   dbUtils.__set__('config', config);
 
@@ -85,7 +85,7 @@ describe('dbUtils', function() {
       });
     });
   });
-  describe('it properly throws errors', function() {
+  describe('it properly errors on invalid users', function() {
     it('throws an error if a required field is missing', function(testDone) {
       dbUtils.addUser({first_name: 'Jane', last_name: 'Doe'}, function(err) {
         expect(err).to.not.equal(null);
@@ -95,9 +95,35 @@ describe('dbUtils', function() {
     it('throws an error if a unique field is inserted twice', function(testDone) {
       dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567}, function(err) {
         expect(err).to.equal(null);
-        dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', phone: 5551234567}, function(err, info) {
+        dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}, function(err, info) {
           expect(err).to.not.equal(null);
           testDone();
+        });
+      });
+    });
+  });
+  describe('adds and retrieves an organization', function() {
+    it('adds an organization', function(testDone) {
+      dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}, function(err, info) {
+        expect(err).to.equal(null);
+        dbUtils.addOrganization({name: 'Tallest Tree', admin_id: 1}, function(err) {
+          expect(err).to.equal(null);
+          pg.connect(config, function(err, client, pgDone) {
+            if (err) {
+              return console.error('Error: failed database request - ' + err);
+            }
+            client.query('SELECT * FROM organizations', function(err, result) {
+              if (err) {
+                pgDone(client);
+                return console.error('Error: failed client request - ' + err);
+              }
+              expect(result.rows.length).to.equal(1);
+              expect(result.rows[0].name).to.equal('Tallest Tree');
+              expect(result.rows[0].admin_id).to.equal(1);
+              pgDone();
+              testDone();
+            });
+          });
         });
       });
     });
