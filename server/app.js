@@ -16,7 +16,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', function(req, res) {
-  res.sendFile('/index.html');
+  res.sendFile('index.html', {root: path.join(__dirname, '../public')});
+});
+
+app.get('/client', function(req, res) {
+  res.sendFile('client.html', {root: path.join(__dirname, '../public')});
+});
+
+app.get('/signup', function(req, res) {
+  res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
 
 // routes:
