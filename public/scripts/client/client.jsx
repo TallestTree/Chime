@@ -6,20 +6,39 @@ var orgInfo = {
   name: 'Makersquare',
   members: [
     {
+      id: 1,
       first_name: 'Bobby',
-      last_name: '1',
-      phone: 1234567,
-      email: 'example@example.com',
-      photo: 'url string',
-      title: 'Test dummy'
+      last_name: 'Hill',
+      photo: 'http://i.imgur.com/KQjdi0i.jpg',
+      title: 'Student'
     },
     {
-      first_name: 'Bobby',
-      last_name: '2',
-      phone: 1234567,
-      email: 'example@example.com',
-      photo: 'url string',
-      title: 'Test dummy'
+      id: 2,
+      first_name: 'Hank',
+      last_name: 'Hill',
+      photo: 'http://i.imgur.com/sY47Zl6.jpg',
+      title: 'Propane Salesman'
+    },
+    {
+      id: 3,
+      first_name: 'Luanne',
+      last_name: 'Platter',
+      photo: 'http://i.imgur.com/hUoJph9.jpg',
+      title: 'Beautician'
+    },
+    {
+      id: 4,
+      first_name: 'Dale',
+      last_name: 'Gribble',
+      photo: 'http://i.imgur.com/FJw1Nbb.jpg',
+      title: 'Exterminator'
+    },
+    {
+      id: 5,
+      first_name: 'Peggy',
+      last_name: 'Hill',
+      photo: 'http://i.imgur.com/gnzS7G5.jpg',
+      title: 'Homemaker'
     }
   ]
 };
@@ -47,9 +66,9 @@ var Directory = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="container-fluid">
         <h2>{this.state.orgName}</h2>
-        <h1>Who do you want to see?</h1>
+        <h1>Who are you here to see?</h1>
         <MemberList members={this.state.members} />
       </div>
     );
@@ -62,11 +81,11 @@ var MemberList = React.createClass({
     // Generate the divs for each member in the data passed in
     var members = this.props.members.map(function(member) {
       return (
-        <Member data={member} />
+        <Member key={member.id} data={member} />
       );
     });
     return (
-      <div>
+      <div className="member-list">
         {members}
       </div>
     );
@@ -76,14 +95,17 @@ var MemberList = React.createClass({
 // This is the Member class that renders an individual member and its info
 var Member = React.createClass({
   handleClick: function(e) {
-    console.log(this.props.data.first_name, this.props.data.last_name);
+    console.log("Hello, " + this.props.data.first_name);
   },
   render: function() {
     return (
-      <div onClick={this.handleClick} className="member">
-        <div className="memberName">{this.props.data.first_name} {this.props.data.last_name}</div>
-        <div className="memberTitle">{this.props.data.title}</div>
-      </div>
+      <button type="button" className="btn btn-default btn-xl btn-member" onClick={this.handleClick}>
+        <img className="member-photo" src={this.props.data.photo} />
+        <div className="member-info">
+          <p className="member-name">{this.props.data.first_name} {this.props.data.last_name}</p>
+          <p className="member-title">{this.props.data.title}</p>
+        </div>
+      </button>
     );
   }
 });
