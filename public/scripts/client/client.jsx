@@ -85,7 +85,7 @@ var Member = React.createClass({
         <div className="memberName">{this.props.data.first_name} {this.props.data.last_name}</div>
         <div className="memberTitle">{this.props.data.title}</div>
       </div>
-    )
+    );
   }
 });
 
