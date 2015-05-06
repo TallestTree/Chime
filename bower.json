@@ -2,8 +2,7 @@
   "name": "TallestTree",
   "version": "0.0.0",
   "homepage": "https://github.com/TallestTree/TallestTree",
-  "authors": [
-  ],
+  "authors": [],
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -12,5 +11,8 @@
     "lib",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4"
+  }
 }
