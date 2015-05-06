@@ -65,7 +65,6 @@ var MemberList = React.createClass({
         <Member data={member} />
       );
     });
-
     return (
       <div>
         {members}

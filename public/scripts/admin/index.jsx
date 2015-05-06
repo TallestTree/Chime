@@ -5,9 +5,7 @@ var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
 // Components for the dashboard
-var Dashboard = require('./dashboard.jsx');
-
-// May require a larger container for other details like logo, nav links, etc.
+var Dashboard = require('./dashboard.jsx').Dashboard;
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -26,7 +24,7 @@ var LoginForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     // TODO: submit to server
-    console.log('log in to dashboard');
+    router.transitionTo('/dashboard');
   },
   render: function() {
     return (
@@ -46,7 +44,13 @@ var LoginForm = React.createClass({
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
   handleSubmit: function(e) {
-    e.preventDefault();
+    console.log(
+      this.refs.username.getDOMNode().value.trim(),
+      this.refs.password.getDOMNode().value,
+      this.refs.repeatPassword.getDOMNode().value
+    );
+    // TODO: Send request to server to validate
+    router.transitionTo('/dashboard');
   },
   render: function() {
     return (
@@ -57,7 +61,7 @@ var SignupForm = React.createClass({
           <label>Password<input type="password" ref="password" /></label>
           <label>Repeat password<input type="password" ref="repeatPassword" /></label>
         </form>
-        <SignupButton current="signup" />
+        <SignupButton handleSubmit={this.handleSubmit} current="signup" />
       </div>
     );
   }
@@ -71,8 +75,8 @@ var SignupButton = React.createClass({
     if (this.props.current === 'login') {
       router.transitionTo('/signup');
     } else {
-      console.log('submit signup form');
       // TODO: submit to server
+      this.props.handleSubmit(e);
     }
   },
   render: function() {
@@ -89,6 +93,7 @@ var routes = (
   <Route handler={App}>
     <Route path="/" handler={LoginForm} />
     <Route path="/signup" handler={SignupForm} />
+    <Route path="/dashboard" handler={Dashboard} />
   </Route>
 );
 
