@@ -18,12 +18,28 @@ module.exports = function(grunt) {
         src: ['public/scripts/admin/*.jsx'],
         dest: 'public/build/admin.js',
         options: {
+          watch: false,
+          transform: ['reactify']
+        }
+      },
+      client: {
+        src: ['public/scripts/client/*.jsx'],
+        dest: 'public/build/client.js',
+        options: {
+          watch: false,
+          transform: ['reactify']
+        }
+      },
+      adminWatch: {
+        src: ['public/scripts/admin/*.jsx'],
+        dest: 'public/build/admin.js',
+        options: {
           watch: true,
           keepAlive: true,
           transform: ['reactify']
         }
       },
-      client: {
+      clientWatch: {
         src: ['public/scripts/client/*.jsx'],
         dest: 'public/build/client.js',
         options: {
@@ -36,7 +52,7 @@ module.exports = function(grunt) {
 
     concurrent: {
       app: {
-        tasks: ['browserify:admin', 'browserify:client', 'nodemon'],
+        tasks: ['browserify:adminWatch', 'browserify:clientWatch', 'nodemon'],
         options: {
           logConcurrentOutput: true
         }
@@ -69,5 +85,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['jshint', 'mochaTest']);
-  grunt.registerTask('serve', ['jshint', 'mochaTest', 'concurrent']);
+  grunt.registerTask('build', ['jshint', 'browserify:admin', 'browserify:client', 'mochaTest']);
+  grunt.registerTask('serve', ['build', 'concurrent']);
 };

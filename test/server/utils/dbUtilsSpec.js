@@ -5,6 +5,7 @@ var expect = chai.expect;
 var rewire = require('rewire');
 
 describe('dbUtils', function() {
+  this.timeout(3000);
   var pg = require('pg');
   var dbUtils = rewire('../../../server/utils/dbUtils');
   var config = process.env.TEST_DB_URL || require('../../../server/config/config').testdb.config;
