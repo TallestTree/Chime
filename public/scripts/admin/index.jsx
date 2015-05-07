@@ -3,9 +3,11 @@ var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
+var Navigation = Router.Navigation;
 
 // Components for the dashboard
 var Dashboard = require('./dashboard.jsx').Dashboard;
+var AddForm = require('./dashboard.jsx').AddForm;
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -21,10 +23,11 @@ var App = React.createClass({
 
 // Login form class, which contains the input fields and submits those details to the server.
 var LoginForm = React.createClass({
+  mixins: [Navigation],
   handleSubmit: function(e) {
     e.preventDefault();
     // TODO: submit to server
-    router.transitionTo('/dashboard');
+    this.transitionTo('/dashboard');
   },
   render: function() {
     return (
@@ -43,6 +46,7 @@ var LoginForm = React.createClass({
 
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
+  mixins: [Navigation],
   handleSubmit: function(e) {
     console.log(
       this.refs.username.getDOMNode().value.trim(),
@@ -50,7 +54,7 @@ var SignupForm = React.createClass({
       this.refs.repeatPassword.getDOMNode().value
     );
     // TODO: Send request to server to validate
-    router.transitionTo('/dashboard');
+    this.transitionTo('/dashboard');
   },
   render: function() {
     return (
@@ -69,11 +73,12 @@ var SignupForm = React.createClass({
 
 // The signup button, which should switch the view to show the signup form
 var SignupButton = React.createClass({
+  mixins: [Navigation],
   handleSubmit: function(e) {
     e.preventDefault();
 
     if (this.props.current === 'login') {
-      router.transitionTo('/signup');
+      this.transitionTo('/signup');
     } else {
       // TODO: submit to server
       this.props.handleSubmit(e);
@@ -92,8 +97,9 @@ var SignupButton = React.createClass({
 var routes = (
   <Route handler={App}>
     <Route path="/" handler={LoginForm} />
-    <Route path="/signup" handler={SignupForm} />
-    <Route path="/dashboard" handler={Dashboard} />
+    <Route name="signup" handler={SignupForm} />
+    <Route name="dashboard" handler={Dashboard} />
+      <Route name="add" handler={AddForm} />
   </Route>
 );
 

@@ -1,15 +1,19 @@
+// Member class
 var React = require('react');
 
 var Member = React.createClass({
   handleClick: function(e) {
-    console.log(this.props.data.first_name, this.props.data.last_name);
+    this.props.memberClick(this);
   },
   render: function() {
     return (
-      <div onClick={this.handleClick} className="member">
-        <div className="memberName">{this.props.data.first_name} {this.props.data.last_name}</div>
-        <div className="memberTitle">{this.props.data.title}</div>
-      </div>
+      <button type="button" className="btn btn-default btn-xl btn-member" onClick={this.handleClick}>
+        <img className="member-photo" src={this.props.data.photo} />
+        <div className="member-info">
+          <p className="member-name">{this.props.data.first_name} {this.props.data.last_name}</p>
+          <p className="member-title">{this.props.data.title}</p>
+        </div>
+      </button>
     );
   }
 });
