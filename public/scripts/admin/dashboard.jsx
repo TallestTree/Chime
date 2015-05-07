@@ -37,7 +37,6 @@ var Dashboard = React.createClass({
         <Link to="add">Add User</Link>
         <a href="/client">Launch Client</a>
         <Directory members={this.state.members} />
-        {this.state.view === 'add' ? <AddForm /> : ''}
       </div>
     );
   }
@@ -81,42 +80,46 @@ var AddForm = React.createClass({
       method: 'POST',
       data: member,
       succss: function(data) {
-
-      },
-      error: function(jqXHR, status, error) {
-        console.error(jqXHR, status, error);
+        console.log('User added');
+        // TODO: Add confirmation of user add
         this.transitionTo('dashboard');
-      },
+      }.bind(this),
+      error: function(jqXHR, status, error) {
+        console.error(status, error);
+        this.transitionTo('dashboard');
+      }.bind(this),
       timeout: 2000
     });
     // this.transitionTo('dashboard');
   },
   render: function() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h3>Add User</h3>
-        <div className="form-group">
-          <label>First Name</label>
-          <input type="text" className="form-control" ref="firstName" />
-        </div>
-        <div className="form-group">
-          <label>Last Name</label>
-          <input type="text" className="form-control" ref="lastName" />
-        </div>
-        <div className="form-group">
-          <label>Title</label>
-          <input type="text" className="form-control" ref="title" />
-        </div>
-        <div className="form-group">
-          <label>Email Address</label>
-          <input type="email" className="form-control" ref="email" />
-        </div>
-        <div className="form-group">
-          <label>Phone Number</label>
-          <input type="tel" className="form-control" ref="phone" />
-        </div>
-        <button type="submit" className="btn btn-default">Add User</button>
-      </form>
+      <div className="container">
+        <form className="col-xs-8" onSubmit={this.handleSubmit}>
+          <h3>Add User</h3>
+          <div className="form-group">
+            <label>First Name</label>
+            <input type="text" className="form-control" ref="firstName" />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input type="text" className="form-control" ref="lastName" />
+          </div>
+          <div className="form-group">
+            <label>Title</label>
+            <input type="text" className="form-control" ref="title" />
+          </div>
+          <div className="form-group">
+            <label>Email Address</label>
+            <input type="email" className="form-control" ref="email" />
+          </div>
+          <div className="form-group">
+            <label>Phone Number</label>
+            <input type="tel" className="form-control" ref="phone" />
+          </div>
+          <button type="submit" className="btn btn-default">Add User</button>
+        </form>
+      </div>
     );
   }
 });
