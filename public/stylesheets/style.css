@@ -5,22 +5,9 @@ html {
 body {
   padding: 50px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 1.4vw;
 }
 
-.col-xs-1-5,
-.col-sm-1-5,
-.col-md-1-5,
-.col-lg-1-5 {
-    position: relative;
-    min-height: 1px;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-
-.col-xs-1-5 {
-    width: 20%;
-    float: left;
-}
 @media (min-width: 768px) {
 .col-sm-1-5 {
         width: 20%;
@@ -41,15 +28,30 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #297ACC;
 }
 
 a:hover {
+  color: #1F5C99;
   text-decoration: none;
+}
+
+label {
+  font-weight: 300;
 }
 
 .member-list {
   margin: 20px 0;
+}
+
+.btn {
+  border: none;
+  border-radius: 0px;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #5CADFF;
 }
 
 .btn-xl {
@@ -88,21 +90,62 @@ a:hover {
 .client-org-logo-welcome {
   margin-top: 50px;
   margin-bottom: 20px;
-  height: 200px;
+  width: 70%;
 }
 
 .client-org-logo-directory {
   margin-top: 50px;
   margin-bottom: 20px;
-  height: 150px;
+  width: 50%;
 }
 
 .client-welcome {
   margin-top: 30px;
 }
 
+.client-blue {
+  color: #1F5C99;
+}
+
+.client-huge {
+  font-size: 4vw;
+  font-weight: 700;
+}
+
+.client-large {
+  font-size: 2.5vw
+}
+
+.client-medium {
+  font-size: 2vw;
+}
+
+.client-small {
+  font-size: 1.5vw
+}
+
 .client-directory {
   margin-top: 50px;
+}
+
+.client-ping {
+  margin-top: 50px;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  background-color: #E6E6E6;
+}
+
+.client-ping-form {
+  padding-top: 50px;
+}
+
+.client-ping-avatar {
+  margin-top: 20px;
+  width: 75%;
+}
+
+.client-ping-submit {
+  margin-top: 30px;
 }
 
 .client-avatar {
@@ -119,11 +162,13 @@ a:hover {
 
 .client-avatar-name {
   font-weight: 700;
+  font-size: 1.4vw;
   margin-top: 5px;
   margin-bottom: 0px;
 }
 
 .client-avatar-position {
+  font-size: 1.4vw;
   margin-top: 0px;
   margin-bottom: 5px;
 }
