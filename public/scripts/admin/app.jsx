@@ -7,7 +7,7 @@ var Navigation = Router.Navigation;
 
 // Components for the dashboard
 var Dashboard = require('./dashboard.jsx').Dashboard;
-var AddForm = require('./dashboard.jsx').AddForm;
+var AddForm = require('./subcomponents/AddForm.jsx');
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -98,15 +98,16 @@ var routes = (
   <Route handler={App}>
     <Route path="/" handler={LoginForm} />
     <Route name="signup" handler={SignupForm} />
-    <Route name="dashboard" handler={Dashboard} />
+    <Route name="dashboard" handler={Dashboard}>
       <Route name="add" handler={AddForm} />
+    </Route>
   </Route>
 );
 
 // Create a router instance to be able to access the history location and transition routes
 var router = Router.create({
   routes: routes,
-  location: Router.HistoryLocation
+  location: Router.HashLocation
 });
 
 // Render the Login form on the page
