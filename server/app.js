@@ -20,7 +20,7 @@ app.get('/client', function(req, res) {
 });
 
 // Matches '/', '/signup', and '/dashboard'
-app.get('/:var(signup|dashboard)?', function(req, res) {
+app.get('/:var(signup|dashboard|add)?', function(req, res) {
   res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
 

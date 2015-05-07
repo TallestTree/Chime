@@ -4,53 +4,23 @@ var Member = require('../shared/member.jsx');
 var Navigation = require('react-router').Navigation;
 var Link = require('react-router').Link;
 
-// Mock data
-var orgInfo = {
-  name: 'Makersquare',
-  members: [
-    {
-      id: 1,
-      first_name: 'Bobby',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/KQjdi0i.jpg',
-      title: 'Student'
-    },
-    {
-      id: 2,
-      first_name: 'Hank',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/sY47Zl6.jpg',
-      title: 'Propane Salesman'
-    },
-    {
-      id: 3,
-      first_name: 'Luanne',
-      last_name: 'Platter',
-      photo: 'http://i.imgur.com/hUoJph9.jpg',
-      title: 'Beautician'
-    },
-    {
-      id: 4,
-      first_name: 'Dale',
-      last_name: 'Gribble',
-      photo: 'http://i.imgur.com/FJw1Nbb.jpg',
-      title: 'Exterminator'
-    },
-    {
-      id: 5,
-      first_name: 'Peggy',
-      last_name: 'Hill',
-      photo: 'http://i.imgur.com/gnzS7G5.jpg',
-      title: 'Homemaker'
-    }
-  ]
-};
-
 var Dashboard = React.createClass({
   componentDidMount: function() {
-    this.setState({
-      orgName: orgInfo.name,
-      members: orgInfo.members
+    $.ajax({
+      url: '/api/dashboard',
+      method: 'GET',
+      success: function(data) {
+        data = JSON.parse(data);
+        var state = {};
+
+        this.setState({
+          orgName: data.name,
+          members: data.members || []
+        });
+      }.bind(this),
+      error: function(jqXHR, status, error) {
+        console.error('Dashboard req error:', jqXHR, status, error);
+      }
     });
   },
   getInitialState: function() {
@@ -76,7 +46,7 @@ var Dashboard = React.createClass({
 var Directory = React.createClass({
   mixins: [Navigation],
   memberClick: function(self) {
-    console.log('hello,', self.props.data.first_name);
+    console.log('redirect to edit for ', self.props.data.first_name);
     // transition to member profile/edit member page
   },
   render: function() {
@@ -106,18 +76,46 @@ var AddForm = React.createClass({
       email: this.refs.email.getDOMNode().value.trim(),
       phone: this.refs.phone.getDOMNode().value.trim()
     };
-    this.transitionTo('dashboard');
+    $.ajax({
+      url: '/api/add',
+      method: 'POST',
+      data: member,
+      succss: function(data) {
+
+      },
+      error: function(jqXHR, status, error) {
+        console.error(jqXHR, status, error);
+        this.transitionTo('dashboard');
+      },
+      timeout: 2000
+    });
+    // this.transitionTo('dashboard');
   },
   render: function() {
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Add User</h3>
-        <label>First Name<input type="text" ref="firstName" /></label>
-        <label>Last Name<input type="text" ref="lastName" /></label>
-        <label>Title<input type="text" ref="title" /></label>
-        <label>Email Address<input type="text" ref="email" /></label>
-        <label>Phone Number<input type="text" ref="phone" /></label>
-        <input type="submit" value="Add User" />
+        <div className="form-group">
+          <label>First Name</label>
+          <input type="text" className="form-control" ref="firstName" />
+        </div>
+        <div className="form-group">
+          <label>Last Name</label>
+          <input type="text" className="form-control" ref="lastName" />
+        </div>
+        <div className="form-group">
+          <label>Title</label>
+          <input type="text" className="form-control" ref="title" />
+        </div>
+        <div className="form-group">
+          <label>Email Address</label>
+          <input type="email" className="form-control" ref="email" />
+        </div>
+        <div className="form-group">
+          <label>Phone Number</label>
+          <input type="tel" className="form-control" ref="phone" />
+        </div>
+        <button type="submit" className="btn btn-default">Add User</button>
       </form>
     );
   }
