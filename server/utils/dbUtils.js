@@ -251,20 +251,26 @@ exports.getOrganizations = function(organizations, cb) {
 };
 
 // Takes an organization and retrieves all users belonging to it
+// Attaches the users array as the property users and returns the organization
 exports.getUsersByOrganization = function(organization, cb) {
   var getUsers = function(cb, organization) {
-    exports.getUsers({organization_id: organization.id}, cb);
+    var buildOrgInfo = function(cb, users) {
+      organization.users = users;
+      cb(null, organization);
+    };
+    exports.getUsers({organization_id: organization.id}, augmentCb(cb, null, buildOrgInfo));
   };
   exports.getOrganization(organization, augmentCb(cb, 'getting users by organization', getUsers));
 };
 
 // Takes a user and retrieves all users that share an organization
+// Attaches the users array as the property users and returns the organization
 exports.getUsersShareOrganization = function(user, cb) {
   var getUsersByOrganization = function(cb, user) {
     if (!user.organization_id) {
       cb('user is not in an organization');
     } else {
-      exports.getUsersByOrganization({id: user.organization_id}, cb);
+      exports.getUsersByOrganization({id: user.organization_id}, augmentCb(cb, 'getting users that share organization'));
     }
   };
   exports.getUser(user, augmentCb(cb, 'getting users share organization', getUsersByOrganization));
