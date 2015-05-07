@@ -1,5 +1,23 @@
 // This is the client page which shows the members and lets guests ping members
 var React = require('react');
+var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
+
+// Components for the dashboard
+var Ping = require('./ping.jsx').Ping;
+
+// Main content class that holds everything on the page
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h1>Chime</h1>
+        <RouteHandler />
+      </div>
+    );
+  }
+});
 
 var Directory = React.createClass({
   componentDidMount: function() {
@@ -54,7 +72,8 @@ var MemberList = React.createClass({
 // This is the Member class that renders an individual member and its info
 var Member = React.createClass({
   handleClick: function(e) {
-    console.log("Hello, " + this.props.data.first_name);
+    console.log("(client.jsx): Hello, " + this.props.data.first_name);
+    router.transitionTo('/ping', {first_name: this.props.data.first_name});
   },
   render: function() {
     return (
@@ -69,5 +88,23 @@ var Member = React.createClass({
   }
 });
 
-// Render the page starting from the Directory class
-React.render(<Directory />, document.getElementsByClassName('main-content')[0]);
+// The routes that the index page will use
+var routes = (
+  <Route handler={App}>
+    <Route path="/" handler={Directory} />
+    <Route path="/client" handler={Directory} />
+    <Route path="/ping" handler={Ping} />
+  </Route>
+);
+
+
+var router = Router.create({
+  routes: routes,
+  location: Router.HistoryLocation
+});
+
+// Render the Login form on the page
+router.run(function(Handler) {
+  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
+});
+
