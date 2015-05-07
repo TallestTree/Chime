@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -42,4 +46,48 @@ a {
 
 .member-name {
   font-weight: bold;
+}
+
+.client-org-logo {
+  margin-top: 50px;
+  height: 200px;
+}
+
+.client-welcome {
+  margin-top: 30px;
+}
+
+.client-directory {
+  margin-top: 50px;
+}
+
+.client-avatar {
+  width: 80%;
+}
+
+.client-avatar-footer {
+  background-color: #E6E6E6;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.client-avatar-name {
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.client-avatar-position {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.client-contact {
+  margin-bottom: 30px;
+}
+
+.test {
+  border: solid 1px #000;
+  /*height: 100px;*/
 }
