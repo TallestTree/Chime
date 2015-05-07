@@ -225,11 +225,12 @@ describe('dbUtils', function() {
           expect(err).to.equal(null);
           dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(err, user) {
             expect(err).to.equal(null);
-            dbUtils.getUsersByOrganization({id: 1}, function(err, users) {
+            dbUtils.getUsersByOrganization({id: 1}, function(err, orgInfo) {
               expect(err).to.equal(null);
-              expect(users.length).to.equal(2);
-              expect(users[0].first_name).to.equal('Jane');
-              expect(users[1].first_name).to.equal('John');
+              expect(orgInfo.name).to.equal('Tallest Tree');
+              expect(orgInfo.users.length).to.equal(2);
+              expect(orgInfo.users[0].first_name).to.equal('Jane');
+              expect(orgInfo.users[1].first_name).to.equal('John');
               testDone();
             });
           });
@@ -243,11 +244,12 @@ describe('dbUtils', function() {
           expect(err).to.equal(null);
           dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(err, user) {
             expect(err).to.equal(null);
-            dbUtils.getUsersShareOrganization(jane, function(err, users) {
+            dbUtils.getUsersShareOrganization(jane, function(err, orgInfo) {
               expect(err).to.equal(null);
-              expect(users.length).to.equal(2);
-              expect(users[0].first_name).to.equal('Jane');
-              expect(users[1].first_name).to.equal('John');
+              expect(orgInfo.name).to.equal('Tallest Tree');
+              expect(orgInfo.users.length).to.equal(2);
+              expect(orgInfo.users[0].first_name).to.equal('Jane');
+              expect(orgInfo.users[1].first_name).to.equal('John');
               testDone();
             });
           });
@@ -257,7 +259,7 @@ describe('dbUtils', function() {
     it('throws an error if user is not in an organization', function(testDone) {
       dbUtils.addUser(jane, function(err) {
         expect(err).to.equal(null);
-        dbUtils.getUsersShareOrganization(jane, function(err, users) {
+        dbUtils.getUsersShareOrganization(jane, function(err, orgInfo) {
           expect(err).to.not.equal(null);
           testDone();
         });
