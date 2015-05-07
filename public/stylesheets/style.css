@@ -1,10 +1,51 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.col-xs-1-5,
+.col-sm-1-5,
+.col-md-1-5,
+.col-lg-1-5 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-1-5 {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+.col-sm-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-1-5 {
+        width: 20%;
+        float: left;
+    }
 }
 
 a {
   color: #00B7FF;
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 .member-list {
@@ -42,4 +83,55 @@ a {
 
 .member-name {
   font-weight: bold;
+}
+
+.client-org-logo-welcome {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  height: 200px;
+}
+
+.client-org-logo-directory {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  height: 150px;
+}
+
+.client-welcome {
+  margin-top: 30px;
+}
+
+.client-directory {
+  margin-top: 50px;
+}
+
+.client-avatar {
+  width: 90%;
+}
+
+.client-avatar-footer {
+  background-color: #E6E6E6;
+  width: 90%;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.client-avatar-name {
+  font-weight: 700;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+.client-avatar-position {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.client-contact {
+  margin-bottom: 30px;
+}
+
+.test {
+  border: solid 1px #000;
 }
