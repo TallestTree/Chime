@@ -2,7 +2,7 @@ var testData = require('../data/testData');
 var dbUtils = require('../utils/dbUtils');
 
 // Set to true to use the database or false to use test data
-var useDB = false;
+var useDB = true;
 
 // These functions have else branches in the case of useDB false
 module.exports = {
@@ -10,7 +10,6 @@ module.exports = {
     if(useDB) {
       var user = {id: req.query.id};
       dbUtils.getUsersShareOrganization(user, function(error, results) {
-        // console.log('results:', results);
         res.end(JSON.stringify(results));
       });
     } else {
@@ -22,7 +21,10 @@ module.exports = {
 
   getClientInfo: function(req, res, next) {
     if(useDB) {
-      // TODO: add database call
+      var user = {id: req.query.id};
+      dbUtils.getUsersShareOrganization(user, function(error, results) {
+        res.end(JSON.stringify(results));
+      });
     } else {
       // Return fake data
       var orgInfo = testData.data;
