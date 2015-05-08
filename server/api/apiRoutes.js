@@ -7,8 +7,8 @@ module.exports = function (app) {
   app.route('/client')
     .get(apiController.getClientInfo);
 
-  // app.route('/add')
-  //   .post(apiController.postAddMember);
+  app.route('/add')
+    .post(apiController.postAddMember);
 
   // app.route('/ping')
   //   .post(apiController.postPing);
