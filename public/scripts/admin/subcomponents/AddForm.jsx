@@ -1,9 +1,16 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var Router = require('react-router');
 
 // The form displayed to Add Users
 var AddForm = React.createClass({
-  mixins: [Navigation],
+  mixins: [Router.Navigation, Router.State],
+  componentDidMount: function() {
+    if (this.isActive('edit')) {
+      var memberNum = this.props.params.user;
+      console.log(this.props.members[memberNum]);
+      // After looking up the user data, can populate the fields in the form
+    }
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     var member = {
@@ -31,7 +38,7 @@ var AddForm = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <form className="col-xs-8" onSubmit={this.handleSubmit}>
+        <form className="col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
           <h3>Add User</h3>
           <div className="form-group">
             <label>First Name</label>
