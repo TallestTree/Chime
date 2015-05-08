@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     browserify: {
       admin: {
-        src: ['public/scripts/admin/*.jsx'],
+        src: ['public/scripts/admin/*.jsx', 'public/scripts/shared/*.jsx'],
         dest: 'public/build/admin.js',
         options: {
           watch: false,
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         }
       },
       client: {
-        src: ['public/scripts/client/*.jsx'],
+        src: ['public/scripts/client/*.jsx', 'public/scripts/shared/*.jsx'],
         dest: 'public/build/client.js',
         options: {
           watch: false,
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         }
       },
       adminWatch: {
-        src: ['public/scripts/admin/*.jsx'],
+        src: ['public/scripts/admin/*.jsx', 'public/scripts/shared/*.jsx'],
         dest: 'public/build/admin.js',
         options: {
           watch: true,
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         }
       },
       clientWatch: {
-        src: ['public/scripts/client/*.jsx'],
+        src: ['public/scripts/client/*.jsx', 'public/scripts/shared/*.jsx'],
         dest: 'public/build/client.js',
         options: {
           watch: true,

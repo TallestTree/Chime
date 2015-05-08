@@ -228,9 +228,9 @@ describe('dbUtils', function() {
             dbUtils.getUsersByOrganization({id: 1}, function(err, orgInfo) {
               expect(err).to.equal(null);
               expect(orgInfo.name).to.equal('Tallest Tree');
-              expect(orgInfo.users.length).to.equal(2);
-              expect(orgInfo.users[0].first_name).to.equal('Jane');
-              expect(orgInfo.users[1].first_name).to.equal('John');
+              expect(orgInfo.members.length).to.equal(2);
+              expect(orgInfo.members[0].first_name).to.equal('Jane');
+              expect(orgInfo.members[1].first_name).to.equal('John');
               testDone();
             });
           });
