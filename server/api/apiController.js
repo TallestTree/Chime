@@ -1,4 +1,5 @@
 var testData = require('../data/testData');
+var dbUtils = require('../utils/dbUtils');
 
 // Set to true to use the database or false to use test data
 var useDB = false;
@@ -7,7 +8,11 @@ var useDB = false;
 module.exports = {
   getDashboardInfo: function(req, res, next) {
     if(useDB) {
-      // TODO: add database call
+      var user = {id: req.query.id};
+      dbUtils.getUsersShareOrganization(user, function(error, results) {
+        // console.log('results:', results);
+        res.end(JSON.stringify(results));
+      });
     } else {
       // Return fake data
       var orgInfo = testData.data;
@@ -23,5 +28,9 @@ module.exports = {
       var orgInfo = testData.data;
       res.end(JSON.stringify(orgInfo));
     }
+  },
+
+  postAddMember: function(req, res, next) {
+    res.end('added member');
   }
 };

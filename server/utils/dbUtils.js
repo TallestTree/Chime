@@ -255,7 +255,7 @@ exports.getOrganizations = function(organizations, cb) {
 exports.getUsersByOrganization = function(organization, cb) {
   var getUsers = function(cb, organization) {
     var buildOrgInfo = function(cb, users) {
-      organization.users = users;
+      organization.members = users;
       cb(null, organization);
     };
     exports.getUsers({organization_id: organization.id}, augmentCb(cb, null, buildOrgInfo));
