@@ -1,12 +1,14 @@
 // This is the login page
 var React = require('react');
 var Router = require('react-router');
+var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
 
 // Components for the dashboard
-var Dashboard = require('./dashboard.jsx').Dashboard;
+var Dashboard = require('./dashboard.jsx');
+var Directory = require('./subcomponents/Directory.jsx');
 var AddForm = require('./subcomponents/AddForm.jsx');
 
 // Main content class that holds everything on the page
@@ -95,11 +97,13 @@ var SignupButton = React.createClass({
 
 // The routes that the index page will use
 var routes = (
-  <Route handler={App}>
+  <Route ignoreScrollBehavior handler={App}>
     <Route path="/" handler={LoginForm} />
-    <Route name="signup" handler={SignupForm} />
+    <Route name="signup" path="/signup" handler={SignupForm} />
     <Route name="dashboard" handler={Dashboard}>
+      <DefaultRoute handler={Directory} />
       <Route name="add" handler={AddForm} />
+      <Route name="edit" path="edit/:user" handler={AddForm} />
     </Route>
   </Route>
 );

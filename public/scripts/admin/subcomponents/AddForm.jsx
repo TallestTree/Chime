@@ -1,9 +1,16 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var Router = require('react-router');
 
 // The form displayed to Add Users
 var AddForm = React.createClass({
-  mixins: [Navigation],
+  mixins: [Router.Navigation, Router.State],
+  componentDidMount: function() {
+    if (this.isActive('edit')) {
+      var memberNum = this.props.params.user;
+      console.log(this.props.members[memberNum]);
+      // After looking up the user data, can populate the fields in the form
+    }
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     var member = {
