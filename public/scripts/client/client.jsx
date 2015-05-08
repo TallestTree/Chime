@@ -4,8 +4,8 @@ var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-// Components for the dashboard
-var Ping = require('./ping.jsx').Ping;
+// var classNames = require('classnames');
+
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -84,6 +84,60 @@ var Member = React.createClass({
           <p className="member-title">{this.props.data.title}</p>
         </div>
       </button>
+    );
+  }
+});
+
+
+var Ping = React.createClass({ 
+  handleSubmit: function(e) {
+  console.log("(PING) handleSubmit -- e = ", e);
+  e.preventDefault();
+  //   router.transitionTo('/'); ???
+  },
+  componentDidMount: function() {
+    console.log("(Ping) componentDidMount! >> ", this.props.query);
+  },
+  getInitialState: function() {
+    return {};
+  },
+  render: function() {
+    return(
+      <div>
+        <form onSubmit={this.handleSubmit} className="pingForm">
+          <h2>Ping a member:</h2>
+          <label>Your name <input type="text" ref="visitorName" /></label>
+          <label>Message&nbsp;(optional) <input type="text" ref="visitorMessage" /></label>
+          <PingButton current="Send a Ping" />
+        </form>
+      </div>
+    );
+  }
+});
+
+// The PingButton button (actually a Post or a Cancel button).
+// "Post" submits a Post request, displays a confirmation, then returns to the Directory view.
+// "Cancel" transitions back to the Directory view.
+var PingButton = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+console.log("(PINGButton) GO!");
+    if (this.props.current === 'Cancel') {
+      console.log("(PINGButton) Ping dialog cancelled.");
+      router.transitionTo('/');
+    } else {
+      // TODO: submit to server
+console.log("(PINGButton) Ping message submitted (To Do).");
+      this.props.handleSubmit(e);
+      //router.transitionTo('/');
+    }
+  },
+  render: function() {
+console.log("(PingButton) render.");
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input type="submit" value="Send a Ping" />
+      </form>
     );
   }
 });
