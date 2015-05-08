@@ -38,7 +38,7 @@ var AddForm = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <form className="col-xs-8" onSubmit={this.handleSubmit}>
+        <form className="col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
           <h3>Add User</h3>
           <div className="form-group">
             <label>First Name</label>

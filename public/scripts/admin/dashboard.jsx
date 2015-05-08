@@ -13,7 +13,6 @@ var Dashboard = React.createClass({
       url: '/api/dashboard',
       method: 'GET',
       success: function(data) {
-        console.log('Dashboard - new member data retrieved', data.members);
         data = JSON.parse(data);
         var state = {};
         state.orgName = data.name || null;
@@ -36,7 +35,8 @@ var Dashboard = React.createClass({
       <div>
         <h2>{this.state.orgName}</h2>
         <h3>Dashboard</h3>
-        <Link to="/dashboard/add">Add User</Link>
+        <Link to="dashboard">Dashboard</Link>
+        <Link to="add">Add User</Link>
         <a href="/client">Launch Client</a>
         <RouteHandler members={this.state.members} />
       </div>
