@@ -1,7 +1,7 @@
 -- Run 'psql -U myuser mydb' with appropriate user, db, and password on prompt
--- Run '\i path/to/schema.sql' to insert rows locally
+-- Run '\i path/to/testData.sql' to insert rows locally
 
-INSERT INTO users (first_name, last_name, email, photo, title) VALUES ('Peggy', 'Hill', 'peggy@kingofthehill.com', 'http://i.imgur.com/qnzS765.jpg', 'Homemaker');
+INSERT INTO users (first_name, last_name, email, photo, title) VALUES ('Peggy', 'Hill', 'peggy@kingofthehill.com', 'http://i.imgur.com/gnzS7G5.jpg', 'Homemaker');
 INSERT INTO organizations (admin_id, name) VALUES (1, 'Makersquare');
 UPDATE users SET organization_id='1' WHERE id=1;
 

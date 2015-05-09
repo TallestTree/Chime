@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 try {
-  var config = require('../config/config');
+  var config = require('../../config/config');
 } catch(e) {}
 var _ = require('underscore');
 
@@ -16,7 +16,7 @@ var transporter = nodemailer.createTransport({
 module.exports = function(mailOptions, cb) {
   mailOptions = mailOptions || {};
   _.defaults(mailOptions, {
-    from: 'Tallest Tree App <'+process.env.GMAIL_EMAIL||config.gmail.email+'>',
+    from: 'Chime <'+process.env.GMAIL_EMAIL||config.gmail.email+'>',
     subject: '☎ Visit from Anon',
     text: 'You have an anonymous visitor.',
   });

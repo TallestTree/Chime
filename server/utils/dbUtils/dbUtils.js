@@ -1,5 +1,5 @@
 var pg = require('pg');
-var config = process.env.DATABASE_URL || require('../config/config').testdb.config;
+var config = process.env.DATABASE_URL || require('../../config/config').proddb.config;
 
 // Required, optional, and auto fields are mutually exclusive
 // Unique fields are drawn from any of the others
