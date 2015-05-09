@@ -9,9 +9,12 @@ var AddForm = require('./subcomponents/AddForm.jsx');
 
 var Dashboard = React.createClass({
   componentDidMount: function() {
+    var query = {id: 1};
+
     $.ajax({
       url: '/api/dashboard',
       method: 'GET',
+      data: query,
       success: function(data) {
         data = JSON.parse(data);
         var state = {};

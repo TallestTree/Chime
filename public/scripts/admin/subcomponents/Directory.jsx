@@ -8,12 +8,16 @@ var Directory = React.createClass({
     this.transitionTo('edit', {user: self.props.idx});
   },
   render: function() {
-    console.log(this.props.members);
-    var members = this.props.members.map(function(member, idx) {
-      return (
-        <Member key={member.id} idx={idx} data={member} memberClick={this.memberClick} />
-      );
-    }.bind(this));
+    var members;
+    if (this.props.members.length > 0) {
+      members = this.props.members.map(function(member, idx) {
+        return (
+          <Member key={member.id} idx={idx} data={member} memberClick={this.memberClick} />
+        );
+      }.bind(this));
+    } else {
+      members = ( <div>Loading directory</div> );
+    }
     return (
       <div>
         <h4>Directory</h4>
