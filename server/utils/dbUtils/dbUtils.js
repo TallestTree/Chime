@@ -26,7 +26,7 @@ var augmentCb = function(cb, failMessage, successCb) {
     console.error(err);
   };
   var onFail = function(err, result) {
-    cb(err && handleBoth.prepend + ' ' + err, result);
+    cb(err && (failMessage ? failMessage + ' > ': '') + err, result);
   };
   var onSuccess = function(err, result) {
     if (successCb) {
@@ -35,15 +35,13 @@ var augmentCb = function(cb, failMessage, successCb) {
       cb(err, result);
     }
   };
-  var handleBoth = function(err, result) {
+  return function(err, result) {
     if (err) {
       onFail(err, result);
     } else {
       onSuccess(err, result);
     }
   };
-  handleBoth.prepend = (cb.prepend || 'Error') + (failMessage ? ' ' + failMessage : '') + ' >';
-  return handleBoth;
 };
 
 // Checks for required fields and replaces missing optional fields with null
