@@ -9,22 +9,22 @@ body {
 }
 
 @media (min-width: 768px) {
-.col-sm-1-5 {
-        width: 20%;
-        float: left;
-    }
+  .col-sm-1-5 {
+    width: 20%;
+    float: left;
+  }
 }
 @media (min-width: 992px) {
-    .col-md-1-5 {
-        width: 20%;
-        float: left;
-    }
+  .col-md-1-5 {
+    width: 20%;
+    float: left;
+  }
 }
 @media (min-width: 1200px) {
-    .col-lg-1-5 {
-        width: 20%;
-        float: left;
-    }
+  .col-lg-1-5 {
+    width: 20%;
+    float: left;
+  }
 }
 
 a {
@@ -46,7 +46,7 @@ label {
 
 .btn {
   border: none;
-  border-radius: 0px;
+  border-radius: 0;
   width: 100%;
 }
 
@@ -113,7 +113,7 @@ label {
 }
 
 .client-large {
-  font-size: 2.5vw
+  font-size: 2.5vw;
 }
 
 .client-medium {
@@ -121,7 +121,7 @@ label {
 }
 
 .client-small {
-  font-size: 1.5vw
+  font-size: 1.5vw;
 }
 
 .client-app-logo {
@@ -169,12 +169,12 @@ label {
   font-weight: 700;
   font-size: 1.4vw;
   margin-top: 5px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .client-avatar-position {
   font-size: 1.4vw;
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 5px;
 }
 

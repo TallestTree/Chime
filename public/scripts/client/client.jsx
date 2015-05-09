@@ -6,7 +6,6 @@ var RouteHandler = Router.RouteHandler;
 
 // var classNames = require('classnames');
 
-
 // Main content class that holds everything on the page
 var App = React.createClass({
   render: function() {
