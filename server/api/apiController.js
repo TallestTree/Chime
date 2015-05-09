@@ -14,6 +14,7 @@ module.exports = {
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if(error) {
           console.error(error);
+          res.status(500).end();
         }
         res.end(JSON.stringify(results));
       });
@@ -30,6 +31,7 @@ module.exports = {
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if(error) {
           console.error(error);
+          res.status(500).end();
         }
         res.end(JSON.stringify(results));
       });
@@ -45,22 +47,22 @@ module.exports = {
   },
 
   postPing: function(req, res, next) {
-    var query = req.body;
-    console.log('query:', query);
-    dbUtils.getUser(query, function(error, results) {
+    var params = req.body;
+    dbUtils.getUser(params, function(error, results) {
       if(error) {
         console.error(error);
+        res.status(500).end();
       }
       // SMS ping
       if( results.phone !== '' ) {
         var message = '';
-        if( query.visitor === '' ) {
+        if( params.visitor === '' ) {
           message = 'You have a visitor';
         } else {
-          message = 'Visit from ' + query.visitor;
+          message = 'Visit from ' + params.visitor;
         }
-        if( query.text !== '' ) {
-          message += ' - ' + query.text;
+        if( params.text !== '' ) {
+          message += ' - ' + params.text;
         }
         var smsOptions = {
           to: results.phone,
@@ -74,19 +76,20 @@ module.exports = {
       }
       // Email ping
       var subject = '';
-      if( query.visitor === '' ) {
+      if( params.visitor === '' ) {
         subject = 'You have a visitor';
       } else {
-        subject = query.visitor + ' is here to see you';
+        subject = params.visitor + ' is here to see you';
       }
       var mailOptions = {
         to: results.email,
         subject: subject,
-        text: query.text
+        text: params.text
       };
       emailUtils(mailOptions, function(error, results) {
         if(error) {
           console.error(error);
+          res.status(500).end();
         }
         res.status(301).end('Ping sent');
       });
