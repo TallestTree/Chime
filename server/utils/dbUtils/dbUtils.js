@@ -1,5 +1,6 @@
 var pg = require('pg');
 var config = process.env.DATABASE_URL || require('../../config/config').proddb.config;
+var md5 = require('md5');
 
 // Required, optional, and auto fields are mutually exclusive
 // Unique fields are drawn from any of the others
@@ -57,6 +58,10 @@ var augmentFields = function(entry, fields) {
   }
   for (var j=0; j<fields.optional.length; j++) {
     validatedEntry[fields.optional[j]] = entry[fields.optional[j]] || null;
+  }
+  // Defaults photo to one from gravatar
+  if (validatedEntry.photo === null) {
+    validatedEntry.photo = 'http://www.gravatar.com/avatar/' + md5.digest_s(validatedEntry.email);
   }
   return validatedEntry;
 };
