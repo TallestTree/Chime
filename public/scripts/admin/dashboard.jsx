@@ -23,7 +23,7 @@ var Dashboard = React.createClass({
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
-        console.error('Dashboard req error:', status, error, jqXHR);
+        console.error('Error retrieving list:', status, error);
       }
     });
   },
