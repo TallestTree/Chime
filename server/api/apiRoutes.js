@@ -10,8 +10,8 @@ module.exports = function (app) {
   app.route('/add')
     .post(apiController.postAddMember);
 
-  // app.route('/ping')
-  //   .post(apiController.postPing);
+  app.route('/ping')
+    .post(apiController.postPing);
 
   // app.route('/login')
   //    .post(apiController.postLogin);

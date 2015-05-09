@@ -91,7 +91,7 @@ var Member = React.createClass({
 });
 
 
-var Ping = React.createClass({ 
+var Ping = React.createClass({
   handleSubmit: function(e) {
   console.log("(PING) handleSubmit -- e = ", e);
   e.preventDefault();
@@ -129,7 +129,7 @@ console.log("(PINGButton) GO!");
       router.transitionTo('/');
     } else {
       // TODO: submit to server
-console.log("(PINGButton) Ping message submitted (To Do).");
+      console.log("(PINGButton) Ping message submitted (To Do).");
       this.props.handleSubmit(e);
       //router.transitionTo('/');
     }
