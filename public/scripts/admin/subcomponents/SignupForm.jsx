@@ -1,15 +1,16 @@
 var React = require('react');
 var Router = require('react-router');
+var formUtils = require('../../shared/formUtils.jsx');
 
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
   mixins: [Router.Navigation],
   handleSubmit: function(e) {
-    var username = this.refs.username.getDOMNode().value.trim();
-    var pw1 = this.refs.password.getDOMNode().value;
-    var pw2 = this.refs.repeatPassword.getDOMNode().value;
-    if (pw1 !== pw2) {
+    var props = formUtils.pullRefs(this.refs, FORM_REFS);
+
+    if (props.password !== props.repeatPassword) {
       console.log('Passwords must match');
+      return;
     }
     // TODO: Send request to server to validate
     this.transitionTo('/dashboard');
@@ -20,8 +21,8 @@ var SignupForm = React.createClass({
         <form className="col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
           <h2>Sign up</h2>
           <div className="form-group">
-            <label>Username</label>
-            <input type="text" className="form-control" ref="username" />
+            <label>Email</label>
+            <input type="email" className="form-control" ref="email" />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -37,5 +38,11 @@ var SignupForm = React.createClass({
     );
   }
 });
+
+var FORM_REFS = [
+  'email',
+  'password',
+  'repeatPassword'
+];
 
 module.exports = SignupForm;

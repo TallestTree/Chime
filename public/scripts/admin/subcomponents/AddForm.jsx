@@ -1,5 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
+var formUtils = require('../../shared/formUtils.jsx');
 
 // The form displayed to Add Users
 var AddForm = React.createClass({
@@ -13,17 +14,13 @@ var AddForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var member = {
-      first_name: this.refs.firstName.getDOMNode().value.trim(),
-      last_name: this.refs.lastName.getDOMNode().value.trim(),
-      email: this.refs.email.getDOMNode().value.trim(),
-      phone: this.refs.phone.getDOMNode().value.trim()
-    };
+    var member = formUtils.pullRefs(this.refs, FORM_REFS);
+    console.log(member);
     $.ajax({
       url: '/api/add',
       method: 'POST',
       data: member,
-      succss: function(data) {
+      success: function(data) {
         console.log('User added');
         // TODO: Add confirmation of user add
         this.transitionTo('dashboard');
@@ -42,11 +39,11 @@ var AddForm = React.createClass({
           <h3>Add User</h3>
           <div className="form-group">
             <label>First Name</label>
-            <input type="text" className="form-control" ref="firstName" />
+            <input type="text" className="form-control" ref="first_name" />
           </div>
           <div className="form-group">
             <label>Last Name</label>
-            <input type="text" className="form-control" ref="lastName" />
+            <input type="text" className="form-control" ref="last_name" />
           </div>
           <div className="form-group">
             <label>Title</label>
@@ -66,5 +63,13 @@ var AddForm = React.createClass({
     );
   }
 });
+
+var FORM_REFS = [
+  'first_name',
+  'last_name',
+  'title',
+  'email',
+  'phone'
+];
 
 module.exports = AddForm;
