@@ -5,14 +5,15 @@ var Member = require('../../shared/member.jsx');
 var Directory = React.createClass({
   mixins: [Navigation],
   memberClick: function(self) {
-    this.transitionTo('edit', {user: self.props.idx});
+    console.log(self.props);
+    this.transitionTo('edit', {user: self.props.data.id});
   },
   render: function() {
     var members;
     if (this.props.members.length > 0) {
       members = this.props.members.map(function(member, idx) {
         return (
-          <Member key={member.id} idx={idx} data={member} memberClick={this.memberClick} />
+          <Member key={member.id} data={member} memberClick={this.memberClick} />
         );
       }.bind(this));
     } else {
