@@ -4,7 +4,7 @@ var should = chai.should();
 var expect = chai.expect;
 var rewire = require('rewire');
 
-describe('dbUtils', function() {
+xdescribe('dbUtils', function() {
   this.timeout(3000);
   var pg = require('pg');
   var dbUtils = rewire('../../../../server/utils/dbUtils/dbUtils');
@@ -71,7 +71,7 @@ describe('dbUtils', function() {
       dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com'}, function(err, user) {
         expect(err).to.equal(null);
         expect(user.id).to.equal(1);
-        dbUtils.addUser({first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com'}, function(err, user) {
+        dbUtils.addUser(jane, function(err, user) {
           expect(err).to.equal(null);
           expect(user.id).to.equal(2);
           testDone();
@@ -85,6 +85,7 @@ describe('dbUtils', function() {
           expect(err).to.equal(null);
           expect(user.email).to.equal('janedoe@myurl.com');
           expect(user.phone).to.equal('5551234567');
+          expect(user.photo).to.not.equal(null);
           testDone();
         });
       });
@@ -92,10 +93,11 @@ describe('dbUtils', function() {
     it('grabs a user by name', function(testDone) {
       dbUtils.addUser(john, function(err) {
         expect(err).to.equal(null);
-        dbUtils.getUser({first_name: 'John', last_name: 'Doe'}, function(err, result) {
+        dbUtils.getUser({first_name: 'John', last_name: 'Doe'}, function(err, user) {
           expect(err).to.equal(null);
-          expect(result.email).to.equal('johndoe@myurl.com');
-          expect(result.phone).to.equal('5551234567');
+          expect(user.email).to.equal('johndoe@myurl.com');
+          expect(user.phone).to.equal('5551234567');
+          expect(user.photo).to.not.equal(null);
           testDone();
         });
       });
