@@ -133,7 +133,7 @@ module.exports = function(grunt) {
     // Watches for changes and reruns the parts that need updating
     watch: {
       admin: {
-        files: ['public/scripts/admin/**/.jsx'],
+        files: ['public/scripts/admin/**/*.jsx'],
         tasks: ['jshint', 'browserify:admin', 'exorcise:admin', 'uglify:admin', 'mochaTest:frontEnd']
       },
       client: {
