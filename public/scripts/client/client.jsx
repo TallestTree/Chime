@@ -3,8 +3,17 @@ var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
+var Navigation = Router.Navigation;
 
-// var classNames = require('classnames');
+// Components for PING
+var PingButton = require('./subcomponents/PingButton.jsx');
+var PingForm = require('./subcomponents/PingForm.jsx');
+
+// Components for Directory
+var MemberList = require('./subcomponents/MemberList.jsx');
+var Member = require('./subcomponents/Member.jsx');
+var Directory = require('./subcomponents/Directory.jsx');
+
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -18,6 +27,7 @@ var App = React.createClass({
   }
 });
 
+<<<<<<< HEAD
 var Directory = React.createClass({
   componentDidMount: function() {
     // TODO: pass the logged in user's id here, default to 1 for now
@@ -142,13 +152,14 @@ console.log("(PingButton) render.");
     );
   }
 });
+=======
+>>>>>>> [feature] Refactors client-side .jsx files
 
 // The routes that the index page will use
 var routes = (
   <Route handler={App}>
-    <Route path="/" handler={Directory} />
     <Route path="/client" handler={Directory} />
-    <Route path="/ping" handler={Ping} />
+    <Route path="/ping" handler={PingForm} />
   </Route>
 );
 
