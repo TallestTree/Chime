@@ -1,6 +1,6 @@
 var voicejs = require('voice.js');
 try {
-  var config = require('../config/config');
+  var config = require('../../config/config');
 } catch(e) {}
 var _ = require('underscore');
 
@@ -14,7 +14,7 @@ module.exports = function(smsOptions, cb) {
   // Use voice.js for Google Voice
   smsOptions = smsOptions || {};
   _.defaults(smsOptions, {
-    text: 'You have an anonymous visitor. - Tallest Tree App',
+    text: 'You have an anonymous visitor. - Chime',
   });
 
   cb = cb || function(err, response, data) {

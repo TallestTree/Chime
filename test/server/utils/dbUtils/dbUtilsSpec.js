@@ -7,8 +7,8 @@ var rewire = require('rewire');
 describe('dbUtils', function() {
   this.timeout(3000);
   var pg = require('pg');
-  var dbUtils = rewire('../../../server/utils/dbUtils');
-  var config = process.env.TEST_DB_URL || require('../../../server/config/config').testdb.config;
+  var dbUtils = rewire('../../../../server/utils/dbUtils/dbUtils');
+  var config = process.env.DATABASE_TEST_URL || require('../../../../server/config/config').testdb.config;
 
   // // For testing on localhost instead (if postgres is installed)
   // config = {
@@ -29,7 +29,7 @@ describe('dbUtils', function() {
     this.timeout(10000);
     // Clears the database via dbSchema.sql
     var fs = require('fs');
-    var schema = fs.readFileSync(__dirname+'/../../../server/utils/dbSchema.sql').toString();
+    var schema = fs.readFileSync(__dirname+'/../../../../server/utils/dbUtils/dbSchema.sql').toString();
     pg.connect(config, function(err, client, pgDone) {
       if (err) {
         return console.error('Error: failed database request - ' + err);
