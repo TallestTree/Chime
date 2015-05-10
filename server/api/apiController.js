@@ -86,7 +86,7 @@ module.exports = {
         subject = params.visitor + ' is here to see you';
       }
       var mailOptions = {
-        to: results.email,
+        to: user.email,
         subject: subject,
         text: params.text
       };
@@ -111,13 +111,8 @@ module.exports = {
             console.error(error);
             res.status(500).end();
           }
-          var userOptions = {
-            email: params.email,
-            password_hash: hash,
-            first_name: params.first_name,
-            last_name: params.last_name
-          };
-          dbUtils.addUser(userOptions, function(error, results) {
+          params.password_hash = hash;
+          dbUtils.addUser(params, function(error, results) {
             passport.authenticate('local', function(error, user, info) {
               if (error) {
                 return next(err);

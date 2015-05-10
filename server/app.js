@@ -17,7 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(session({ secret: '30jRG#$32rf%dERT$G' }));
+var secret = process.env.SESSION_SECRET || require('./config/config').session_secret;
+app.use(session({ secret: secret }));
 app.use(passport.initialize());
 app.use(passport.session());
 
