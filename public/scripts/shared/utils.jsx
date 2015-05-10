@@ -1,16 +1,24 @@
 var React = require('react');
 
+// Return an object containing all of the values from the refs from the form fields
 var pullRefs = function(refs, fields) {
   var props = {};
+  var missingRequired = false;
+  var node;
 
   fields.required.forEach(function(val, key) {
-    props[val] = React.findDOMNode(refs[val]).value.trim() || null;
+    node = React.findDOMNode(refs[val]);
+    props[val] = node.value.trim() || null;
+    if (props[val] === null) {
+      missingRequired = true;
+      $(node).closest('.form-group').addClass('has-error');
+    } else {
+      $(node).closest('.form-group').removeClass('has-error');
+    }
   });
 
-  for (var i = 0; i < fields.required.length; i++) {
-    if (props[fields.required[i]] === null) {
-      return false;
-    }
+  if (missingRequired) {
+    return false;
   }
 
   fields.optional.forEach(function(val, key) {
@@ -20,6 +28,7 @@ var pullRefs = function(refs, fields) {
   return props;
 };
 
+// A generic helper function to make an ajax request
 var makeRequest = function(url, method, data, _success, _error) {
   $.ajax({
     url: url,

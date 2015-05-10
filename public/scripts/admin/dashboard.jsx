@@ -29,7 +29,6 @@ var Dashboard = React.createClass({
   },
   getInitialState: function() {
     return {
-      view: 'directory',
       members: []
     };
   },

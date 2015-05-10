@@ -7,11 +7,9 @@ var AddForm = React.createClass({
   mixins: [Router.Navigation, Router.State],
   componentDidMount: function() {
     if (this.state.member) {
-      React.findDOMNode(this.refs.first_name).value = this.state.member.first_name;
-      React.findDOMNode(this.refs.last_name).value = this.state.member.last_name;
-      React.findDOMNode(this.refs.title).value = this.state.member.title;
-      React.findDOMNode(this.refs.email).value = this.state.member.email;
-      React.findDOMNode(this.refs.phone).value = this.state.member.phone;
+      FORM_REFS.optional.map(function(val) {
+        React.findDOMNode(this.refs[val]).value = this.state.member[val] || '';
+      }.bind(this));
     }
   },
   getInitialState: function() {
