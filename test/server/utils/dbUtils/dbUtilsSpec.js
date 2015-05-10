@@ -58,10 +58,10 @@ xdescribe('dbUtils', function() {
               pgDone(client);
               return console.error('Error: failed client request - ' + err);
             }
+            pgDone();
             expect(result.rows.length).to.equal(1);
             expect(result.rows[0].first_name).to.equal('John');
             expect(result.rows[0].last_name).to.equal('Doe');
-            pgDone();
             testDone();
           });
         });
@@ -142,10 +142,10 @@ xdescribe('dbUtils', function() {
                 pgDone(client);
                 return console.error('Error: failed client request - ' + err);
               }
+              pgDone();
               expect(result.rows.length).to.equal(1);
               expect(result.rows[0].name).to.equal('Tallest Tree');
               expect(result.rows[0].admin_id).to.equal(1);
-              pgDone();
               testDone();
             });
           });
@@ -267,5 +267,9 @@ xdescribe('dbUtils', function() {
         });
       });
     });
+  });
+  after(function() {
+    // Free up any open connections
+    pg.end();
   });
 });

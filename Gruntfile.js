@@ -149,8 +149,12 @@ module.exports = function(grunt) {
         tasks: ['csslint', 'cssmin']
       },
       server: {
-        files: ['server/**/*'],
+        files: ['server/**/*', 'test/server/**/*'],
         tasks: ['jshint', 'mochaTest:server']
+      },
+      frontEnd: {
+        files: ['test/frontEnd/**/*'],
+        tasks: ['jshint', 'mochaTest:frontEnd']
       }
     }
   });
@@ -158,4 +162,5 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['jshint', 'csslint', 'clean', 'browserify', 'exorcise', 'uglify', 'cssmin']);
   grunt.registerTask('test', ['build', 'mochaTest']);
   grunt.registerTask('serve', ['test', 'concurrent']);
+  grunt.registerTask('default', ['serve']);
 };
