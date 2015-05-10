@@ -1,4 +1,6 @@
 var apiController = require('./apiController');
+// var loggedIn = require('../auth/authUtils').loggedIn;
+// var isLoggedIn = require('../auth/authUtils').isLoggedIn;
 
 module.exports = function (app) {
   app.route('/dashboard')
@@ -13,9 +15,9 @@ module.exports = function (app) {
   app.route('/ping')
     .post(apiController.postPing);
 
-  // app.route('/login')
-  //    .post(apiController.postLogin);
+  app.route('/signup')
+     .post(apiController.postSignup);
 
-  // app.route('/signup')
-  //    .post(apiController.postSignup);
+  app.route('/login')
+     .post(apiController.postLogin);
 };
