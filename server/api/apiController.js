@@ -1,3 +1,7 @@
+var passport = require('../auth/auth');
+var authUtils = require('../auth/authUtils');
+// var loggedIn = authUtils.loggedIn;
+// var isLoggedIn = authUtils.isLoggedIn;
 var testData = require('../data/testData');
 var dbUtils = require('../utils/dbUtils/dbUtils');
 var emailUtils = require('../utils/pingUtils/emailUtils');
@@ -48,14 +52,14 @@ module.exports = {
 
   postPing: function(req, res, next) {
     var params = req.body;
-    dbUtils.getUser(params, function(error, results) {
+    dbUtils.getUser(params, function(error, user) {
       if(error) {
         console.error(error);
         res.status(500).end();
       }
       // SMS ping
-      if( results.phone !== '' ) {
-        var message = '';
+      if( user.phone !== '' ) {
+        var message;
         if( params.visitor === '' ) {
           message = 'You have a visitor';
         } else {
@@ -65,7 +69,7 @@ module.exports = {
           message += ' - ' + params.text;
         }
         var smsOptions = {
-          to: results.phone,
+          to: user.phone,
           text: message
         };
         smsUtils(smsOptions, function(error, results) {
@@ -75,24 +79,76 @@ module.exports = {
         });
       }
       // Email ping
-      var subject = '';
+      var subject;
       if( params.visitor === '' ) {
         subject = 'You have a visitor';
       } else {
         subject = params.visitor + ' is here to see you';
       }
       var mailOptions = {
-        to: results.email,
+        to: user.email,
         subject: subject,
         text: params.text
       };
       emailUtils(mailOptions, function(error, results) {
-        if(error) {
+        if( error ) {
           console.error(error);
           res.status(500).end();
         }
         res.status(301).end('Ping sent');
       });
     });
+  },
+
+  postSignup: function(req, res, next) {
+    var params = req.body;
+    dbUtils.getUser(params, function(error, user) {
+      if( user ) {
+        res.end('Email already taken.');
+      } else {
+        authUtils.hashPassword(params.password, function(error, hash) {
+          if( error ) {
+            console.error(error);
+            res.status(500).end();
+          }
+          params.password_hash = hash;
+          dbUtils.addUser(params, function(error, results) {
+            passport.authenticate('local', function(error, user, info) {
+              if (error) {
+                return next(err);
+              }
+              if (!user) {
+                return res.redirect('/');
+              }
+              req.logIn(user, function(error) {
+                if (error) {
+                  return next(error);
+                }
+                // TODO: add proper response handling
+                return res.redirect('/client');
+              });
+            })(req, res, next);
+          });
+        });
+      }
+    });
+  },
+
+  postLogin: function(req, res, next) {
+    passport.authenticate('local', function(error, user, info) {
+      if (error) {
+        return next(err);
+      }
+      if (!user) {
+        return res.redirect('/');
+      }
+      req.logIn(user, function(error) {
+        if (error) {
+          return next(error);
+        }
+        // TODO: add proper response handling
+        return res.redirect('/client');
+      });
+    })(req, res, next);
   }
 };
