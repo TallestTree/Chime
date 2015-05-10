@@ -9,9 +9,12 @@ var AddForm = require('./subcomponents/AddForm.jsx');
 
 var Dashboard = React.createClass({
   componentDidMount: function() {
+    var query = {id: 1};
+
     $.ajax({
       url: '/api/dashboard',
       method: 'GET',
+      data: query,
       success: function(data) {
         data = JSON.parse(data);
         var state = {};
@@ -20,13 +23,12 @@ var Dashboard = React.createClass({
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
-        console.error('Dashboard req error:', status, error, jqXHR);
+        console.error('Error retrieving list:', status, error);
       }
     });
   },
   getInitialState: function() {
     return {
-      view: 'directory',
       members: []
     };
   },
