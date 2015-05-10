@@ -5,7 +5,6 @@ var Member = require('../../shared/member.jsx');
 var Directory = React.createClass({
   mixins: [Navigation],
   memberClick: function(self) {
-    console.log(self.props);
     this.transitionTo('edit', {user: self.props.data.id});
   },
   render: function() {
