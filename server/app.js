@@ -18,7 +18,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
 var secret = process.env.SESSION_SECRET || require('./config/config').session_secret;
-app.use(session({ secret: secret }));
+app.use(session({
+  secret: secret,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

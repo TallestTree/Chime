@@ -1,7 +1,5 @@
 var passport = require('../auth/auth');
 var authUtils = require('../auth/authUtils');
-// var loggedIn = authUtils.loggedIn;
-// var isLoggedIn = authUtils.isLoggedIn;
 var testData = require('../data/testData');
 var dbUtils = require('../utils/dbUtils/dbUtils');
 var emailUtils = require('../utils/pingUtils/emailUtils');

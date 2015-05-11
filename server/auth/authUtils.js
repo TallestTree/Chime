@@ -23,7 +23,7 @@ module.exports = {
     if (req.isAuthenticated()) {
       next();
     } else {
-      res.redirect('/login');
+      res.status(401).end('Not logged in');
     }
   },
 
