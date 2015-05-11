@@ -1,23 +1,40 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
+var utils = require('../../shared/utils.jsx');
 
 // Login form class, which contains the input fields and submits those details to the server.
 var LoginForm = React.createClass({
   mixins: [Router.Navigation],
   handleSubmit: function(e) {
     e.preventDefault();
-    // TODO: submit to server
-    this.transitionTo('/dashboard');
+
+    var props = utils.pullRefs(this.refs, FORM_REFS);
+
+    if (props === false) {
+      // TODO: Display error
+      console.error('Missing fields');
+      return;
+    }
+
+    console.log('Attempting to log in'); // TODO: Display logging in status message
+    utils.makeRequest({
+      url: '/api/login',
+      method: 'POST',
+      data: props, 
+      success: function(data) {
+        this.transitionTo('/dashboard');
+      }.bind(this)
+    });
   },
   render: function() {
     return (
       <div className="container">
-        <form className="col-sm-8 col-xs-8" onSubmit={this.handleSubmit}>
+        <form className="col-sm-8 col-sm-offset-2 col-xs-12" onSubmit={this.handleSubmit}>
           <h2>Log in</h2>
           <div className="form-group">
-            <label>Username</label>
-            <input type="text" className="form-control" ref="username" />
+            <label>Email</label>
+            <input type="email" className="form-control" ref="email" />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -30,5 +47,13 @@ var LoginForm = React.createClass({
     );
   }
 });
+
+var FORM_REFS = {
+  required: [
+    'email',
+    'password'
+  ],
+  optional: []
+};
 
 module.exports = LoginForm;

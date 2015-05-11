@@ -1,27 +1,52 @@
 var React = require('react');
 var Router = require('react-router');
+var utils = require('../../shared/utils.jsx');
 
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
   mixins: [Router.Navigation],
   handleSubmit: function(e) {
-    var username = this.refs.username.getDOMNode().value.trim();
-    var pw1 = this.refs.password.getDOMNode().value;
-    var pw2 = this.refs.repeatPassword.getDOMNode().value;
-    if (pw1 !== pw2) {
-      console.log('Passwords must match');
+    e.preventDefault();
+
+    var props = utils.pullRefs(this.refs, FORM_REFS);
+
+    if (props === false) {
+      //TODO: Display error for missing fields
+      console.error('Missing fields');
+      return;
     }
-    // TODO: Send request to server to validate
-    this.transitionTo('/dashboard');
+
+    if (props.password !== React.findDOMNode(this.refs.repeatPassword).value) {
+      // TODO: Display error for matching passwords
+      console.error('Passwords must match');
+      return;
+    }
+    
+    utils.makeRequest({
+      url: '/api/signup',
+      method: 'POST',
+      data: props,
+      success: function(data) {
+        this.transitionTo('/dashboard');
+      }.bind(this)
+    });
   },
   render: function() {
     return (
       <div className="container">
-        <form className="col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
+        <form className="col-sm-8 col-sm-offset-2 col-xs-12" onSubmit={this.handleSubmit}>
           <h2>Sign up</h2>
           <div className="form-group">
-            <label>Username</label>
-            <input type="text" className="form-control" ref="username" />
+            <label>First Name</label>
+            <input type="text" className="form-control" ref="first_name" />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input type="text" className="form-control" ref="last_name" />
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" className="form-control" ref="email" />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -37,5 +62,15 @@ var SignupForm = React.createClass({
     );
   }
 });
+
+var FORM_REFS ={
+  required: [
+    'first_name',
+    'last_name',
+    'email',
+    'password'
+  ],
+  optional: []
+};
 
 module.exports = SignupForm;
