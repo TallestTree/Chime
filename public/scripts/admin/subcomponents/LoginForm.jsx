@@ -13,22 +13,18 @@ var LoginForm = React.createClass({
 
     if (props === false) {
       // TODO: Display error
-      console.log('Missing fields');
+      console.error('Missing fields');
       return;
     }
-    // TODO: submit to server
-    $.ajax({
-      url: '/api/auth',
+
+    console.log('Attempting to log in'); // TODO: Display logging in status message
+    utils.makeRequest({
+      url: '/api/login',
       method: 'POST',
-      data: props,
+      data: props, 
       success: function(data) {
         this.transitionTo('/dashboard');
-      }.bind(this),
-      error: function(jqXHR, status, error) {
-        console.error(status, error);
-        this.transitionTo('/dashboard');
-      }.bind(this),
-      timeout: 5000
+      }.bind(this)
     });
   },
   render: function() {

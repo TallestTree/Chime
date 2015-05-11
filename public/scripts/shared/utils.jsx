@@ -29,24 +29,24 @@ var pullRefs = function(refs, fields) {
 };
 
 // A generic helper function to make an ajax request
-var makeRequest = function(url, method, data, _success, _error) {
+var makeRequest = function(params) {
   $.ajax({
-    url: url,
-    method: method,
-    data: data,
-    success: function(data) {
-      _success(data);
-    },
+    url: params.url,
+    method: params.method,
+    data: params.data,
+    success: params.success,
     error: function(jqXHR, status, error) {
-      _error(jqXHR, status, error);
-    },
-    timeout: 5000
+      console.error(jqXHR.responseText);
+      if (params.error) {
+        params.error(jqXHR.responseText);
+      }
+    }
   });
 };
 
 var parsePhone = function(phoneString) {
-  var result = phoneString.match(/\d/g).join('');
-  if (result.length !== 10) {
+  var result = phoneString.match(/\d/g);
+  if (!result || result.length !== 10) {
     return false;
   } else {
     return parseInt(result, 10);
@@ -55,4 +55,6 @@ var parsePhone = function(phoneString) {
 
 module.exports = {
   pullRefs: pullRefs,
+  makeRequest: makeRequest,
+  parsePhone: parsePhone
 };

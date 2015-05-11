@@ -19,7 +19,12 @@ passport.use(new LocalStrategy({
       if( error ) {
         return done(null, false);
       }
-      authUtils.checkPassword(user, password, function(match) {
+      authUtils.checkPassword(user, password, function(error, match) {
+        if ( error ) {
+          console.error(error);
+          return done(null, false);
+        }
+
         if( !match ) {
           return done(null, false);
         }

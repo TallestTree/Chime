@@ -37,6 +37,7 @@ var AddForm = React.createClass({
       member.phone = utils.parsePhone(member.phone);
       if (member.phone === false) {
         //TODO: Display error for phone number format (must have 10 numbers)
+        console.error('10 digits required for phone number');
         return;
       }
     }
@@ -49,7 +50,7 @@ var AddForm = React.createClass({
       urlString += 'edit'; // TODO: Update url string with correct path to update a user
     }
 
-    $.ajax({
+    utils.makeRequest({
       url: urlString,
       method: 'POST', 
       data: member,
@@ -57,6 +58,11 @@ var AddForm = React.createClass({
         // TODO: Add confirmation of user add
         this.transitionTo('dashboard');
       }.bind(this),
+      error: function() {
+        // TODO: Display error on page
+      }.bind(this)
+    });
+    $.ajax({
       error: function(jqXHR, status, error) {
         // TODO: Add error display to user (Redirect to error page?)
         console.error('Error submitting form to server:', error);

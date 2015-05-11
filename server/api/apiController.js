@@ -102,9 +102,10 @@ module.exports = {
 
   postSignup: function(req, res, next) {
     var params = req.body;
-    dbUtils.getUser(params, function(error, user) {
+    var emailRequest = {email: req.body.email};
+    dbUtils.getUser(emailRequest, function(error, user) {
       if( user ) {
-        res.end('Email already taken.');
+        res.status(409).end('Email already taken.');
       } else {
         authUtils.hashPassword(params.password, function(error, hash) {
           if( error ) {
@@ -115,17 +116,17 @@ module.exports = {
           dbUtils.addUser(params, function(error, results) {
             passport.authenticate('local', function(error, user, info) {
               if (error) {
-                return next(err);
+                return next(error);
               }
               if (!user) {
-                return res.redirect('/');
+                return res.status(401).end('Invalid login');
               }
               req.logIn(user, function(error) {
                 if (error) {
                   return next(error);
                 }
                 // TODO: add proper response handling
-                return res.redirect('/client');
+                return res.status(201).end();
               });
             })(req, res, next);
           });
@@ -137,17 +138,18 @@ module.exports = {
   postLogin: function(req, res, next) {
     passport.authenticate('local', function(error, user, info) {
       if (error) {
-        return next(err);
+        console.error(error);
+        return next(error);
       }
       if (!user) {
-        return res.redirect('/');
+        return res.status(401).end('Invalid login');
       }
       req.logIn(user, function(error) {
         if (error) {
           return next(error);
         }
         // TODO: add proper response handling
-        return res.redirect('/client');
+        return res.status(201).end();
       });
     })(req, res, next);
   }

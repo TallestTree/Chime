@@ -12,28 +12,23 @@ var SignupForm = React.createClass({
 
     if (props === false) {
       //TODO: Display error for missing fields
-      console.log('Missing fields');
+      console.error('Missing fields');
       return;
     }
 
-    if (props.password !== props.repeatPassword) {
+    if (props.password !== React.findDOMNode(this.refs.repeatPassword).value) {
       // TODO: Display error for matching passwords
-      console.log('Passwords must match');
+      console.error('Passwords must match');
       return;
     }
     
-    $.ajax({
-      url: '/api/signup', // TODO: Check this route
+    utils.makeRequest({
+      url: '/api/signup',
       method: 'POST',
       data: props,
       success: function(data) {
         this.transitionTo('/dashboard');
-      }.bind(this),
-      error: function(jqXHR, status, error) {
-        console.error(status, error);
-        this.transitionTo('/dashboard');
-      }.bind(this),
-      timeout: 5000
+      }.bind(this)
     });
   },
   render: function() {
@@ -73,8 +68,7 @@ var FORM_REFS ={
     'first_name',
     'last_name',
     'email',
-    'password',
-    'repeatPassword'
+    'password'
   ],
   optional: []
 };
