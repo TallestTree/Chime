@@ -62,16 +62,16 @@ var login = function(req, res, next) {
 module.exports = {
   getDashboardInfo: function(req, res, next) {
     if (useDb) {
-      var user = {id: req.query.id};
+      var user = req.session.passport.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if (error) {
+        if(error) {
           console.error(error);
           serveStatus(res, 500);
         }
         res.end(JSON.stringify(results));
       });
     } else {
-      // Return fake data
+      // Return fake data if not connected to db
       var orgInfo = testData.data;
       res.end(JSON.stringify(orgInfo));
     }
@@ -79,7 +79,7 @@ module.exports = {
 
   getClientInfo: function(req, res, next) {
     if (useDb) {
-      var user = {id: req.query.id};
+      var user = req.session.passport.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if (error) {
           console.error(error);
@@ -88,7 +88,7 @@ module.exports = {
         res.end(JSON.stringify(results));
       });
     } else {
-      // Return fake data
+      // Return fake data if not connected to db
       var orgInfo = testData.data;
       res.end(JSON.stringify(orgInfo));
     }
@@ -176,17 +176,39 @@ module.exports = {
     var user = req.body;
     user.organization_id = 1; // TODO: Implement organizations
     var emailRequest = {email: req.body.email};
+<<<<<<< HEAD
     authUtils.hashPassword(user.password, function(error, hash) {
       if (error) {
-        console.error(error);
-        serveStatus(res, 500);
+=======
+    dbUtils.getUser(emailRequest, function(error, user) {
+      if( user ) {
+        res.status(409).end('Email already taken.');
+      } else {
+        authUtils.hashPassword(params.password, function(error, hash) {
+          if( error ) {
+            console.error(error);
+            res.status(500).end();
+          }
+          params.password_hash = hash;
+          dbUtils.addUser(params, function(error, results) {
+            passport.authenticate('local', function(error, user, info) {
+              if( error ) {
+                return next(error);
+              }
+              if( !user ) {
+                return res.status(401).end('Invalid login');
+              }
+              req.logIn(user, function(error) {
+                if( error ) {
+                  return next(error);
+                }
+                // TODO: add proper response handling
+                return res.status(201).end();
+              });
+            })(req, res, next);
+          });
+        });
       }
-      user.password_hash = hash;
-      dbUtils.addUser(user, function(error, results) {
-        if (!checkUserError(res, error)) {
-          login(req, res, next);
-        }
-      });
     });
   },
 

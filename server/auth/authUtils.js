@@ -20,9 +20,11 @@ module.exports = {
   },
 
   loggedIn: function(req, res, next) {
-    if (req.isAuthenticated()) {
+    if( req.isAuthenticated() ) {
       next();
     } else {
+      console.log('loggedIn failed');
+      // res.redirect('/');
       res.status(401).end('Not logged in');
     }
   },
