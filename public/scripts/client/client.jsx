@@ -6,7 +6,6 @@ var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
 
 // Components for PING
-var PingButton = require('./subcomponents/PingButton.jsx');
 var PingForm = require('./subcomponents/PingForm.jsx');
 
 // Components for Directory
@@ -32,7 +31,7 @@ var App = React.createClass({
 var routes = (
   <Route handler={App}>
     <Route path="/client" handler={Directory} />
-    <Route path="/ping" handler={PingForm} />
+    <Route name="ping" path="/ping/:id" handler={PingForm} />
   </Route>
 );
 
@@ -42,7 +41,7 @@ var router = Router.create({
   location: Router.HistoryLocation
 });
 
-// Render the Login form on the page
+// Render the Client view
 router.run(function(Handler) {
   React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
 });
