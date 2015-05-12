@@ -21,7 +21,7 @@ var PingForm = React.createClass({
   handleSubmit: function(e) {
     var messageObj = {
       id: this.props.params.id,
-      visitorName: React.findDOMNode(this.refs.visitorName).value,
+      visitor: React.findDOMNode(this.refs.visitorName).value,
       text: React.findDOMNode(this.refs.visitorMessage).value,
     };
     e.preventDefault();
