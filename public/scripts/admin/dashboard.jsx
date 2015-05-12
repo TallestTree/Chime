@@ -2,10 +2,7 @@
 var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
-var Navigation = Router.Navigation;
 var Link = Router.Link;
-
-var AddForm = require('./subcomponents/AddForm.jsx');
 
 var Dashboard = React.createClass({
   componentDidMount: function() {

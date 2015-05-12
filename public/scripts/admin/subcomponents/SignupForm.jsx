@@ -1,6 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
 var utils = require('../../shared/utils.jsx');
+var Form = require('../../shared/form.jsx');
 
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
@@ -12,13 +13,13 @@ var SignupForm = React.createClass({
 
     if (props === false) {
       //TODO: Display error for missing fields
-      console.error('Missing fields');
+      alert('Missing fields');
       return;
     }
-
-    if (props.password !== React.findDOMNode(this.refs.repeatPassword).value) {
+    
+    if (props.password !== $(React.findDOMNode(this.refs.repeatPassword)).find('input').val()) {
       // TODO: Display error for matching passwords
-      console.error('Passwords must match');
+      alert('Passwords must match');
       return;
     }
     
@@ -28,36 +29,24 @@ var SignupForm = React.createClass({
       data: props,
       success: function(data) {
         this.transitionTo('/dashboard');
-      }.bind(this)
+      }.bind(this),
+      error: function(error) {
+        alert(error);
+      }
     });
   },
   render: function() {
     return (
       <div className="container">
-        <form className="col-sm-8 col-sm-offset-2 col-xs-12" onSubmit={this.handleSubmit}>
+        <Form.Form onSubmit={this.handleSubmit}>
           <h2>Sign up</h2>
-          <div className="form-group">
-            <label>First Name</label>
-            <input type="text" className="form-control" ref="first_name" />
-          </div>
-          <div className="form-group">
-            <label>Last Name</label>
-            <input type="text" className="form-control" ref="last_name" />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input type="email" className="form-control" ref="email" />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" className="form-control" ref="password" />
-          </div>
-          <div className="form-group">
-            <label>Repeat password</label>
-            <input type="password" className="form-control" ref="repeatPassword" />
-          </div>
-          <input type="submit" className="btn btn-default" value="Sign up" />
-        </form>
+          <Form.Input label="Email" type="email" ref="email" />
+          <Form.Input label="First Name" type="text" ref="first_name" />
+          <Form.Input label="Last Name" type="text" ref="last_name" />
+          <Form.Input label="Password" type="password" ref="password" />
+          <Form.Input label="Confirm Password" type="password" ref="repeatPassword" />
+          <button type="submit" className="btn btn-default">Sign Up</button>
+        </Form.Form>
       </div>
     );
   }

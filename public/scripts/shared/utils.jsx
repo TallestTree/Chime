@@ -4,16 +4,17 @@ var React = require('react');
 var pullRefs = function(refs, fields) {
   var props = {};
   var missingRequired = false;
-  var node;
+  var $node;
 
   fields.required.forEach(function(val, key) {
-    node = React.findDOMNode(refs[val]);
-    props[val] = node.value.trim() || null;
+    $node = $(React.findDOMNode(refs[val]));
+    props[val] = $node.find('input').val().trim() || null;
     if (props[val] === null) {
+      // Adds basic error highlighting
       missingRequired = true;
-      $(node).closest('.form-group').addClass('has-error');
+      $node.addClass('has-error');
     } else {
-      $(node).closest('.form-group').removeClass('has-error');
+      $node.removeClass('has-error');
     }
   });
 
@@ -22,7 +23,8 @@ var pullRefs = function(refs, fields) {
   }
 
   fields.optional.forEach(function(val, key) {
-    props[val] = React.findDOMNode(refs[val]).value.trim() || null;
+    $node = $(React.findDOMNode(refs[val]));
+    props[val] = $node.find('input').val().trim() || '';
   });
 
   return props;
