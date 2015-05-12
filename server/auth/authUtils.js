@@ -3,7 +3,7 @@ var bcrypt = require('bcrypt-nodejs');
 module.exports = {
   hashPassword: function(password, cb) {
     bcrypt.hash(password, null, null, function(error, hash) {
-      if( error ) {
+      if (error) {
         console.error('bcrypt hash error:', error);
       }
       cb(error, hash);
@@ -12,7 +12,7 @@ module.exports = {
 
   checkPassword: function(user, pGuess, cb) {
     bcrypt.compare(pGuess, user.password_hash, function(error, match) {
-      if( error ) {
+      if (error) {
         console.error('bcrypt check error:', error);
       }
       cb(error, match);

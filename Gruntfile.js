@@ -96,10 +96,10 @@ module.exports = function(grunt) {
 
     mochaTest: {
       frontEnd: {
-        src: ['test/client/**/*.js']
+        src: ['tests/client/**/*.js']
       },
       server: {
-        src: ['test/server/**/*.js']
+        src: ['tests/server/**/*.js']
       }
     },
 
@@ -149,11 +149,11 @@ module.exports = function(grunt) {
         tasks: ['csslint', 'cssmin']
       },
       server: {
-        files: ['server/**/*', 'test/server/**/*'],
+        files: ['server/**/*', 'tests/server/**/*'],
         tasks: ['jshint', 'mochaTest:server']
       },
       frontEnd: {
-        files: ['test/frontEnd/**/*'],
+        files: ['tests/frontEnd/**/*'],
         tasks: ['jshint', 'mochaTest:frontEnd']
       }
     }

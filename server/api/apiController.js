@@ -10,15 +10,65 @@ var smsUtils = require('../utils/pingUtils/smsUtils');
 // Set to true to use the database or false to use test data
 var useDb = true;
 
+// Serves default messages for corresponding error codes
+var serveStatus = function(res, statusCode, message) {
+  res.status(statusCode);
+  if (statusCode === 201) {
+    defaultMessage = 'Created';
+  } else if (statusCode === 204) {
+    defaultMessage = 'No content';
+  } else if (statusCode === 301) {
+    defaultMessage = 'Ping sent';
+  } else if (statusCode === 401) {
+    defaultMessage = 'Invalid login';
+  } else if (statusCode === 422) {
+    defaultMessage = 'Unique field already taken';
+  }
+  return res.end(message || defaultMessage);
+};
+
+// Handles addUser errors
+var checkUserError = function(res, error) {
+  if (error) {
+    if (error.match(/unique/i)) {
+      if (error.match(/phone/i)) {
+        return serveStatus(res, 422, 'Phone number taken');
+      } else if (error.match(/email/i)) {
+        return serveStatus(res, 422, 'Email taken');
+      }
+    }
+    return serveStatus(res, 500);
+  }
+};
+
+var login = function(req, res, next) {
+  passport.authenticate('local', function(error, user, info) {
+    if (error) {
+      console.error(error);
+      return next(error);
+    }
+    if (!user) {
+      return serveStatus(res, 401);
+    }
+    req.logIn(user, function(error) {
+      if (error) {
+        return next(error);
+      }
+      // TODO: add proper response handling
+      return serveStatus(res, 201);
+    });
+  })(req, res, next);
+};
+
 // These functions have else branches in the case of useDb false
 module.exports = {
   getDashboardInfo: function(req, res, next) {
-    if(useDb) {
+    if (useDb) {
       var user = {id: req.query.id};
       dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if(error) {
+        if (error) {
           console.error(error);
-          res.status(500).end();
+          serveStatus(res, 500);
         }
         res.end(JSON.stringify(results));
       });
@@ -30,12 +80,12 @@ module.exports = {
   },
 
   getClientInfo: function(req, res, next) {
-    if(useDb) {
+    if (useDb) {
       var user = {id: req.query.id};
       dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if(error) {
+        if (error) {
           console.error(error);
-          res.status(500).end();
+          serveStatus(res, 500);
         }
         res.end(JSON.stringify(results));
       });
@@ -47,25 +97,49 @@ module.exports = {
   },
 
   postAddMember: function(req, res, next) {
-    res.end('added member');
+    dbUtils.getUser(req.user, function(error, user) {
+      if (error) {
+        console.error(error);
+        serveStatus(res, 500);
+      } else {
+        req.body.organization_id = user.organization_id;
+        // Must delete phone entry to maintain uniqueness
+        if (req.body.phone === '') {
+          delete req.body.phone;
+        }
+        dbUtils.addUser(req.body, function(error, user) {
+          if (!checkUserError(res, error)) {
+            return serveStatus(res, 201);
+          }
+        });
+      }
+    });
+  },
+
+  postUpdateMember: function(req, res, next) {
+    dbUtils.updateUser(req.body, function(error, user) {
+      if (!checkUserError(res, error)) {
+        return serveStatus(res, 204);
+      }
+    });
   },
 
   postPing: function(req, res, next) {
     var params = req.body;
     dbUtils.getUser(params, function(error, user) {
-      if(error) {
+      if (error) {
         console.error(error);
-        res.status(500).end();
+        serveStatus(res, 500);
       }
       // SMS ping
-      if( user.phone !== '' ) {
+      if (user.phone !== '') {
         var message;
-        if( params.visitor === '' ) {
+        if (params.visitor === '') {
           message = 'You have a visitor';
         } else {
           message = 'Visit from ' + params.visitor;
         }
-        if( params.text !== '' ) {
+        if (params.text !== '') {
           message += ' - ' + params.text;
         }
         var smsOptions = {
@@ -73,14 +147,14 @@ module.exports = {
           text: message
         };
         smsUtils(smsOptions, function(error, results) {
-          if(error) {
+          if (error) {
             console.error(error);
           }
         });
       }
       // Email ping
       var subject;
-      if( params.visitor === '' ) {
+      if (params.visitor === '') {
         subject = 'You have a visitor';
       } else {
         subject = params.visitor + ' is here to see you';
@@ -91,66 +165,34 @@ module.exports = {
         text: params.text
       };
       emailUtils(mailOptions, function(error, results) {
-        if( error ) {
+        if (error) {
           console.error(error);
-          res.status(500).end();
+          serveStatus(res, 500);
         }
-        res.status(301).end('Ping sent');
+        serveStatus(res, 301);
       });
     });
   },
 
   postSignup: function(req, res, next) {
-    var params = req.body;
+    var user = req.body;
+    user.organization_id = 1; // TODO: Implement organizations
     var emailRequest = {email: req.body.email};
-    dbUtils.getUser(emailRequest, function(error, user) {
-      if( user ) {
-        res.status(409).end('Email already taken.');
-      } else {
-        authUtils.hashPassword(params.password, function(error, hash) {
-          if( error ) {
-            console.error(error);
-            res.status(500).end();
-          }
-          params.password_hash = hash;
-          dbUtils.addUser(params, function(error, results) {
-            passport.authenticate('local', function(error, user, info) {
-              if (error) {
-                return next(error);
-              }
-              if (!user) {
-                return res.status(401).end('Invalid login');
-              }
-              req.logIn(user, function(error) {
-                if (error) {
-                  return next(error);
-                }
-                // TODO: add proper response handling
-                return res.status(201).end();
-              });
-            })(req, res, next);
-          });
-        });
+    authUtils.hashPassword(user.password, function(error, hash) {
+      if (error) {
+        console.error(error);
+        serveStatus(res, 500);
       }
+      user.password_hash = hash;
+      dbUtils.addUser(user, function(error, results) {
+        if (!checkUserError(res, error)) {
+          login(req, res, next);
+        }
+      });
     });
   },
 
   postLogin: function(req, res, next) {
-    passport.authenticate('local', function(error, user, info) {
-      if (error) {
-        console.error(error);
-        return next(error);
-      }
-      if (!user) {
-        return res.status(401).end('Invalid login');
-      }
-      req.logIn(user, function(error) {
-        if (error) {
-          return next(error);
-        }
-        // TODO: add proper response handling
-        return res.status(201).end();
-      });
-    })(req, res, next);
+    login(req, res, next);
   }
 };

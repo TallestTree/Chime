@@ -8,13 +8,13 @@ var allFields = {
   user: {
     required: ['first_name', 'last_name', 'email'],
     optional: ['organization_id', 'middle_name', 'password_hash', 'phone', 'photo', 'department', 'title'],
-    auto: ['id', 'created_at', 'updated_at'],
+    auto: ['id'],
     unique: ['id', 'phone', 'email']
   },
   organization: {
     required: ['admin_id', 'name'],
     optional: ['logo', 'welcome_message'],
-    auto: ['id', 'created_at', 'updated_at'],
+    auto: ['id'],
     unique: ['id', 'admin_id', 'name']
   }
 };
@@ -22,24 +22,24 @@ var allFields = {
 // Augments a callback with a prepended fail message or a chained success callback
 // Stores prepended on-fail message on prepend property
 var augmentCb = function(cb, failMessage, successCb) {
-  cb = cb || function(err) {
-    console.error(err);
+  cb = cb || function(error) {
+    console.error(error);
   };
-  var onFail = function(err, result) {
-    cb(err && (failMessage ? failMessage + ' > ': '') + err, result);
+  var onFail = function(error, result) {
+    cb(error && (failMessage ? failMessage + ' > ': '') + error, result);
   };
-  var onSuccess = function(err, result) {
+  var onSuccess = function(error, result) {
     if (successCb) {
       successCb(onFail, result);
     } else {
-      cb(err, result);
+      cb(error, result);
     }
   };
-  return function(err, result) {
-    if (err) {
-      onFail(err, result);
+  return function(error, result) {
+    if (error) {
+      onFail(error, result);
     } else {
-      onSuccess(err, result);
+      onSuccess(error, result);
     }
   };
 };
@@ -82,9 +82,9 @@ var getEntryFields = function(entry, possibleEntryFields) {
 // Params has properties entry, entryFields, queryString, callback, and success
 // Helper function for addEntry and getEntry
 var connect = function(params) {
-  pg.connect(config, function(err, client, done) {
-    if (err) {
-      return augmentCb(params.callback, 'failed database request')(err);
+  pg.connect(config, function(error, client, done) {
+    if (error) {
+      return augmentCb(params.callback, 'failed database request')(error);
     }
 
     var entryFieldStrings = params.entryFields.map(function(entryField) {
@@ -107,10 +107,10 @@ var connect = function(params) {
       return memo.concat(current);
     }, []);
 
-    client.query(params.queryString(entryFieldStrings, parameters), entryFieldValues, function(err, result) {
-      if (err) {
+    client.query(params.queryString(entryFieldStrings, parameters), entryFieldValues, function(error, result) {
+      if (error) {
         done(client);
-        return augmentCb(params.callback, 'failed client request')(err);
+        return augmentCb(params.callback, 'failed client request')(error);
       }
       done();
       params.success(params.callback, result);
@@ -141,13 +141,12 @@ var addEntry = function(type, entry, cb) {
 };
 
 // Helper function for updateUser and updateOrganization
-// Uses the unique fields attached to entry to update the rest
+// Uses id field attached to entry to update the rest
 var updateEntry = function(type, entry, cb) {
   // Validate against possible fields
   var fields = getEntryFields(entry, allFields[type].required.concat(allFields[type].optional));
-  var uniqueFields = getEntryFields(entry, allFields[type].unique);
-  if (!uniqueFields.length) {
-    return cb('unique fields missing');
+  if (!entry.id) {
+    return cb('id field missing');
   }
 
   var updateString = function(entryFieldStrings, parameters) {
@@ -162,7 +161,7 @@ var updateEntry = function(type, entry, cb) {
   };
   connect({
     entry: entry,
-    entryFields: [fields, uniqueFields],
+    entryFields: [fields, ['id']],
     queryString: updateString,
     callback: cb,
     success: success

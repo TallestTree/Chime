@@ -16,7 +16,7 @@ var Directory = React.createClass({
         );
       }.bind(this));
     } else {
-      members = ( <div>Loading directory</div> );
+      members = (<div>Loading directory</div>);
     }
     return (
       <div>

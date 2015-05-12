@@ -16,15 +16,15 @@ describe('emailUtils', function() {
 
   describe('emailUtils', function() {
     it('sends an email', function(done) {
-      emailUtils({to:'anon@somesite.com'}, function(err, info) {
-        expect(err).to.equal(null);
+      emailUtils({to:'anon@somesite.com'}, function(error, info) {
+        expect(error).to.equal(null);
         expect(info.response).to.equal(250);
         done();
       });
     });
     it('throws an error if there is no destination address', function(done) {
-      emailUtils({}, function(err, info) {
-        expect(err).to.not.equal(null);
+      emailUtils({}, function(error, info) {
+        expect(error).to.not.equal(null);
         done();
       });
     });
