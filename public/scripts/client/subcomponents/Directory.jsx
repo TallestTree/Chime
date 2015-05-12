@@ -28,13 +28,14 @@ var Directory = React.createClass({
     });
   },
   getInitialState: function() {
+    React.initializeTouchEvents(true); // Required to enable touch event handling.
     return {members: []};
   },
   render: function() {
     return (
       <div className="container-fluid">
         <h2>{this.state.orgName}</h2>
-        <h1>Who are you here to see?</h1>
+        <h1>Who are you visiting?</h1>
         <MemberList members={this.state.members} />
       </div>
     );
