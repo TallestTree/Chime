@@ -17,9 +17,9 @@ module.exports = function(smsOptions, cb) {
     text: 'You have an anonymous visitor. - Chime',
   });
 
-  cb = cb || function(err, response, data) {
-    if(err || !response.body.ok) {
-      console.error(err || 'Error sending text: ' + response.body.data.code);
+  cb = cb || function(error, response, data) {
+    if (error || !response.body.ok) {
+      console.error(error || 'Error sending text: ' + response.body.data.code);
     } else {
       console.log('Text sent: ', response);
     }

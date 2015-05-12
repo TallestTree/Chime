@@ -16,15 +16,15 @@ describe('smsUtils', function() {
 
   describe('smsUtils', function() {
     it('sends a text', function(done) {
-      smsUtils({to:'5551234567'}, function(err, response, data) {
-        expect(err).to.equal(null);
+      smsUtils({to:'5551234567'}, function(error, response, data) {
+        expect(error).to.equal(null);
         expect(response.body.ok).to.equal(true);
         done();
       });
     });
     it('throws an error if there is no destination address', function(done) {
-      smsUtils({}, function(err, response, data) {
-        expect(err).to.not.equal(null);
+      smsUtils({}, function(error, response, data) {
+        expect(error).to.not.equal(null);
         done();
       });
     });

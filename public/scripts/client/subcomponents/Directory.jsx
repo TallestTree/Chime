@@ -22,8 +22,8 @@ var Directory = React.createClass({
           members: resp.members
         });
       }.bind(this),
-      error: function(err) {
-        console.log(err);
+      error: function(error) {
+        console.log(error);
       }.bind(this)
     });
   },

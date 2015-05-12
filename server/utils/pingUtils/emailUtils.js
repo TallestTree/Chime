@@ -21,9 +21,9 @@ module.exports = function(mailOptions, cb) {
     text: 'You have an anonymous visitor.',
   });
 
-  cb = cb || function(err, info) {
-    if(err) {
-      console.error(err);
+  cb = cb || function(error, info) {
+    if (error) {
+      console.error(error);
     } else {
       console.log('Email sent: ' + info.response);
     }

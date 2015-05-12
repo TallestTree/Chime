@@ -133,7 +133,7 @@ When writing any block of code that is logically subordinate to the line immedia
 
     ```javascript
     // good:
-    var go = function () {...};
+    var go = function() {...};
 
     // bad:
     function stop () {...};
@@ -171,12 +171,12 @@ When writing any block of code that is logically subordinate to the line immedia
 
   ```javascript
   // good:
-  var greet = function () {
+  var greet = function() {
     alert('hi');
   };
 
   // bad:
-  var greet = function () {
+  var greet = function() {
     alert('hi');
   }
   ```
@@ -269,13 +269,13 @@ When writing any block of code that is logically subordinate to the line immedia
     ```javascript
     // prefer:
     _.ajax(url, {
-      success: function () {
+      success: function() {
         // ...
       }
     });
 
     // avoid:
-    _.ajax(url, { success: function () {
+    _.ajax(url, { success: function() {
       // ...
     }});
     ```
@@ -314,12 +314,12 @@ When writing any block of code that is logically subordinate to the line immedia
 
     ```javascript
     // good:
-    var overwriteNumber = function () {
+    var overwriteNumber = function() {
       window.exported = Math.random();
     };
 
     // bad:
-    var overwriteNumber = function () {
+    var overwriteNumber = function() {
       exported = Math.random();
     };
     ```

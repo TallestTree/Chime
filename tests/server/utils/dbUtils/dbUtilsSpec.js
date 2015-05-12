@@ -30,14 +30,14 @@ xdescribe('dbUtils', function() {
     // Clears the database via dbSchema.sql
     var fs = require('fs');
     var schema = fs.readFileSync(__dirname+'/../../../../server/utils/dbUtils/dbSchema.sql').toString();
-    pg.connect(config, function(err, client, pgDone) {
-      if (err) {
-        return console.error('Error: failed database request - ' + err);
+    pg.connect(config, function(error, client, pgDone) {
+      if (error) {
+        return console.error('Error: failed database request - ' + error);
       }
-      client.query(schema, function(err, result) {
-        if (err) {
+      client.query(schema, function(error, result) {
+        if (error) {
           pgDone(client);
-          return console.error('Error: failed client request - ' + err);
+          return console.error('Error: failed client request - ' + error);
         }
         pgDone();
         testDone();
@@ -47,16 +47,16 @@ xdescribe('dbUtils', function() {
 
   describe('adds and retrieves a user', function() {
     it('adds a user', function(testDone) {
-      dbUtils.addUser(john, function(err, user) {
-        expect(err).to.equal(null);
-        pg.connect(config, function(err, client, pgDone) {
-          if (err) {
-            return console.error('Error: failed database request - ' + err);
+      dbUtils.addUser(john, function(error, user) {
+        expect(error).to.equal(null);
+        pg.connect(config, function(error, client, pgDone) {
+          if (error) {
+            return console.error('Error: failed database request - ' + error);
           }
-          client.query('SELECT * FROM users', function(err, result) {
-            if (err) {
+          client.query('SELECT * FROM users', function(error, result) {
+            if (error) {
               pgDone(client);
-              return console.error('Error: failed client request - ' + err);
+              return console.error('Error: failed client request - ' + error);
             }
             pgDone();
             expect(result.rows.length).to.equal(1);
@@ -68,21 +68,21 @@ xdescribe('dbUtils', function() {
       });
     });
     it('assigns unique ids to users', function(testDone) {
-      dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com'}, function(err, user) {
-        expect(err).to.equal(null);
+      dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com'}, function(error, user) {
+        expect(error).to.equal(null);
         expect(user.id).to.equal(1);
-        dbUtils.addUser(jane, function(err, user) {
-          expect(err).to.equal(null);
+        dbUtils.addUser(jane, function(error, user) {
+          expect(error).to.equal(null);
           expect(user.id).to.equal(2);
           testDone();
         });
       });
     });
     it('grabs a user by id', function(testDone) {
-      dbUtils.addUser(jane, function(err, user) {
-        expect(err).to.equal(null);
-        dbUtils.getUser({id: 1}, function(err, user) {
-          expect(err).to.equal(null);
+      dbUtils.addUser(jane, function(error, user) {
+        expect(error).to.equal(null);
+        dbUtils.getUser({id: 1}, function(error, user) {
+          expect(error).to.equal(null);
           expect(user.email).to.equal('janedoe@myurl.com');
           expect(user.phone).to.equal('5551234567');
           expect(user.photo).to.not.equal(null);
@@ -91,10 +91,10 @@ xdescribe('dbUtils', function() {
       });
     });
     it('grabs a user by name', function(testDone) {
-      dbUtils.addUser(john, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.getUser({first_name: 'John', last_name: 'Doe'}, function(err, user) {
-          expect(err).to.equal(null);
+      dbUtils.addUser(john, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.getUser({first_name: 'John', last_name: 'Doe'}, function(error, user) {
+          expect(error).to.equal(null);
           expect(user.email).to.equal('johndoe@myurl.com');
           expect(user.phone).to.equal('5551234567');
           expect(user.photo).to.not.equal(null);
@@ -105,42 +105,42 @@ xdescribe('dbUtils', function() {
   });
   describe('it errors on invalid users', function() {
     it('throws an error if a required field is missing', function(testDone) {
-      dbUtils.addUser({first_name: 'Jane', last_name: 'Doe'}, function(err) {
-        expect(err).to.not.equal(null);
+      dbUtils.addUser({first_name: 'Jane', last_name: 'Doe'}, function(error) {
+        expect(error).to.not.equal(null);
         testDone();
       });
     });
     it('throws an error if a unique field is inserted twice', function(testDone) {
-      dbUtils.addUser(john, function(err, id) {
-        expect(err).to.equal(null);
-        dbUtils.addUser(jane, function(err) {
-          expect(err).to.not.equal(null);
+      dbUtils.addUser(john, function(error, id) {
+        expect(error).to.equal(null);
+        dbUtils.addUser(jane, function(error) {
+          expect(error).to.not.equal(null);
           testDone();
         });
       });
     });
     it('throws an error if update does not match any entries', function(testDone) {
-      dbUtils.updateUser(john, function(err, user) {
-        expect(err).to.not.equal(null);
+      dbUtils.updateUser(john, function(error, user) {
+        expect(error).to.not.equal(null);
         testDone();
       });
     });
   });
   describe('adds and retrieves an organization', function() {
     it('adds an organization', function(testDone) {
-      dbUtils.addUser(jane, function(err, user) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err, organization) {
-          expect(err).to.equal(null);
+      dbUtils.addUser(jane, function(error, user) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error, organization) {
+          expect(error).to.equal(null);
           expect(organization.id).to.equal(1);
-          pg.connect(config, function(err, client, pgDone) {
-            if (err) {
-              return console.error('Error: failed database request - ' + err);
+          pg.connect(config, function(error, client, pgDone) {
+            if (error) {
+              return console.error('Error: failed database request - ' + error);
             }
-            client.query('SELECT * FROM organizations', function(err, result) {
-              if (err) {
+            client.query('SELECT * FROM organizations', function(error, result) {
+              if (error) {
                 pgDone(client);
-                return console.error('Error: failed client request - ' + err);
+                return console.error('Error: failed client request - ' + error);
               }
               pgDone();
               expect(result.rows.length).to.equal(1);
@@ -153,12 +153,12 @@ xdescribe('dbUtils', function() {
       });
     });
     it('grabs an organization by name', function(testDone) {
-      dbUtils.addUser(jane, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err) {
-          expect(err).to.equal(null);
-          dbUtils.getOrganization({name: 'Tallest Tree'}, function(err, organization) {
-            expect(err).to.equal(null);
+      dbUtils.addUser(jane, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error) {
+          expect(error).to.equal(null);
+          dbUtils.getOrganization({name: 'Tallest Tree'}, function(error, organization) {
+            expect(error).to.equal(null);
             expect(organization.name).to.equal('Tallest Tree');
             testDone();
           });
@@ -168,10 +168,10 @@ xdescribe('dbUtils', function() {
   });
   describe('it updates users and organizations', function() {
     it('updates users', function(testDone) {
-      dbUtils.addUser(john, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(err, user) {
-          expect(err).to.equal(null);
+      dbUtils.addUser(john, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
+          expect(error).to.equal(null);
           expect(user.first_name).to.equal('Jane');
           expect(user.last_name).to.equal('Doe');
           testDone();
@@ -179,12 +179,12 @@ xdescribe('dbUtils', function() {
       });
     });
     it('updates an admin\'s organization', function(testDone) {
-      dbUtils.addUser(john, function(err, user) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err, organization) {
-          expect(err).to.equal(null);
-          dbUtils.getUser(john, function(err, user) {
-            expect(err).to.equal(null);
+      dbUtils.addUser(john, function(error, user) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error, organization) {
+          expect(error).to.equal(null);
+          dbUtils.getUser(john, function(error, user) {
+            expect(error).to.equal(null);
             expect(user.organization_id).to.equal(organization.id);
             testDone();
           });
@@ -194,12 +194,12 @@ xdescribe('dbUtils', function() {
   });
   describe('it updates entries', function() {
     it('updates admin when adding an organization', function(testDone) {
-      dbUtils.addUser(john, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err, user) {
-          expect(err).to.equal(null);
-          dbUtils.getUser(john, function(err, user) {
-            expect(err).to.equal(null);
+      dbUtils.addUser(john, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error, user) {
+          expect(error).to.equal(null);
+          dbUtils.getUser(john, function(error, user) {
+            expect(error).to.equal(null);
             expect(user.organization_id).to.equal(1);
             testDone();
           });
@@ -207,11 +207,11 @@ xdescribe('dbUtils', function() {
       });
     });
     it('updates updated_at when updating', function(testDone) {
-      dbUtils.addUser(john, function(err, user) {
-        expect(err).to.equal(null);
+      dbUtils.addUser(john, function(error, user) {
+        expect(error).to.equal(null);
         expect(user.updated_at.getTime()).to.equal(user.created_at.getTime());
-        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(err, user) {
-          expect(err).to.equal(null);
+        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
+          expect(error).to.equal(null);
           expect(user.first_name).to.equal('Jane');
           expect(user.updated_at.getTime()).to.not.equal(user.created_at.getTime());
           testDone();
@@ -221,14 +221,14 @@ xdescribe('dbUtils', function() {
   });
   describe('it fetches multiple users', function() {
     it('gets users by organization', function(testDone) {
-      dbUtils.addUser(jane, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err, user) {
-          expect(err).to.equal(null);
-          dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(err, user) {
-            expect(err).to.equal(null);
-            dbUtils.getUsersByOrganization({id: 1}, function(err, orgInfo) {
-              expect(err).to.equal(null);
+      dbUtils.addUser(jane, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error, user) {
+          expect(error).to.equal(null);
+          dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(error, user) {
+            expect(error).to.equal(null);
+            dbUtils.getUsersByOrganization({id: 1}, function(error, orgInfo) {
+              expect(error).to.equal(null);
               expect(orgInfo.name).to.equal('Tallest Tree');
               expect(orgInfo.members.length).to.equal(2);
               expect(orgInfo.members[0].first_name).to.equal('Jane');
@@ -240,14 +240,14 @@ xdescribe('dbUtils', function() {
       });
     });
     it('gets users that share an organization', function(testDone) {
-      dbUtils.addUser(jane, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.addOrganization(tallestTree, function(err, user) {
-          expect(err).to.equal(null);
-          dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(err, user) {
-            expect(err).to.equal(null);
-            dbUtils.getUsersShareOrganization(jane, function(err, orgInfo) {
-              expect(err).to.equal(null);
+      dbUtils.addUser(jane, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.addOrganization(tallestTree, function(error, user) {
+          expect(error).to.equal(null);
+          dbUtils.addUser({first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234568, organization_id: 1}, function(error, user) {
+            expect(error).to.equal(null);
+            dbUtils.getUsersShareOrganization(jane, function(error, orgInfo) {
+              expect(error).to.equal(null);
               expect(orgInfo.name).to.equal('Tallest Tree');
               expect(orgInfo.members.length).to.equal(2);
               expect(orgInfo.members[0].first_name).to.equal('Jane');
@@ -259,10 +259,10 @@ xdescribe('dbUtils', function() {
       });
     });
     it('throws an error if user is not in an organization', function(testDone) {
-      dbUtils.addUser(jane, function(err) {
-        expect(err).to.equal(null);
-        dbUtils.getUsersShareOrganization(jane, function(err, orgInfo) {
-          expect(err).to.not.equal(null);
+      dbUtils.addUser(jane, function(error) {
+        expect(error).to.equal(null);
+        dbUtils.getUsersShareOrganization(jane, function(error, orgInfo) {
+          expect(error).to.not.equal(null);
           testDone();
         });
       });
