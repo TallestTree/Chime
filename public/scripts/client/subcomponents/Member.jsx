@@ -3,14 +3,17 @@ var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-
-
 // This is the Member class that renders an individual member and its info
 var Member = React.createClass({
   mixins: [Router.Navigation],
   handleClick: function(e) {
-    console.log("(client.jsx): Hello, " + this.props.data.first_name);
-    this.transitionTo('/ping', {id: this.props.data.id});
+    console.log("(client.jsx): Hello, ", this.props.data);
+    this.setState( {
+      id: this.props.data.id, 
+      first_name: this.props.data.first_name, 
+      last_name: this.props.data.last_name, 
+    } );
+    this.transitionTo('ping', {id: this.props.data.id});
   },
   render: function() {
     return (
