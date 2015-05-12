@@ -97,7 +97,7 @@ module.exports = {
   },
 
   postAddMember: function(req, res, next) {
-    dbUtils.getUser(req.session.passport.user, function(error, user) {
+    dbUtils.getUser(req.user, function(error, user) {
       if (error) {
         console.error(error);
         serveStatus(res, 500);
@@ -117,7 +117,7 @@ module.exports = {
   },
 
   postUpdateMember: function(req, res, next) {
-    dbUtils.updateUser(req.user, function(error, user) {
+    dbUtils.updateUser(req.body, function(error, user) {
       if (!checkUserError(res, error)) {
         return serveStatus(res, 204);
       }

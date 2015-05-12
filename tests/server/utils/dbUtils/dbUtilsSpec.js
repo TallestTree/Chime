@@ -170,8 +170,9 @@ xdescribe('dbUtils', function() {
     it('updates users', function(testDone) {
       dbUtils.addUser(john, function(error) {
         expect(error).to.equal(null);
-        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
+        dbUtils.updateUser({id: 1, email: 'janedoe@myurl.com', first_name: 'Jane'}, function(error, user) {
           expect(error).to.equal(null);
+          expect(user.email).to.equal('janedoe@myurl.com');
           expect(user.first_name).to.equal('Jane');
           expect(user.last_name).to.equal('Doe');
           testDone();
@@ -210,7 +211,7 @@ xdescribe('dbUtils', function() {
       dbUtils.addUser(john, function(error, user) {
         expect(error).to.equal(null);
         expect(user.updated_at.getTime()).to.equal(user.created_at.getTime());
-        dbUtils.updateUser({email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
+        dbUtils.updateUser({id: 1, email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
           expect(error).to.equal(null);
           expect(user.first_name).to.equal('Jane');
           expect(user.updated_at.getTime()).to.not.equal(user.created_at.getTime());

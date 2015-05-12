@@ -8,13 +8,13 @@ var allFields = {
   user: {
     required: ['first_name', 'last_name', 'email'],
     optional: ['organization_id', 'middle_name', 'password_hash', 'phone', 'photo', 'department', 'title'],
-    auto: ['id', 'created_at', 'updated_at'],
+    auto: ['id'],
     unique: ['id', 'phone', 'email']
   },
   organization: {
     required: ['admin_id', 'name'],
     optional: ['logo', 'welcome_message'],
-    auto: ['id', 'created_at', 'updated_at'],
+    auto: ['id'],
     unique: ['id', 'admin_id', 'name']
   }
 };
@@ -141,13 +141,12 @@ var addEntry = function(type, entry, cb) {
 };
 
 // Helper function for updateUser and updateOrganization
-// Uses the unique fields attached to entry to update the rest
+// Uses id field attached to entry to update the rest
 var updateEntry = function(type, entry, cb) {
   // Validate against possible fields
   var fields = getEntryFields(entry, allFields[type].required.concat(allFields[type].optional));
-  var uniqueFields = getEntryFields(entry, allFields[type].unique);
-  if (!uniqueFields.length) {
-    return cb('unique fields missing');
+  if (!entry.id) {
+    return cb('id field missing');
   }
 
   var updateString = function(entryFieldStrings, parameters) {
@@ -162,7 +161,7 @@ var updateEntry = function(type, entry, cb) {
   };
   connect({
     entry: entry,
-    entryFields: [fields, uniqueFields],
+    entryFields: [fields, ['id']],
     queryString: updateString,
     callback: cb,
     success: success
