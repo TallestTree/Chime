@@ -62,7 +62,7 @@ var login = function(req, res, next) {
 module.exports = {
   getDashboardInfo: function(req, res, next) {
     if (useDb) {
-      var user = req.session.passport.user;
+      var user = req.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if(error) {
           console.error(error);
