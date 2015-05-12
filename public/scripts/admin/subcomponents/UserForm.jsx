@@ -36,7 +36,7 @@ var UserForm = React.createClass({
     }
 
     utils.makeRequest({
-      url: this.props.url,
+      url: '/api/users' + this.props.url,
       method: 'POST',
       data: member,
       success: function(data) {

@@ -5,7 +5,7 @@ var Member = require('../../shared/member.jsx');
 var Directory = React.createClass({
   mixins: [Navigation],
   memberClick: function(self) {
-    this.transitionTo('edit', {user: self.props.data.id});
+    this.transitionTo('editUser', {user: self.props.data.id});
   },
   render: function() {
     var members;
@@ -16,7 +16,7 @@ var Directory = React.createClass({
         );
       }.bind(this));
     } else {
-      members = (<div>Loading directory</div>);
+      members = ( <div>Loading directory</div> );
     }
     return (
       <div>

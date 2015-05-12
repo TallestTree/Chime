@@ -19,7 +19,7 @@ var EditForm = React.createClass({
       this.transitionTo('/dashboard');
     }
 
-    return ( <UserForm title="Edit User" url="/edit" member={member}/> );
+    return ( <UserForm title="Edit User" url="/update" member={member}/> );
   }
 });
 

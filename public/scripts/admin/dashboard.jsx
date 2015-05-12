@@ -5,6 +5,7 @@ var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 
 var Dashboard = React.createClass({
+  mixins: [Router.Navigation],
   componentDidMount: function() {
     var query = {id: 1};
 
@@ -20,6 +21,7 @@ var Dashboard = React.createClass({
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
+        // On 401 error: Unauthorized, redirect to login page
         console.error('Error retrieving list:', status, error);
       }
     });
@@ -35,7 +37,8 @@ var Dashboard = React.createClass({
         <h2>{this.state.orgName}</h2>
         <h3>Dashboard</h3>
         <Link to="dashboard">Dashboard</Link>
-        <Link to="add">Add User</Link>
+        <Link to="org">Edit Org</Link>
+        <Link to="addUser">Add User</Link>
         <a href="/client">Launch Client</a>
         <RouteHandler members={this.state.members} />
       </div>
