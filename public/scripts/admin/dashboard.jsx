@@ -12,7 +12,7 @@ var Dashboard = React.createClass({
     var query = {id: 1};
 
     $.ajax({
-      url: '/api/dashboard',
+      url: '/api/orgs/dashboard',
       method: 'GET',
       data: query,
       success: function(data) {

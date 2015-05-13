@@ -45,6 +45,11 @@ xdescribe('dbUtils', function() {
     });
   });
 
+  after(function() {
+    // Free up any open connections
+    pg.end();
+  });
+
   describe('adds and retrieves a user', function() {
     it('adds a user', function(testDone) {
       dbUtils.addUser(john, function(error, user) {
@@ -259,18 +264,15 @@ xdescribe('dbUtils', function() {
         });
       });
     });
-    it('throws an error if user is not in an organization', function(testDone) {
+    it('returns an empty object if user is not in an organization', function(testDone) {
       dbUtils.addUser(jane, function(error) {
         expect(error).to.equal(null);
         dbUtils.getUsersShareOrganization(jane, function(error, orgInfo) {
-          expect(error).to.not.equal(null);
+          expect(error).to.equal(null);
+          expect(orgInfo.name).to.equal(undefined);
           testDone();
         });
       });
     });
-  });
-  after(function() {
-    // Free up any open connections
-    pg.end();
   });
 });

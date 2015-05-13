@@ -34,9 +34,7 @@ app.get('/', function(req, res) {
   res.sendFile('index.html', {root: path.join(__dirname, '../public')});
 });
 
-var apiRouter = express.Router();
-app.use('/api', apiRouter);
-require('./api/apiRoutes.js')(apiRouter);
+require('./api/apiRoutes')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

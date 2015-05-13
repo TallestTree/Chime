@@ -42,17 +42,17 @@ var AddForm = React.createClass({
       }
     }
 
-    var urlString = '/api/';
+    var urlString = '/api/users/';
 
     if (this.state.display === 'Add User') {
       urlString += 'add';
     } else {
-      urlString += 'edit'; // TODO: Update url string with correct path to update a user
+      urlString += 'update';
     }
 
     utils.makeRequest({
       url: urlString,
-      method: 'POST', 
+      method: 'POST',
       data: member,
       success: function(data) {
         // TODO: Add confirmation of user add

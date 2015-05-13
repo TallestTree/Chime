@@ -12,7 +12,7 @@ var Directory = React.createClass({
     var query = {id: 1};
     // Make a request to the server to retrieve the member data
     $.ajax({
-      url: '/api/client',
+      url: '/api/orgs/client',
       method: 'GET',
       data: query,
       success: function(resp) {

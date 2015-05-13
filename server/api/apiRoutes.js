@@ -1,29 +1,35 @@
+var express = require('express');
 var apiController = require('./apiController');
 var loggedInAdmin = require('../auth/authUtils').loggedInAdmin;
 var loggedInClient = require('../auth/authUtils').loggedInClient;
 
 module.exports = function(app) {
-  app.route('/dashboard')
-    .get(loggedInAdmin, apiController.getDashboardInfo);
+  var apiRouter = express.Router();
+  var usersRouter = express.Router();
+  var orgsRouter = express.Router();
 
-  app.route('/add')
-    .post(loggedInAdmin, apiController.postAddMember);
+  app.use('/api', apiRouter);
+  apiRouter.use('/users', usersRouter);
+  apiRouter.use('/orgs', orgsRouter);
 
-  app.route('/update')
-    .post(loggedInAdmin, apiController.postUpdateMember);
-
-  app.route('/client-login')
+  apiRouter.route('/signup')
+     .post(apiController.postSignup);
+  apiRouter.route('/login')
+     .post(apiController.postLogin);
+  apiRouter.route('/client-login')
      .post(loggedInAdmin, apiController.postClientLogin);
+  apiRouter.route('/logout')
+     .post(apiController.postLogout);
 
-  app.route('/client')
-    .get(apiController.getClientInfo); // TODO: add loggedInClient middleware
-
-  app.route('/ping')
+  usersRouter.route('/add')
+    .post(loggedInAdmin, apiController.postAddMember);
+  usersRouter.route('/update')
+    .post(loggedInAdmin, apiController.postUpdateMember);
+  usersRouter.route('/ping')
     .post(apiController.postPing); // TODO: add loggedInClient middleware
 
-  app.route('/signup')
-     .post(apiController.postSignup);
-
-  app.route('/login')
-     .post(apiController.postLogin);
+  orgsRouter.route('/dashboard')
+    .get(loggedInAdmin, apiController.getDashboardInfo);
+  orgsRouter.route('/client')
+    .get(apiController.getClientInfo); // TODO: add loggedInClient middleware
 };

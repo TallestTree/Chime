@@ -1,5 +1,5 @@
 var pg = require('pg');
-var config = process.env.DATABASE_URL || require('../../config/config').proddb.config;
+var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('../../config/config').testdb.config) : (process.env.DATABASE_URL || require('../../config/config').proddb.config);
 var md5 = require('md5');
 
 // Required, optional, and auto fields are mutually exclusive
@@ -271,7 +271,7 @@ exports.getUsersByOrganization = function(organization, cb) {
 exports.getUsersShareOrganization = function(user, cb) {
   var getUsersByOrganization = function(cb, user) {
     if (!user.organization_id) {
-      cb('user is not in an organization');
+      cb(null, {});
     } else {
       exports.getUsersByOrganization({id: user.organization_id}, augmentCb(cb, 'getting users that share organization'));
     }
