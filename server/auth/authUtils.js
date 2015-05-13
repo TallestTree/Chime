@@ -19,16 +19,20 @@ module.exports = {
     });
   },
 
-  loggedIn: function(req, res, next) {
-    if (req.isAuthenticated()) {
+  loggedInAdmin: function(req, res, next) {
+    if (req.isAuthenticated() && req.session.passport.user.admin_only) {
       next();
     } else {
-      res.redirect('/login');
+      res.status(401).end('Not logged in as admin');
     }
   },
 
-  isLoggedIn: function(req, res, next) {
-    res.set('loggedIn', req.isAuthenticated());
-    next();
+  loggedInClient: function(req, res, next) {
+    if (req.isAuthenticated() && !req.session.passport.user.admin_only) {
+      next();
+    } else {
+      res.status(401).end('Not logged in as client');
+    }
   }
+
 };

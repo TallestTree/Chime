@@ -4,7 +4,7 @@ var dbUtils = require('../utils/dbUtils/dbUtils');
 var authUtils = require('../auth/authUtils');
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, {id: user.id});
 });
 
 passport.deserializeUser(function(user, done) {

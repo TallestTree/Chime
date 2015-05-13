@@ -1,7 +1,5 @@
 var passport = require('../auth/auth');
 var authUtils = require('../auth/authUtils');
-// var loggedIn = authUtils.loggedIn;
-// var isLoggedIn = authUtils.isLoggedIn;
 var testData = require('../data/testData');
 var dbUtils = require('../utils/dbUtils/dbUtils');
 var emailUtils = require('../utils/pingUtils/emailUtils');
@@ -50,10 +48,11 @@ var login = function(req, res, next) {
     if (!user) {
       return serveStatus(res, 401);
     }
-    req.logIn(user, function(error) {
+    req.login(user, function(error) {
       if (error) {
         return next(error);
       }
+      req.session.passport.user.admin_only = true;
       // TODO: add proper response handling
       return serveStatus(res, 201);
     });
@@ -64,16 +63,16 @@ var login = function(req, res, next) {
 module.exports = {
   getDashboardInfo: function(req, res, next) {
     if (useDb) {
-      var user = {id: req.query.id};
+      var user = req.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if (error) {
+        if(error) {
           console.error(error);
           serveStatus(res, 500);
         }
         res.end(JSON.stringify(results));
       });
     } else {
-      // Return fake data
+      // Return fake data if not connected to db
       var orgInfo = testData.data;
       res.end(JSON.stringify(orgInfo));
     }
@@ -81,7 +80,7 @@ module.exports = {
 
   getClientInfo: function(req, res, next) {
     if (useDb) {
-      var user = {id: req.query.id};
+      var user = req.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if (error) {
           console.error(error);
@@ -90,7 +89,7 @@ module.exports = {
         res.end(JSON.stringify(results));
       });
     } else {
-      // Return fake data
+      // Return fake data if not connected to db
       var orgInfo = testData.data;
       res.end(JSON.stringify(orgInfo));
     }
@@ -169,7 +168,7 @@ module.exports = {
           console.error(error);
           serveStatus(res, 500);
         }
-        serveStatus(res, 301);
+        serveStatus(res, 204);
       });
     });
   },
@@ -177,7 +176,6 @@ module.exports = {
   postSignup: function(req, res, next) {
     var user = req.body;
     user.organization_id = 1; // TODO: Implement organizations
-    var emailRequest = {email: req.body.email};
     authUtils.hashPassword(user.password, function(error, hash) {
       if (error) {
         console.error(error);
@@ -194,5 +192,16 @@ module.exports = {
 
   postLogin: function(req, res, next) {
     login(req, res, next);
+  },
+
+  postClientLogin: function(req, res, next) {
+    var user = req.session.passport.user;
+    req.login(user, function(error) {
+      if (error) {
+        return next(error);
+      }
+      req.session.passport.user.admin_only = false;
+      return serveStatus(res, 201, 'Switched to client');
+    });
   }
 };
