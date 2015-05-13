@@ -20,6 +20,15 @@ var OrgForm = React.createClass({
       }
     });
   },
+  getInitialState: function() {
+    var initialState = {};
+    if (this.props.org) {
+      initialState.title = 'Edit Organization';
+    } else {
+      intialState.title = 'Create Organization';
+    }
+    return initialState;
+  },
   render: function() {
     return (
       <div className="container">

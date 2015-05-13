@@ -22,6 +22,10 @@ var UserForm = React.createClass({
     e.preventDefault();
 
     var member = utils.pullRefs(this.refs, FORM_REFS);
+    // Validation
+    if (!member) {
+      return false;
+    }
     if (member.phone) {
       member.phone = utils.parsePhone(member.phone);
       if (member.phone === false) {

@@ -3,11 +3,21 @@ var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
+var utils = require('../shared/utils.jsx');
 
 var Dashboard = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function() {
-    $.ajax({
+    this.refresh();
+  },
+  getInitialState: function() {
+    return {
+      org: {},
+      members: []
+    };
+  },
+  refresh: function() {
+    utils.makeRequest({
       url: '/api/dashboard',
       method: 'GET',
       success: function(data) {
@@ -31,18 +41,14 @@ var Dashboard = React.createClass({
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
-        // On 401 error: Unauthorized, redirect to login page
-        if (jqXHR.statusCode === 401) {
-          this.transitionTo('/');
+        switch (jqXHR.statusCode) {
+          case 401: // Unauthorized, user not logged in
+            this.transitionTo('/');
+            break;
+          default: // Display default error
         }
       }
     });
-  },
-  getInitialState: function() {
-    return {
-      org: {},
-      members: []
-    };
   },
   render: function() {
     return (
