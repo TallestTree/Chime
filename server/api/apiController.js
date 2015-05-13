@@ -20,13 +20,15 @@ var serveStatus = function(res, statusCode, message) {
     defaultMessage = 'Ping sent';
   } else if (statusCode === 401) {
     defaultMessage = 'Invalid login';
+  } else if (statusCode === 403) {
+    defaultMessage = 'Forbidden';
   } else if (statusCode === 422) {
     defaultMessage = 'Unique field already taken';
   }
   return res.end(message || defaultMessage || '');
 };
 
-// Handles addUser errors
+// Handles user errors
 var checkUserError = function(res, error) {
   if (error) {
     if (error.match(/unique/i)) {
@@ -34,6 +36,18 @@ var checkUserError = function(res, error) {
         return serveStatus(res, 422, 'Phone number taken');
       } else if (error.match(/email/i)) {
         return serveStatus(res, 422, 'Email taken');
+      }
+    }
+    return serveStatus(res, 500);
+  }
+};
+
+// Handles organization errors
+var checkOrgError = function(res, error) {
+  if (error) {
+    if (error.match(/unique/i)) {
+      if (error.match(/name/i)) {
+        return serveStatus(res, 422, 'Org name taken');
       }
     }
     return serveStatus(res, 500);
@@ -62,38 +76,40 @@ var login = function(req, res, next) {
 
 // These functions have else branches in the case of useDb false
 module.exports = {
-  getDashboardInfo: function(req, res, next) {
-    if (useDb) {
-      var user = req.user;
-      dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if(error) {
-          console.error(error);
-          serveStatus(res, 500);
+  postSignup: function(req, res, next) {
+    var user = req.body;
+    authUtils.hashPassword(user.password, function(error, hash) {
+      if (error) {
+        console.error(error);
+        serveStatus(res, 500);
+      }
+      user.password_hash = hash;
+      dbUtils.addUser(user, function(error, results) {
+        if (!checkUserError(res, error)) {
+          login(req, res, next);
         }
-        res.end(JSON.stringify(results));
       });
-    } else {
-      // Return fake data if not connected to db
-      var orgInfo = testData.data;
-      res.end(JSON.stringify(orgInfo));
-    }
+    });
   },
 
-  getClientInfo: function(req, res, next) {
-    if (useDb) {
-      var user = req.user;
-      dbUtils.getUsersShareOrganization(user, function(error, results) {
-        if (error) {
-          console.error(error);
-          serveStatus(res, 500);
-        }
-        res.end(JSON.stringify(results));
-      });
-    } else {
-      // Return fake data if not connected to db
-      var orgInfo = testData.data;
-      res.end(JSON.stringify(orgInfo));
-    }
+  postLogin: function(req, res, next) {
+    login(req, res, next);
+  },
+
+  postClientLogin: function(req, res, next) {
+    var user = req.session.passport.user;
+    req.login(user, function(error) {
+      if (error) {
+        return next(error);
+      }
+      req.session.passport.user.admin_only = false;
+      return serveStatus(res, 201, 'Switched to client');
+    });
+  },
+
+  postLogout: function(req, res, next) {
+    req.logout();
+    serveStatus(res, 204);
   },
 
   postAddMember: function(req, res, next) {
@@ -103,10 +119,6 @@ module.exports = {
         serveStatus(res, 500);
       } else {
         req.body.organization_id = user.organization_id;
-        // Must delete phone entry to maintain uniqueness
-        if (req.body.phone === '') {
-          delete req.body.phone;
-        }
         dbUtils.addUser(req.body, function(error, user) {
           if (!checkUserError(res, error)) {
             return serveStatus(res, 201);
@@ -117,9 +129,21 @@ module.exports = {
   },
 
   postUpdateMember: function(req, res, next) {
-    dbUtils.updateUser(req.body, function(error, user) {
-      if (!checkUserError(res, error)) {
-        return serveStatus(res, 204);
+    dbUtils.getUser(req.user, function(error, user) {
+      if (error) {
+        console.error(error);
+        serveStatus(res, 500);
+      } else {
+        // Forbid admins from editing users not in their organization
+        if (!user.organization_id && user.organization_id !== req.body.organization_id) {
+          serveStatus(res, 403);
+        } else {
+          dbUtils.updateUser(req.body, function(error, user) {
+            if (!checkUserError(res, error)) {
+              return serveStatus(res, 204);
+            }
+          });
+        }
       }
     });
   },
@@ -174,37 +198,73 @@ module.exports = {
     });
   },
 
-  postSignup: function(req, res, next) {
-    var user = req.body;
-    user.organization_id = 1; // TODO: Implement organizations
-    authUtils.hashPassword(user.password, function(error, hash) {
+  postAddOrg: function(req, res, next) {
+    dbUtils.getUser(req.user, function(error, user) {
       if (error) {
         console.error(error);
         serveStatus(res, 500);
-      }
-      user.password_hash = hash;
-      dbUtils.addUser(user, function(error, results) {
-        if (!checkUserError(res, error)) {
-          login(req, res, next);
+      } else {
+        if (user.organization_id) {
+          serveStatus(res, 422, 'Members may only be in one organization');
+        } else {
+          req.body.admin_id = user.id;
+          dbUtils.addOrganization(req.body, function(error, user) {
+            if (!checkOrgError(res, error)) {
+              return serveStatus(res, 201);
+            }
+          });
         }
-      });
-    });
-  },
-
-  postLogin: function(req, res, next) {
-    login(req, res, next);
-  },
-
-  postClientLogin: function(req, res, next) {
-    var user = req.session.passport.user;
-    req.login(user, function(error) {
-      if (error) {
-        return next(error);
       }
-      req.session.passport.user.admin_only = false;
-      return serveStatus(res, 201, 'Switched to client');
     });
   },
 
-  postLogout: function(req, res, next) {}
+  postUpdateOrg: function(req, res, next) {
+    dbUtils.getOrganization({admin_id: req.user.id}, function(error, org) {
+      if (error) {
+        console.error(error);
+        serveStatus(res, 500);
+      } else {
+        req.body.id = org.id;
+        dbUtils.updateOrganization(req.body, function(error, org) {
+          if (!checkOrgError(res, error)) {
+            serveStatus(res, 204);
+          }
+        });
+      }
+    });
+  },
+
+  getDashboardInfo: function(req, res, next) {
+    if (useDb) {
+      var user = req.user;
+      dbUtils.getUsersShareOrganization(user, function(error, results) {
+        if(error) {
+          console.error(error);
+          serveStatus(res, 500);
+        }
+        res.end(JSON.stringify(results));
+      });
+    } else {
+      // Return fake data if not connected to db
+      var orgInfo = testData.data;
+      res.end(JSON.stringify(orgInfo));
+    }
+  },
+
+  getClientInfo: function(req, res, next) {
+    if (useDb) {
+      var user = req.user;
+      dbUtils.getUsersShareOrganization(user, function(error, results) {
+        if (error) {
+          console.error(error);
+          serveStatus(res, 500);
+        }
+        res.end(JSON.stringify(results));
+      });
+    } else {
+      // Return fake data if not connected to db
+      var orgInfo = testData.data;
+      res.end(JSON.stringify(orgInfo));
+    }
+  }
 };
