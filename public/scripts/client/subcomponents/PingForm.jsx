@@ -8,11 +8,11 @@ var Member = require('./Member.jsx');
 var MemberList = require('./MemberList.jsx');
 
 
-var PingForm = React.createClass({ 
+var PingForm = React.createClass({
   mixins: [Router.Navigation, Router.State],
   componentDidMount: function() {
     // console.log( "(PingForm) componentDidMount - Arrival.");
-    // console.log( "1(PingForm) passed in... this.props = ", this.props.params.id ); 
+    // console.log( "1(PingForm) passed in... this.props = ", this.props.params.id );
 
   },
   getInitialState: function() {
@@ -31,7 +31,7 @@ var PingForm = React.createClass({
       url: '/api/ping',
       method: 'POST',
       data: messageObj,
-      succss: function(data) {
+      success: function(data) {
         console.log('(PingForm) Ping sent.');
         // TODO: Add ping confirmation message
         this.transitionTo('/client'); // TODO:  Call after alert is display for 7 seconds.

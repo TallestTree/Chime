@@ -168,7 +168,7 @@ module.exports = {
           console.error(error);
           serveStatus(res, 500);
         }
-        serveStatus(res, 301);
+        serveStatus(res, 204);
       });
     });
   },
