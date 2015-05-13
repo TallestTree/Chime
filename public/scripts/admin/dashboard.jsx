@@ -7,40 +7,53 @@ var Link = Router.Link;
 var Dashboard = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function() {
-    var query = {id: 1};
-
     $.ajax({
-      url: '/api/orgs/dashboard',
+      url: '/api/dashboard',
       method: 'GET',
-      data: query,
       success: function(data) {
         data = JSON.parse(data);
         var state = {};
-        state.orgName = data.name || null;
-        state.members = data.members || [];
+        if (data.name) {
+          state.org = {
+            name: data.name,
+            logo: data.logo || null,
+            welcome_message: data.welcome_message || null
+          };
+        } else {
+          this.transitionTo('addOrg');
+        }
+        if (data.members) {
+          state.members = data.members.sort(function(a, b) {
+            return a.last_name.toUpperCase().charAt(0) > b.last_name.toUpperCase().charAt(0) ?
+                   1 : -1;
+          });
+        }
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
         // On 401 error: Unauthorized, redirect to login page
-        console.error('Error retrieving list:', status, error);
+        if (jqXHR.statusCode === 401) {
+          this.transitionTo('/');
+        }
       }
     });
   },
   getInitialState: function() {
     return {
+      org: {},
       members: []
     };
   },
   render: function() {
     return (
       <div>
-        <h2>{this.state.orgName}</h2>
+        <h2>{this.state.org.name}</h2>
         <h3>Dashboard</h3>
         <Link to="dashboard">Dashboard</Link>
-        <Link to="org">Edit Org</Link>
+        <Link to="editOrg">Edit Org</Link>
         <Link to="addUser">Add User</Link>
         <a href="/client">Launch Client</a>
-        <RouteHandler members={this.state.members} />
+        <RouteHandler org={this.state.org} members={this.state.members} />
       </div>
     );
   }

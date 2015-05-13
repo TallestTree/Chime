@@ -35,10 +35,11 @@ var routes = (
     <Route name="signup" path="/signup" handler={SignupForm} />
     <Route name="dashboard" handler={Dashboard}>
       <DefaultRoute handler={Directory} />
-      <Route name="addUser" handler={AddForm} />
+      <Route name="addUser" path="add" handler={AddForm} />
       <Route name="editUser" path="edit/:user" handler={EditForm} />
-      <Route name="org" handler={OrgForm} />
+      <Route name="editOrg" path="organization" handler={OrgForm} />
     </Route>
+    <Route name="addOrg" handler={OrgForm} />
   </Route>
 );
 

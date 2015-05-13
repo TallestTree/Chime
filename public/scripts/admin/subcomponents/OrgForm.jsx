@@ -16,7 +16,7 @@ var OrgForm = React.createClass({
 
       },
       error: function(error) {
-        
+
       }
     });
   },
@@ -26,7 +26,7 @@ var OrgForm = React.createClass({
         <Form.Form onSubmit={this.handleSubmit}>
           <h3>Create Organization</h3>
           <Form.Input label="Organization Name" type="text" ref="name" />
-          <Form.Input label="Logo" type="url" ref="logo" />
+          <Form.Input label="Logo Url" type="url" ref="logo" />
           <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
           <button type="submit" className="btn btn-default">Submit</button>
         </Form.Form>

@@ -16,19 +16,19 @@ var SignupForm = React.createClass({
       alert('Missing fields');
       return;
     }
-    
+
     if (props.password !== $(React.findDOMNode(this.refs.repeatPassword)).find('input').val()) {
       // TODO: Display error for matching passwords
       alert('Passwords must match');
       return;
     }
-    
+
     utils.makeRequest({
       url: '/api/signup',
       method: 'POST',
       data: props,
       success: function(data) {
-        this.transitionTo('/dashboard');
+        this.transitionTo('addOrg');
       }.bind(this),
       error: function(error) {
         alert(error);
