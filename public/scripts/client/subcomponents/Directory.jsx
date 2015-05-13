@@ -34,7 +34,7 @@ var Directory = React.createClass({
   render: function() {
     return (
       <div className="container-fluid">
-        <h2>{this.state.orgName}</h2>
+        <h2>Welcome to {this.state.orgName}</h2>
         <h1>Who are you visiting?</h1>
         <MemberList members={this.state.members} />
       </div>
