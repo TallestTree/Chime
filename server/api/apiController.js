@@ -10,6 +10,7 @@ var useDb = true;
 
 // Serves default messages for corresponding error codes
 var serveStatus = function(res, statusCode, message) {
+  var defaultMessage;
   res.status(statusCode);
   if (statusCode === 201) {
     defaultMessage = 'Created';
@@ -22,7 +23,7 @@ var serveStatus = function(res, statusCode, message) {
   } else if (statusCode === 422) {
     defaultMessage = 'Unique field already taken';
   }
-  return res.end(message || defaultMessage);
+  return res.end(message || defaultMessage || '');
 };
 
 // Handles addUser errors
@@ -203,5 +204,7 @@ module.exports = {
       req.session.passport.user.admin_only = false;
       return serveStatus(res, 201, 'Switched to client');
     });
-  }
+  },
+
+  postLogout: function(req, res, next) {}
 };
