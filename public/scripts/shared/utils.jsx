@@ -1,5 +1,17 @@
 var React = require('react');
 
+// Prepopulate a form based on the given data
+var fillRefs = function(data, refs, fields) {
+  if (data) {
+    fields.required.map(function(val) {
+      $(React.findDOMNode(refs[val])).find('input').val(data[val] || '');
+    });
+    fields.optional.map(function(val) {
+      $(React.findDOMNode(refs[val])).find('input').val(data[val] || '');
+    });
+  }
+};
+
 // Return an object containing all of the values from the refs from the form fields
 var pullRefs = function(refs, fields) {
   var props = {};
@@ -51,12 +63,13 @@ var parsePhone = function(phoneString) {
   if (!result || result.length !== 10) {
     return false;
   } else {
-    return parseInt(result, 10);
+    return +result.join('');
   }
 };
 
 module.exports = {
   pullRefs: pullRefs,
+  fillRefs: fillRefs,
   makeRequest: makeRequest,
   parsePhone: parsePhone
 };

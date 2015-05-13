@@ -7,9 +7,6 @@ var utils = require('../shared/utils.jsx');
 
 var Dashboard = React.createClass({
   mixins: [Router.Navigation],
-  componentDidMount: function() {
-    this.refresh();
-  },
   getInitialState: function() {
     return {
       org: {},
@@ -17,8 +14,9 @@ var Dashboard = React.createClass({
     };
   },
   refresh: function() {
+    // Refresh the member list. This function is called whenever the Directory mounts
     utils.makeRequest({
-      url: '/api/dashboard',
+      url: '/api/orgs/dashboard',
       method: 'GET',
       success: function(data) {
         data = JSON.parse(data);
@@ -34,8 +32,15 @@ var Dashboard = React.createClass({
         }
         if (data.members) {
           state.members = data.members.sort(function(a, b) {
-            return a.last_name.toUpperCase().charAt(0) > b.last_name.toUpperCase().charAt(0) ?
-                   1 : -1;
+            if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+              return -1;
+            } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+              return 1;
+            } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+              return 0;
+            } else {
+              return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+            }
           });
         }
         this.setState(state);
@@ -55,11 +60,11 @@ var Dashboard = React.createClass({
       <div>
         <h2>{this.state.org.name}</h2>
         <h3>Dashboard</h3>
-        <Link to="dashboard">Dashboard</Link>
+        <Link to="dashboard">Directory</Link>
         <Link to="editOrg">Edit Org</Link>
         <Link to="addUser">Add User</Link>
         <a href="/client">Launch Client</a>
-        <RouteHandler org={this.state.org} members={this.state.members} />
+        <RouteHandler refreshDashboard={this.refresh} org={this.state.org} members={this.state.members} />
       </div>
     );
   }

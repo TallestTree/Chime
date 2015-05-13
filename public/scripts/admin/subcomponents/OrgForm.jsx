@@ -5,29 +5,42 @@ var utils = require('../../shared/utils.jsx');
 
 var OrgForm = React.createClass({
   mixins: [Router.Navigation],
-  handleSubmit: function(e) {
-    e.preventDefault();
-
-    utils.makeRequest({
-      url: '/api/orgs/add',
-      method: 'POST',
-      data: {},
-      success: function(data) {
-
-      },
-      error: function(error) {
-
-      }
-    });
+  componentDidMount: function() {
+    utils.fillRefs(this.props.org, this.refs, FORM_REFS);
   },
   getInitialState: function() {
     var initialState = {};
     if (this.props.org) {
       initialState.title = 'Edit Organization';
+      initialState.url = '/update';
     } else {
-      intialState.title = 'Create Organization';
+      initialState.title = 'Create Organization';
+      initialState.url = '/add';
     }
     return initialState;
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+
+    var org = utils.pullRefs(this.refs, FORM_REFS);
+    if (!org) {
+      alert('Missing required field');
+      return;
+    }
+
+    console.log(org);
+    utils.makeRequest({
+      url: '/api/orgs' + this.state.url,
+      method: 'POST',
+      data: org,
+      success: function(data) {
+        this.transitionTo('dashboard');
+      }.bind(this),
+      error: function(error) {
+        // TODO: Display error on page
+        alert(error);
+      }.bind(this)
+    });
   },
   render: function() {
     return (

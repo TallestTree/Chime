@@ -9,7 +9,7 @@ var EditForm = React.createClass({
   },
   mixins: [Router.Navigation],
   render: function() {
-    var id = parseInt(this.props.params.user, 10);
+    var id = +this.props.params.user;
     var member = this.props.members.reduce(function(a,b) {
       return a || (b.id === id ? b : null);
     }, null);

@@ -12,7 +12,6 @@ var Directory = React.createClass({
     $.ajax({
       url: '/api/orgs/client',
       method: 'GET',
-      data: query,
       success: function(resp) {
         resp = JSON.parse(resp);
         this.setState({

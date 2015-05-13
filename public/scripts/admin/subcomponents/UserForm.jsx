@@ -12,11 +12,7 @@ var UserForm = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function() {
     // If a member is provided, fill in the input fields with that member's current info
-    if (this.props.member) {
-      FORM_REFS.optional.map(function(val) {
-        $(React.findDOMNode(this.refs[val])).find('input').val(this.props.member[val] || '');
-      }.bind(this));
-    }
+    utils.fillRefs(this.props.member, this.refs, FORM_REFS);
   },
   handleSubmit: function(e) {
     e.preventDefault();
