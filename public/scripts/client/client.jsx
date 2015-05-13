@@ -7,6 +7,7 @@ var Navigation = Router.Navigation;
 
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
+var PingConfirm = require('./subcomponents/PingConfirm.jsx');
 
 // Components for Directory
 var MemberList = require('./subcomponents/MemberList.jsx');
@@ -32,6 +33,7 @@ var routes = (
   <Route handler={App}>
     <Route path="/client" handler={Directory} />
     <Route name="ping" path="/ping/:id" handler={PingForm} />
+    <Route name="pingconfirm" path="/pingconfirm/:success" handler={PingConfirm} />
   </Route>
 );
 
