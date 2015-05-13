@@ -2,45 +2,69 @@
 var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
-var Navigation = Router.Navigation;
 var Link = Router.Link;
-
-var AddForm = require('./subcomponents/AddForm.jsx');
+var utils = require('../shared/utils.jsx');
 
 var Dashboard = React.createClass({
-  componentDidMount: function() {
-    var query = {id: 1};
-
-    $.ajax({
+  mixins: [Router.Navigation],
+  getInitialState: function() {
+    return {
+      org: {},
+      members: []
+    };
+  },
+  refresh: function() {
+    // Refresh the member list. This function is called whenever the Directory mounts
+    utils.makeRequest({
       url: '/api/orgs/dashboard',
       method: 'GET',
-      data: query,
       success: function(data) {
         data = JSON.parse(data);
         var state = {};
-        state.orgName = data.name || null;
-        state.members = data.members || [];
+        if (data.name) {
+          state.org = {
+            name: data.name,
+            logo: data.logo || null,
+            welcome_message: data.welcome_message || null
+          };
+        } else {
+          this.transitionTo('addOrg');
+        }
+        if (data.members) {
+          state.members = data.members.sort(function(a, b) {
+            if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+              return -1;
+            } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+              return 1;
+            } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+              return 0;
+            } else {
+              return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+            }
+          });
+        }
         this.setState(state);
       }.bind(this),
       error: function(jqXHR, status, error) {
-        console.error('Error retrieving list:', status, error);
+        switch (jqXHR.statusCode) {
+          case 401: // Unauthorized, user not logged in
+            this.transitionTo('/');
+            break;
+          default: // Display default error
+        }
       }
     });
-  },
-  getInitialState: function() {
-    return {
-      members: []
-    };
   },
   render: function() {
     return (
       <div>
-        <h2>{this.state.orgName}</h2>
+        <h2>{this.state.org.name}</h2>
         <h3>Dashboard</h3>
-        <Link to="dashboard">Dashboard</Link>
-        <Link to="add">Add User</Link>
+        <Link to="dashboard">Directory</Link>
+        <Link to="editOrg">Edit Org</Link>
+        <Link to="addUser">Add User</Link>
         <a href="/client">Launch Client</a>
-        <RouteHandler members={this.state.members} />
+        <RouteHandler refreshDashboard={this.refresh} org={this.state.org} members={this.state.members} />
       </div>
     );
   }

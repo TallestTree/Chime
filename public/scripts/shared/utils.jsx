@@ -1,19 +1,32 @@
 var React = require('react');
 
+// Prepopulate a form based on the given data
+var fillRefs = function(data, refs, fields) {
+  if (data) {
+    fields.required.map(function(val) {
+      $(React.findDOMNode(refs[val])).find('input').val(data[val] || '');
+    });
+    fields.optional.map(function(val) {
+      $(React.findDOMNode(refs[val])).find('input').val(data[val] || '');
+    });
+  }
+};
+
 // Return an object containing all of the values from the refs from the form fields
 var pullRefs = function(refs, fields) {
   var props = {};
   var missingRequired = false;
-  var node;
+  var $node;
 
   fields.required.forEach(function(val, key) {
-    node = React.findDOMNode(refs[val]);
-    props[val] = node.value.trim() || null;
+    $node = $(React.findDOMNode(refs[val]));
+    props[val] = $node.find('input').val().trim() || null;
     if (props[val] === null) {
+      // Adds basic error highlighting
       missingRequired = true;
-      $(node).closest('.form-group').addClass('has-error');
+      $node.addClass('has-error');
     } else {
-      $(node).closest('.form-group').removeClass('has-error');
+      $node.removeClass('has-error');
     }
   });
 
@@ -22,7 +35,8 @@ var pullRefs = function(refs, fields) {
   }
 
   fields.optional.forEach(function(val, key) {
-    props[val] = React.findDOMNode(refs[val]).value.trim() || null;
+    $node = $(React.findDOMNode(refs[val]));
+    props[val] = $node.find('input').val().trim() || '';
   });
 
   return props;
@@ -49,12 +63,13 @@ var parsePhone = function(phoneString) {
   if (!result || result.length !== 10) {
     return false;
   } else {
-    return parseInt(result, 10);
+    return +result.join('');
   }
 };
 
 module.exports = {
   pullRefs: pullRefs,
+  fillRefs: fillRefs,
   makeRequest: makeRequest,
   parsePhone: parsePhone
 };

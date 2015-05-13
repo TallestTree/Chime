@@ -13,6 +13,8 @@ var SignupForm = require('./subcomponents/SignupForm.jsx');
 var Dashboard = require('./dashboard.jsx');
 var Directory = require('./subcomponents/Directory.jsx');
 var AddForm = require('./subcomponents/AddForm.jsx');
+var EditForm = require('./subcomponents/EditForm.jsx');
+var OrgForm = require('./subcomponents/OrgForm.jsx');
 
 // Main content class that holds everything on the page
 var App = React.createClass({
@@ -33,9 +35,11 @@ var routes = (
     <Route name="signup" path="/signup" handler={SignupForm} />
     <Route name="dashboard" handler={Dashboard}>
       <DefaultRoute handler={Directory} />
-      <Route name="add" handler={AddForm} />
-      <Route name="edit" path="edit/:user" handler={AddForm} />
+      <Route name="addUser" path="add" handler={AddForm} />
+      <Route name="editUser" path="edit/:user" handler={EditForm} />
+      <Route name="editOrg" path="organization" handler={OrgForm} />
     </Route>
+    <Route name="addOrg" handler={OrgForm} />
   </Route>
 );
 

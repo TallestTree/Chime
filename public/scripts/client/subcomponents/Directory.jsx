@@ -8,13 +8,10 @@ var MemberList = require('./MemberList.jsx');
 
 var Directory = React.createClass({
   componentDidMount: function() {
-    // TODO: pass the logged in user's id here, default to 1 for now
-    var query = {id: 1};
     // Make a request to the server to retrieve the member data
     $.ajax({
       url: '/api/orgs/client',
       method: 'GET',
-      data: query,
       success: function(resp) {
         resp = JSON.parse(resp);
         this.setState({
