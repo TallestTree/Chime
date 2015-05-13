@@ -1,11 +1,14 @@
 var React = require('react');
 var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
 
 // ToDo:  Incorporate <div dangerouslySetInnerHTML={{__html="<p>foo</p>"}} />
 
 // Components for PingForm
-var Member = require('./Member.jsx');
+var Member = require('./Member.jsx');  // TODO:  Remove these two later. PLB
 var MemberList = require('./MemberList.jsx');
+var PingConfirm = require('./PingConfirm.jsx');
 
 
 var PingForm = React.createClass({
@@ -26,20 +29,17 @@ var PingForm = React.createClass({
     };
     e.preventDefault();
 
-    // TODO:  Reenable later, so we don't send a bunch of actual test pings to Matt.
     $.ajax({
-      url: '/api/ping',
+      url: '/api/users/ping',
       method: 'POST',
       data: messageObj,
       success: function(data) {
-        console.log('(PingForm) Ping sent.');
-        // TODO: Add ping confirmation message
-        this.transitionTo('/client'); // TODO:  Call after alert is display for 7 seconds.
+        console.log('(PingForm) Ping sent, transitionTo...');
+        this.transitionTo('pingconfirm', {success: 1}); // Ping success!
       }.bind(this),
       error: function(jqXHR, status, error) {
-        console.error('(PingForm) Error submitting form to server:', error);
-        // TODO: Add ping Not Sent message
-        this.transitionTo('/client'); // TODO:  Call after alert is display for 7 seconds.
+        console.error('(PingForm) Error submitting form to server: ' + error + " , transitionTo...");
+        this.transitionTo('pingconfirm', {success: 0}); // Ping fail!
       }.bind(this),
       timeout: 5000
     });
