@@ -48,10 +48,11 @@ var login = function(req, res, next) {
     if (!user) {
       return serveStatus(res, 401);
     }
-    req.logIn(user, function(error) {
+    req.login(user, function(error) {
       if (error) {
         return next(error);
       }
+      req.session.passport.user.admin_only = true;
       // TODO: add proper response handling
       return serveStatus(res, 201);
     });
@@ -79,7 +80,7 @@ module.exports = {
 
   getClientInfo: function(req, res, next) {
     if (useDb) {
-      var user = req.session.passport.user;
+      var user = req.user;
       dbUtils.getUsersShareOrganization(user, function(error, results) {
         if (error) {
           console.error(error);
@@ -175,44 +176,32 @@ module.exports = {
   postSignup: function(req, res, next) {
     var user = req.body;
     user.organization_id = 1; // TODO: Implement organizations
-    var emailRequest = {email: req.body.email};
-<<<<<<< HEAD
     authUtils.hashPassword(user.password, function(error, hash) {
       if (error) {
-=======
-    dbUtils.getUser(emailRequest, function(error, user) {
-      if( user ) {
-        res.status(409).end('Email already taken.');
-      } else {
-        authUtils.hashPassword(params.password, function(error, hash) {
-          if( error ) {
-            console.error(error);
-            res.status(500).end();
-          }
-          params.password_hash = hash;
-          dbUtils.addUser(params, function(error, results) {
-            passport.authenticate('local', function(error, user, info) {
-              if( error ) {
-                return next(error);
-              }
-              if( !user ) {
-                return res.status(401).end('Invalid login');
-              }
-              req.logIn(user, function(error) {
-                if( error ) {
-                  return next(error);
-                }
-                // TODO: add proper response handling
-                return res.status(201).end();
-              });
-            })(req, res, next);
-          });
-        });
+        console.error(error);
+        serveStatus(res, 500);
       }
+      user.password_hash = hash;
+      dbUtils.addUser(user, function(error, results) {
+        if (!checkUserError(res, error)) {
+          login(req, res, next);
+        }
+      });
     });
   },
 
   postLogin: function(req, res, next) {
     login(req, res, next);
+  },
+
+  postClientLogin: function(req, res, next) {
+    var user = req.session.passport.user;
+    req.login(user, function(error) {
+      if (error) {
+        return next(error);
+      }
+      req.session.passport.user.admin_only = false;
+      return serveStatus(res, 201, 'Switched to client');
+    });
   }
 };

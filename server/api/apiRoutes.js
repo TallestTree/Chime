@@ -1,22 +1,25 @@
 var apiController = require('./apiController');
-var loggedIn = require('../auth/authUtils').loggedIn;
-var isLoggedIn = require('../auth/authUtils').isLoggedIn;
+var loggedInAdmin = require('../auth/authUtils').loggedInAdmin;
+var loggedInClient = require('../auth/authUtils').loggedInClient;
 
 module.exports = function(app) {
   app.route('/dashboard')
-    .get(loggedIn, apiController.getDashboardInfo);
-
-  app.route('/client')
-    .get(loggedIn, apiController.getClientInfo);
+    .get(loggedInAdmin, apiController.getDashboardInfo);
 
   app.route('/add')
-    .post(loggedIn, apiController.postAddMember);
+    .post(loggedInAdmin, apiController.postAddMember);
 
   app.route('/update')
-    .post(apiController.postUpdateMember);
+    .post(loggedInAdmin, apiController.postUpdateMember);
+
+  app.route('/client-login')
+     .post(loggedInAdmin, apiController.postClientLogin);
+
+  app.route('/client')
+    .get(apiController.getClientInfo); // TODO: add loggedInClient middleware
 
   app.route('/ping')
-    .post(loggedIn, apiController.postPing);
+    .post(apiController.postPing); // TODO: add loggedInClient middleware
 
   app.route('/signup')
      .post(apiController.postSignup);
