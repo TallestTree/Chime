@@ -32,7 +32,7 @@ body {
     right: 20%;
 }
 
-@media (min-width: 0px) {
+@media (min-width: 0) {
   .col-xs-1-5 {
     width: 20%;
     float: left;
@@ -106,8 +106,8 @@ label {
 
 .dashboard-navbar {
   width: 100%;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   background: rgba(0,0,0,0.7);
   min-height: 70px;
   line-height: 70px;
@@ -115,7 +115,7 @@ label {
   border-left: none;
   border-right: none;
   border-bottom: 1px solid #000;
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 .dashboard-navbar-app-logo {
@@ -251,7 +251,7 @@ label {
 }
 
 .dashboard-input {
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 .dashboard-org-logo {
@@ -272,8 +272,8 @@ label {
 
 .dashboard-directory-avatar {
   margin-bottom: 30px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
   padding: 20px;
   color: #000;
 }
@@ -298,12 +298,12 @@ label {
 .dashboard-avatar-name {
   font-weight: 300;
   margin-top: 3px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   font-size: .8em;
 }
 
 .dashboard-avatar-position {
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 3px;
   font-size: .8em;
 }

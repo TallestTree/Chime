@@ -31,7 +31,7 @@ app.get('/client', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.sendFile('index.html', {root: path.join(__dirname, '../public')});
+  res.sendFile('admin.html', {root: path.join(__dirname, '../public')});
 });
 
 require('./api/apiRoutes')(app);
