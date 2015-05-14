@@ -4,6 +4,7 @@ var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
+var Redirect = Router.Redirect;
 
 // Components for Login page
 var LoginForm = require('./subcomponents/LoginForm.jsx');
@@ -31,7 +32,8 @@ var App = React.createClass({
 // The routes that the index page will use
 var routes = (
   <Route ignoreScrollBehavior handler={App}>
-    <Route path="/" handler={LoginForm} />
+    <Redirect from="/" to="login" />
+    <Route name="login" path="/login" handler={LoginForm} />
     <Route name="signup" path="/signup" handler={SignupForm} />
     <Route name="dashboard" handler={Dashboard}>
       <DefaultRoute handler={Directory} />
