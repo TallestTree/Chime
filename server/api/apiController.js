@@ -74,6 +74,14 @@ var login = function(req, res, next) {
   })(req, res, next);
 };
 
+var sanitizeFields = function(members, fields) {
+  members.forEach(function(member) {
+    fields.forEach(function(field) {
+      delete member[field];
+    });
+  });
+};
+
 // These functions have else branches in the case of useDb false
 module.exports = {
   postSignup: function(req, res, next) {
@@ -242,6 +250,7 @@ module.exports = {
           console.error(error);
           serveStatus(res, 500);
         }
+        sanitizeFields(results.members, ['password_hash']);
         res.end(JSON.stringify(results));
       });
     } else {
@@ -259,6 +268,7 @@ module.exports = {
           console.error(error);
           serveStatus(res, 500);
         }
+        sanitizeFields(results.members, ['password_hash', 'phone', 'email']);
         res.end(JSON.stringify(results));
       });
     } else {
