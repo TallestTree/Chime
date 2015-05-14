@@ -1,9 +1,11 @@
 // This is the client page which shows the members and lets guests ping members
 var React = require('react');
 var Router = require('react-router');
+var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
+var Redirect = Router.Redirect;
 
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
@@ -31,7 +33,7 @@ var App = React.createClass({
 // The routes that the index page will use
 var routes = (
   <Route handler={App}>
-    <Route path="/client" handler={Directory} />
+    <DefaultRoute handler={Directory} />
     <Route name="ping" path="/ping/:id" handler={PingForm} />
     <Route name="pingconfirm" path="/pingconfirm/:success" handler={PingConfirm} />
   </Route>
@@ -40,7 +42,7 @@ var routes = (
 
 var router = Router.create({
   routes: routes,
-  location: Router.HistoryLocation
+  location: Router.HashLocation
 });
 
 // Render the Client view
