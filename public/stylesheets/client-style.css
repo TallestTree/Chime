@@ -1,0 +1,243 @@
+html {
+  overflow-y: scroll;
+}
+
+body {
+  min-width: 600px;
+  width: auto !important;
+  /*font-size: 1.4vw;*/
+  background: rgb(153,153,153); /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  rgba(153,153,153,1) 0%, rgba(56,56,56,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(153,153,153,1)), color-stop(100%,rgba(56,56,56,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(-45deg,  rgba(153,153,153,1) 0%,rgba(56,56,56,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(-45deg,  rgba(153,153,153,1) 0%,rgba(56,56,56,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(-45deg,  rgba(153,153,153,1) 0%,rgba(56,56,56,1) 100%); /* IE10+ */
+  background: linear-gradient(135deg,  rgba(153,153,153,1) 0%,rgba(56,56,56,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#999999', endColorstr='#383838',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+
+  background-repeat: no-repeat;
+  background-attachment: stati;
+}
+
+.container-fluid .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.col-xs-1-5,
+.col-sm-1-5,
+.col-md-1-5,
+.col-lg-1-5 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media (min-width: 0px) {
+  .col-xs-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-sm-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+@media (min-width: 1200px) {
+  .col-lg-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+
+a {
+  color: #66CCFF;
+  /*font-weight: 300;*/
+}
+
+a:hover {
+  color: #52A3CC;
+  text-decoration: none;
+}
+
+label {
+  font-weight: 300;
+}
+
+.member-list {
+  margin: 20px 0;
+}
+
+.btn {
+  border: 1px solid #FFF;
+  background-color: rgba(0,0,0,0);
+  border-radius: 0;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #FFF
+}
+
+.btn-xl {
+  padding: 18px 28px;
+  width: 300px;
+  font-size: 18px;
+  line-height: normal;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.btn-member {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.member-photo {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+
+.member-info {
+  padding: 5px 0 5px 10px;
+  float: left;
+  text-align: left;
+}
+
+.member-name {
+  font-weight: bold;
+}
+
+.client-org-logo-welcome {
+  margin-top: 75px;
+  margin-bottom: 20px;
+  max-width: 75%;
+}
+
+.client-org-logo-directory {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 75%;
+}
+
+.client-welcome {
+  margin-top: 30px;
+  color: #FFF;
+}
+
+.client-input {
+  border-radius: 0px;
+}
+
+.client-huge {
+  font-size: 6em;
+  font-weight: 100;
+}
+
+.client-large {
+  font-size: 3em;
+  font-weight: 100;
+}
+
+.client-medium {
+  font-size: 2em;
+  font-weight: 100;
+}
+
+.client-small {
+  font-size: 1.2em;
+}
+
+.client-app-logo {
+  width: 75%;
+  margin-top: 5px;
+}
+
+.client-directory {
+  margin-top: 50px;
+  color: #FFF;
+}
+
+.client-directory-intro {
+  color: #FFF;
+}
+
+.client-ping {
+  color: #FFF;
+  margin-top: 50px;
+  margin-bottom: 100px;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  border: solid 1px #FFF;
+}
+
+.client-ping-form {
+  padding-top: 50px;
+}
+
+.client-ping-avatar {
+  margin-top: 20px;
+  border: solid 1px #FFF;
+  width: 200px;
+  height: 200px;
+}
+
+.client-button {
+  margin-top: 30px;
+  color: #FFF;
+}
+
+.client-avatar-photo {
+  border: solid 1px #FFF;
+  width: 75%;
+}
+
+.client-avatar-footer {
+  width: 100%;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.client-avatar-name {
+  font-weight: 100;
+  font-size: 1.8em;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.client-avatar-position {
+  font-weight: 100;
+  font-size: 1.4em;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.client-contact {
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.client-contact:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+.test {
+  border: solid 1px #000;
+}
