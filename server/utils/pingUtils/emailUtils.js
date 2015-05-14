@@ -1,17 +1,16 @@
 var nodemailer = require('nodemailer');
-try {
-  var config = require('../../config/config');
-} catch(e) {}
 var _ = require('underscore');
 
 // Create reusable transporter object using SMTP transport
-var transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: process.env.GMAIL_USERNAME || config.gmail.username,
-    pass: process.env.GMAIL_PASSWORD || config.gmail.password
-  }
-});
+if (!process.env.TEST) {
+  var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.GMAIL_USERNAME || require('../../config/config').gmail.username,
+      pass: process.env.GMAIL_PASSWORD || require('../../config/config').gmail.password
+    }
+  });
+}
 
 module.exports = function(mailOptions, cb) {
   mailOptions = mailOptions || {};

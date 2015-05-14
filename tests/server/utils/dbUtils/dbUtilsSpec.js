@@ -1,48 +1,22 @@
 var chai = require('chai');
-var assert = chai.assert;
-var should = chai.should();
 var expect = chai.expect;
 var rewire = require('rewire');
 
-xdescribe('dbUtils', function() {
-  this.timeout(3000);
+describe('dbUtils', function() {
+  this.timeout(30000);
   var pg = require('pg');
   var dbUtils = rewire('../../../../server/utils/dbUtils/dbUtils');
   var config = process.env.DATABASE_TEST_URL || require('../../../../server/config/config').testdb.config;
 
-  // // For testing on localhost instead (if postgres is installed)
-  // config = {
-  //   user: 'myuser',
-  //   database: 'mydb',
-  //   password: 'test',
-  //   port: 5432,
-  //   host: 'localhost'
-  // };
-
   var john = {first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567};
-  var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567};
+  var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}; // Phone numbers collide for an error
   var tallestTree = {name: 'Tallest Tree', admin_id: 1};
 
   dbUtils.__set__('config', config);
 
   beforeEach(function(testDone) {
-    this.timeout(10000);
     // Clears the database via dbSchema.sql
-    var fs = require('fs');
-    var schema = fs.readFileSync(__dirname+'/../../../../server/utils/dbUtils/dbSchema.sql').toString();
-    pg.connect(config, function(error, client, pgDone) {
-      if (error) {
-        return console.error('Error: failed database request - ' + error);
-      }
-      client.query(schema, function(error, result) {
-        if (error) {
-          pgDone(client);
-          return console.error('Error: failed client request - ' + error);
-        }
-        pgDone();
-        testDone();
-      });
-    });
+    dbUtils._clearDb(config, testDone);
   });
 
   after(function() {
