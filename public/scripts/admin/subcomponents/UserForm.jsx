@@ -20,7 +20,7 @@ var UserForm = React.createClass({
     var member = utils.pullRefs(this.refs, FORM_REFS);
     // Validation
     if (!member) {
-      return false;
+      return;
     }
     if (member.phone) {
       member.phone = utils.parsePhone(member.phone);
@@ -45,7 +45,7 @@ var UserForm = React.createClass({
       }.bind(this),
       error: function(error) {
         // TODO: Display error on page
-        alert(error);
+        // alert(error);
       }.bind(this)
     });
   },

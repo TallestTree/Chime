@@ -12,6 +12,11 @@ var LoginForm = React.createClass({
 
     var props = utils.pullRefs(this.refs, FORM_REFS);
 
+    // Causes required fields to be highlighted
+    if (props === false) {
+      return;
+    }
+
     // TODO: Display logging in status message
     utils.makeRequest({
       url: '/api/login',
@@ -19,6 +24,7 @@ var LoginForm = React.createClass({
       data: props,
       success: function(data) {
         this.transitionTo('/dashboard');
+        location.reload(false);
       }.bind(this),
       error: function(error) {
         alert(error);

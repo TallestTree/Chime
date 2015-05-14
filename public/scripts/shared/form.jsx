@@ -23,6 +23,7 @@ var Input = React.createClass({
     return (
       <div className="form-group">
         <label>{this.props.label}</label>
+        <label className="warning-label hidden">Required</label>
         <input type={this.props.type} className="form-control" />
       </div>
     );

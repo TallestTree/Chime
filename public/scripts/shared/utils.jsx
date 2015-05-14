@@ -25,8 +25,10 @@ var pullRefs = function(refs, fields) {
       // Adds basic error highlighting
       missingRequired = true;
       $node.addClass('has-error');
+      $node.find('.warning-label').removeClass('hidden');
     } else {
       $node.removeClass('has-error');
+      $node.find('.warning-label').addClass('hidden');
     }
   });
 

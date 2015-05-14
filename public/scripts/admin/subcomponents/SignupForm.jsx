@@ -11,9 +11,8 @@ var SignupForm = React.createClass({
 
     var props = utils.pullRefs(this.refs, FORM_REFS);
 
+    // Causes required fields to be highlighted
     if (props === false) {
-      //TODO: Display error for missing fields
-      alert('Missing fields');
       return;
     }
 
@@ -29,6 +28,7 @@ var SignupForm = React.createClass({
       data: props,
       success: function(data) {
         this.transitionTo('addOrg');
+        location.reload(false);
       }.bind(this),
       error: function(error) {
         alert(error);

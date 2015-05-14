@@ -55,7 +55,7 @@ label {
 }
 
 .btn-xl {
-  padding: 18px 28px;
+  margin: 18px 28px;
   width: 300px;
   font-size: 18px;
   line-height: normal;
@@ -184,4 +184,10 @@ label {
 
 .test {
   border: solid 1px #000;
+}
+
+.warning-label {
+  color: #a94442;
+  display: block;
+  font-size: 0.7em;
 }
