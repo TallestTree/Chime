@@ -11,23 +11,24 @@ var PingConfirm = React.createClass({
     var outerScope = this;
     window.setTimeout((function() {
       outerScope.transitionTo('/client');
-    }), 8000);
+    }), 4000);
 
   },
   render: function() {
 
     if(this.props.params.success==='1') {
       return(
-        <div class="alert alert-danger" role="alert">
-          <span class="glyphicon" aria-hidden="true"></span>
+        <div className="alert alert-success" role="alert">
+          <span className="glyphicon" aria-hidden="true"></span>
+          <span className="sr-only">Success! </span>
           Your ping has been sent!
         </div>
       );
     } else {
       return(
-        <div class="alert alert-danger" role="alert">
-          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          <span class="sr-only">Error:</span>
+        <div className="alert alert-danger" role="alert">
+          <span className="glyphicon" aria-hidden="true"></span>
+          <span className="sr-only">Error: </span>
           Please try your ping again, or try pinging another person.
         </div>
       );
@@ -36,3 +37,4 @@ var PingConfirm = React.createClass({
 });
 
 module.exports = PingConfirm;
+
