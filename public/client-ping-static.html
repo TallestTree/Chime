@@ -4,47 +4,43 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tallest Tree</title>
-    <link rel="stylesheet" href="build/bundle.min.css" />
-    <link rel="icon" type="image/png" href="images/favicon_01.png">
+    <title>Chime</title>
+    <!-- <link rel="stylesheet" href="build/bundle.min.css" /> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/client-style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
   </head>
   <body>
     <div class="main-content container-fluid">
 
       <div class="row client-app-logo">
-        <img class="col-sm-2" src="images/logo_01.png">
+        <img class="col-sm-2" src="images/logo_03.png">
       </div>
 
-      <div class="row text-center">
-        <div class="col-sm-4 col-sm-push-4">
-          <img class="client-org-logo-directory" src="http://members.austinchamber.com/external/wcpages/wcmedia/images/MakerSquare-logo-wordmark3.jpg">
-        </div>
-      </div>
+      <div class="row">
 
-      <div class="row text-center">
+        <div class="col-xs-8 col-xs-push-2 client-ping">
 
-        <div class="col-sm-10 col-sm-push-1 client-ping">
-
-          <p class="client-large client-blue">Contact Name</p>
-          <p class="client-medium">Position</p>
+          <p class="client-large text-center">Paul Brady</p>
+          <p class="client-medium text-center">Software Engineer</p>
 
           <div class="row">
-            <div class="col-sm-4 col-sm-push-4">
-              <img class="client-ping-avatar" src="https://goo.gl/gf0wGc">
+            <div class="col-xs-4 col-xs-push-4 text-center">
+              <img class="client-ping-avatar" src="images/paul-01.jpg">
             </div>
           </div>
 
-          <form class="client-ping-form col-sm-8 col-sm-push-2">
+          <form class="client-ping-form col-xs-8 col-xs-push-2">
             <div class="form-group">
-              <label for="your-name" class="col-sm-12 text-left client-medium">Your name:</label>
-              <input type="email" class="form-control client-small" id="your-name">
+              <label for="your-name" class="client-medium">Your name:</label>
+              <input type="email" class="form-control client-small client-input" id="your-name">
             </div>
             <div class="form-group">
-              <label for="your-message" class="col-sm-12 text-left client-medium">Your message:</label>
-              <input type="text" class="form-control client-small" id="your-message" value="Hi. I'm in the lobby waiting to see you.">
+              <label for="your-message" class="text-left client-medium">Your message:</label>
+              <input type="text" class="form-control client-small client-input" id="your-message" value="Hi. I'm in the lobby waiting to see you.">
             </div>
-            <div class="col-sm-3">
-              <button type="submit" class="btn btn-default client-ping-submit client-small">Send</button>
+            <div class="col-xs-4 col-xs-push-4">
+              <button type="submit" class="btn btn-default client-button client-medium">Send</button>
             </div>
           </form>
 
@@ -54,7 +50,7 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="lib/jquery/dist/jquery.js"></script>
     <!--<script src="./build/client.js"></script>-->
   </body>
 </html>

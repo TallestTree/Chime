@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chime</title>
+    <!-- <link rel="stylesheet" href="build/bundle.min.css" /> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/dashboard-style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
+  </head>
+
+  <body>
+
+
+    <div class="main-content container-fluid">
+
+      <section class="row dashboard-photo-background">
+
+        <nav class="navbar navbar-default dashboard-navbar">
+          <div class="container-fluid">
+            <div class="col-xs-1 col-xs-push-1 navbar-header">
+              <img class="dashboard-navbar-app-logo" src="images/logo_03.png">
+            </div>
+            <ul class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <li><button class="btn btn-default dashboard-small dashboard-navbar-button">Log Out</button></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="col-xs-8 col-xs-push-2 dashboard-content">
+
+          <div class="row text-center dashboard-large">EDIT USER</div>
+
+          <div class="row dashboard-directory">
+
+            <form class="col-xs-6 col-xs-push-3">
+
+              <div class="form-group">
+                <label class="text-left dashboard-medium">Name:</label>
+                <input type="text" class="dashboard-input form-control dashboard-small">
+              </div>
+
+              <div class="form-group">
+                <label for="your-name" class="text-left dashboard-medium">Upload Photo:</label>
+                <div class="row text-center">
+                  <img id="uploadPreview" class="dashboard-upload-preview">
+                </div>
+                <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" class="dashboard-small dashboard-input">
+                <script type="text/javascript">
+
+                    function PreviewImage() {
+                        var oFReader = new FileReader();
+                        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+
+                        oFReader.onload = function (oFREvent) {
+                            document.getElementById("uploadPreview").src = oFREvent.target.result;
+                        };
+                    };
+
+                </script>
+              </div>
+
+
+              <div class="form-group">
+                <label class="text-left dashboard-medium">Title:</label>
+                <input type="text" class="dashboard-input form-control dashboard-small">
+              </div>
+
+              <div class="form-group">
+                <label class="text-left dashboard-medium">Department:</label>
+                <input type="text" class="dashboard-input form-control dashboard-small">
+              </div>
+
+              <div class="form-group">
+                <label class="text-left dashboard-medium">Phone number:</label>
+                <input type="text" class="dashboard-input form-control dashboard-small">
+              </div>
+
+              <div class="form-group">
+                <label class="text-left dashboard-medium">Email:</label>
+                <input type="email" class="dashboard-input form-control dashboard-small">
+              </div>
+
+              <div class="col-xs-4 col-xs-push-4">
+                <button type="submit" class="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <!--<script src="./build/client.js"></script>-->
+  </body>
+</html>
