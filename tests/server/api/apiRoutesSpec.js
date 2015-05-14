@@ -133,13 +133,14 @@ describe('apiRoutes', function() {
         uri: url+'api/orgs/dashboard'
       };
       requestWithSession(options, function(error, res, body) {
-        body = JSON.parse(body);
         expect(error).to.equal(null);
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        body = JSON.parse(body);
         expect(body.name).to.equal('Bryan\'s');
         expect(body.logo).to.equal('pitchfork.jpg');
         expect(body.members[1].first_name).to.equal('Bryan\'s');
         expect(body.members[1].last_name).to.equal('Good Twin');
+        expect(body.members[1].password_hash).to.equal(undefined);
         done();
       });
     });
@@ -162,6 +163,21 @@ describe('apiRoutes', function() {
           expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User Error
           done();
         });
+      });
+    });
+    it('fails to retrieve sensitive fields', function(done) {
+      var options = {
+        method: 'GET',
+        uri: url+'api/orgs/client'
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
+        body = JSON.parse(body);
+        expect(body.members[1].last_name).to.equal('Good Twin');
+        expect(body.members[1].password_hash).to.equal(undefined);
+        expect(body.members[1].email).to.equal(undefined);
+        done();
       });
     });
     it('throws an error if user is logged out', function(done) {
