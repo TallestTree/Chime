@@ -134,33 +134,33 @@ module.exports = function(grunt) {
     watch: {
       admin: {
         files: ['public/scripts/admin/**/*.jsx'],
-        tasks: ['jshint', 'browserify:admin', 'exorcise:admin', 'uglify:admin', 'mochaTest:frontEnd']
+        tasks: ['jshint', 'browserify:admin', 'exorcise:admin', 'uglify:admin']
       },
       client: {
         files: ['public/scripts/client/**/*.jsx'],
-        tasks: ['jshint', 'browserify:client', 'exorcise:client', 'uglify:client', 'mochaTest:frontEnd']
+        tasks: ['jshint', 'browserify:client', 'exorcise:client', 'uglify:client']
       },
       shared: {
         files: ['public/scripts/shared/**/*.jsx'],
-        tasks: ['jshint', 'browserify', 'exorcise', 'uglify', 'mochaTest:frontEnd']
+        tasks: ['jshint', 'browserify', 'exorcise', 'uglify']
       },
       css: {
         files: ['public/stylesheets/style.css'],
         tasks: ['csslint', 'cssmin']
       },
       server: {
-        files: ['server/**/*', 'tests/server/**/*'],
-        tasks: ['jshint', 'mochaTest:server']
+        files: ['server/**/*'],
+        tasks: ['jshint']
       },
-      frontEnd: {
-        files: ['tests/frontEnd/**/*'],
-        tasks: ['jshint', 'mochaTest:frontEnd']
+      tests: {
+        files: ['tests/**/*'],
+        tasks: ['jshint']
       }
     }
   });
 
   grunt.registerTask('build', ['jshint', 'csslint', 'clean', 'browserify', 'exorcise', 'uglify', 'cssmin']);
   grunt.registerTask('test', ['build', 'mochaTest']);
-  grunt.registerTask('serve', ['test', 'concurrent']);
+  grunt.registerTask('serve', ['build', 'concurrent']);
   grunt.registerTask('default', ['serve']);
 };

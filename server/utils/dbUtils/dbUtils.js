@@ -1,6 +1,7 @@
 var pg = require('pg');
 var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('../../config/config').testdb.config) : (process.env.DATABASE_URL || require('../../config/config').proddb.config);
 var md5 = require('md5');
+var fs = require('fs');
 
 // Required, optional, and auto fields are mutually exclusive
 // Unique fields are drawn from any of the others
@@ -277,4 +278,26 @@ exports.getUsersShareOrganization = function(user, cb) {
     }
   };
   exports.getUser(user, augmentCb(cb, 'getting users share organization', getUsersByOrganization));
+};
+
+exports._clearDb = function(config, cb) {
+  config = config || process.env.DATABASE_TEST_URL || require('../../config/config').testdb.config;
+  if (config === process.env.DATABASE_URL || (!process.env.DATABASE_URL && config.database && config.database === require('../../config/config').proddb.config.database)) {
+    cb('do not clear the production database');
+  } else {
+    var schema = fs.readFileSync(__dirname+'/dbSchema.sql').toString();
+    pg.connect(config, function(error, client, pgDone) {
+      if (error) {
+        return cb('Error: failed database request - ' + error);
+      }
+      client.query(schema, function(error, result) {
+        if (error) {
+          pgDone(client);
+          return cb('Error: failed client request - ' + error);
+        }
+        pgDone();
+        cb(null);
+      });
+    });
+  }
 };

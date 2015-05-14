@@ -1,14 +1,13 @@
 var voicejs = require('voice.js');
-try {
-  var config = require('../../config/config');
-} catch(e) {}
 var _ = require('underscore');
 
 // Create reusable client object
-var client = new voicejs.Client({
-  email: process.env.GMAIL_EMAIL || config.gmail.email,
-  password: process.env.GMAIL_PASSWORD || config.gmail.password
-});
+if (!process.env.TEST) {
+  var client = new voicejs.Client({
+    email: process.env.GMAIL_EMAIL || require('../../config/config').gmail.email,
+    password: process.env.GMAIL_PASSWORD || require('../../config/config').gmail.password
+  });
+}
 
 module.exports = function(smsOptions, cb) {
   // Use voice.js for Google Voice

@@ -5,33 +5,39 @@ var oldInfo = {
 };
 
 // Change some environmental variables before starting tests
-process.env.PORT = 55987;
+// On dev machines, allow this to run concurrently with the server
+// On production machines, test before running the server
+if (!process.env.PORT) {
+  process.env.PORT = 55987;
+}
 process.env.TEST = true;
 
 var chai = require('chai');
-var assert = chai.assert;
-var should = chai.should();
 var expect = chai.expect;
 
-var http = require('http');
-var app = require('../../../server/app');
-var instance;
-
 describe('apiRoutes', function() {
+  this.timeout(30000);
+
+  var http = require('http');
+  var app = require('../../../server/app');
+  var dbUtils = require('../../../server/utils/dbUtils/dbUtils');
+  var config = process.env.DATABASE_TEST_URL || require('../../../server/config/config').testdb.config;
+
+  var requestWithSession = require('request').defaults({jar: true});
+  var instance;
+  var url = 'http://localhost:'+process.env.PORT+'/';
+
   before(function(done) {
     instance = http.createServer(app).listen(process.env.PORT);
     instance.on('listening', function() {
       console.log('Listening');
-      done();
+      dbUtils._clearDb(config, done);
     });
   });
-  after(function(done) {
+  after(function() {
     instance.close();
-    console.log('Stopped');
     // process.env properties are coerced into strings so delete these to stop string 'undefined'
-    if (oldInfo.PORT) {
-      process.env.PORT = oldInfo.PORT;
-    } else {
+    if (!oldInfo.PORT) {
       delete process.env.PORT;
     }
     if (oldInfo.TEST) {
@@ -39,14 +45,171 @@ describe('apiRoutes', function() {
     } else {
       delete process.env.TEST;
     }
-    done();
+    console.log('Stopped');
   });
-  it('should fetch the dashboard', function(done) {
-    http.get('http://localhost:'+process.env.PORT+'/api/orgs/dashboard?id=1', function(res) {
-      res.on('data', function(body) {
-        console.log(body.toString());
-        // expect(!!body.id).to.equal(true);
+  describe('adds and updates users and organizations', function() {
+    it('creates an account', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/signup',
+        json: {
+          first_name: 'bryan',
+          last_name: 'bryan',
+          email: 'bryan@bry.an',
+          password: 'bryan'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
+      });
+    });
+    it('creates an organization', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/orgs/add',
+        json: {
+          name: 'Bryan\'s',
+          logo: 'halo.jpg',
+          welcome_message: 'Bryan\'s Bryan Bryan Bryans Bryanly'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        done();
+      });
+    });
+    it('adds a user', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/add',
+        json: {
+          first_name: 'Bryan\'s',
+          last_name: 'Evil Twin',
+          email: 'bryan@br.yan',
+          title: 'Or Is This The Good One?'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        done();
+      });
+    });
+    it('updates a user', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/update',
+        json: {
+          id: 2,
+          last_name: 'Good Twin'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        done();
+      });
+    });
+    it('updates an organization', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/orgs/update',
+        json: {
+          logo: 'pitchfork.jpg'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        done();
+      });
+    });
+    it('retrieves updated values', function(done) {
+      var options = {
+        method: 'GET',
+        uri: url+'api/orgs/dashboard'
+      };
+      requestWithSession(options, function(error, res, body) {
+        body = JSON.parse(body);
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        expect(body.name).to.equal('Bryan\'s');
+        expect(body.logo).to.equal('pitchfork.jpg');
+        expect(body.members[1].first_name).to.equal('Bryan\'s');
+        expect(body.members[1].last_name).to.equal('Good Twin');
+        done();
+      });
+    });
+  });
+  describe('throws an error if permissions are insufficient', function() {
+    it('throws an error if user is in client mode', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/client-login'
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        var options = {
+          method: 'GET',
+          uri: url+'api/orgs/dashboard'
+        };
+        requestWithSession(options, function(error, res, body) {
+          expect(error).to.equal(null);
+          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User Error
+          done();
+        });
+      });
+    });
+    it('throws an error if user is logged out', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/logout'
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        var options = {
+          method: 'GET',
+          uri: url+'api/orgs/client'
+        };
+        requestWithSession(options, function(error, res, body) {
+          expect(error).to.equal(null);
+          // expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error // TODO: Re-add when isClientLoggedIn is supported
+          done();
+        });
+      });
+    });
+    it('throws an error if user is logged in to another account', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/signup',
+        json: {
+          first_name: 'notbryan',
+          last_name: 'notbryan',
+          email: 'not@bry.an',
+          password: 'bryan'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        var options = {
+          method: 'POST',
+          uri: url+'api/users/update',
+          json: {
+            id: 1,
+            title: 'Not-At-All Evil'
+          }
+        };
+        requestWithSession(options, function(error, res, body) {
+          expect(error).to.equal(null);
+          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+          done();
+        });
       });
     });
   });
