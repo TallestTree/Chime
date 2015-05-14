@@ -28,6 +28,10 @@ module.exports = function(app) {
   usersRouter.route('/ping')
     .post(apiController.postPing); // TODO: add loggedInClient middleware
 
+  orgsRouter.route('/add')
+    .post(loggedInAdmin, apiController.postAddOrg);
+  orgsRouter.route('/update')
+    .post(loggedInAdmin, apiController.postUpdateOrg);
   orgsRouter.route('/dashboard')
     .get(loggedInAdmin, apiController.getDashboardInfo);
   orgsRouter.route('/client')

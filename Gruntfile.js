@@ -22,7 +22,7 @@ module.exports = function(grunt) {
     // Transpiles jsx into js and allows for use of common js patterns
     browserify: {
       admin: {
-        src: ['public/scripts/admin/*.jsx', 'public/scripts/shared/*.jsx'],
+        src: ['public/scripts/admin/**/*.jsx', 'public/scripts/shared/**/*.jsx'],
         dest: 'public/build/admin.js',
         options: {
           transform: ['reactify'],
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         }
       },
       client: {
-        src: ['public/scripts/client/*.jsx', 'public/scripts/shared/*.jsx'],
+        src: ['public/scripts/client/**/*.jsx', 'public/scripts/shared/**/*.jsx'],
         dest: 'public/build/client.js',
         options: {
           transform: ['reactify'],
