@@ -31,6 +31,21 @@ var App = React.createClass({
       data: query,
       success: function(resp) {
         resp = JSON.parse(resp);
+
+        // if (resp.members) {
+        //   state.members = data.members.sort(function(a, b) {
+        //     if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+        //       return -1;
+        //     } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+        //       return 1;
+        //     } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+        //       return 0;
+        //     } else {
+        //       return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+        //     }
+        //   });
+
+
         this.setState({
           orgName: resp.name,
           members: resp.members
