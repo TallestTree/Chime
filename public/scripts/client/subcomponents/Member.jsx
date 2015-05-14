@@ -7,7 +7,6 @@ var RouteHandler = Router.RouteHandler;
 var Member = React.createClass({
   mixins: [Router.Navigation],
   handleClick: function(e) {
-    console.log("(client.jsx): Hello, ", this.props.data);
     this.setState( {
       id: this.props.data.id,
       first_name: this.props.data.first_name,
