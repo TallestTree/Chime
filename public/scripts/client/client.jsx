@@ -5,7 +5,6 @@ var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var Navigation = Router.Navigation;
-var Redirect = Router.Redirect;
 
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
