@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chime</title>
+    <!-- <link rel="stylesheet" href="build/bundle.min.css" /> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/dashboard-style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="main-content container-fluid">
+
+      <section class="row dashboard-photo-background">
+
+        <nav class="navbar navbar-default dashboard-navbar">
+          <div class="container-fluid">
+            <div class="col-xs-1 col-xs-push-1 navbar-header">
+              <a href=""><img class="dashboard-navbar-app-logo" src="images/logo_03.png"></a>
+            </div>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Log In</button>
+            </div>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Sign Up</button>
+            </div>
+          </div>
+        </nav>
+
+        <div class="col-xs-8 col-xs-push-2 dashboard-content-splash">
+
+          <div class="row">
+            <div class="col-xs-4 col-xs-push-4">
+              <img class="dashboard-app-logo" src="images/logo_03.png">
+            </div>
+          </div>
+
+          <div class="row text-center dashboard-medium-intro col-xs-10 col-xs-push-1">
+            <p>Chime is a tablet-based reception solution for the workplace.</p>
+            <p>New to Chime? Learn more below.</p>
+          </div>
+
+          <div class="col-xs-12 text-center page-scroll">
+            <a href="#about"><span class="glyphicon glyphicon-chevron-down dashboard-glyphicons"></span></a>
+          </div>
+
+        </div>
+
+      </section>
+
+      <section id="about">
+
+        <div class="row dashboard-features-white">
+
+          <div class="text-center dashboard-extralarge-features">
+            <p>About Chime</p>
+          </div>
+
+          <div class="row col-xs-12">
+
+            <div class="col-xs-5 col-xs-push-1">
+              <img src="images/ipad-02-screenshot-welcome-02.png" class="col-xs-12">
+            </div>
+
+            <div class="text-center vertical-center col-xs-5 col-xs-push-6">
+              <p class="dashboard-large-features">Welcome All</P>
+              <p class="dashboard-medium-features">The Chime Client provides your office with a way to ensure that every visitor is greeted and assisted.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row dashboard-features-grey">
+
+          <div class="row col-xs-12">
+
+            <div class="text-center vertical-center col-xs-5 col-xs-push-1">
+              <p class="dashboard-large-features">Best Face Forward</P>
+              <p class="dashboard-medium-features">Visitors can see all of your staff and their titles, and select the right contact for their needs.</p>
+            </div>
+
+            <div class="col-xs-5 col-xs-push-6">
+              <img src="images/ipad-02-screenshot-directory-03.png" class="col-xs-12">
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row dashboard-features-white">
+
+          <div class="row col-xs-12">
+
+            <div class="col-xs-5 col-xs-push-1">
+              <img src="images/ipad-02-screenshot-ping-02.png" class="col-xs-12">
+            </div>
+
+            <div class="text-center vertical-center col-xs-5 col-xs-push-6">
+              <p class="dashboard-large-features">Touch Base</P>
+              <p class="dashboard-medium-features">Your guests can then ping their contact, add their own custom message, and get a confirmation.</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row dashboard-features-grey">
+
+          <div class="row col-xs-12">
+
+            <div class="text-center vertical-center col-xs-5 col-xs-push-1">
+              <p class="dashboard-large-features">Take Control</P>
+              <p class="dashboard-medium-features">The Chime Dashboard allows you to manage your organization, its members, and their contact info.</p>
+            </div>
+
+            <div class="col-xs-5 col-xs-push-6">
+              <img src="images/imac-01-screenshot-dashboard.png" class="col-xs-12">
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="row dashboard-features-white" id="dashboard-features-bottom">
+
+        <div class="row col-xs-12 text-center">
+
+          <p class="dashboard-extralarge-features">Ready to get started?</P>
+
+          <div class="row">
+            <form class="col-xs-10 col-xs-push-1">
+              <div class="col-xs-2 col-xs-push-5">
+                <button type="submit" class="btn btn-default dashboard-button-medium-black dashboard-large">Sign Up</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>$(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top
+            }, 1000);
+            return false;
+          }
+        }
+      });
+    });
+    </script>
+
+    <!--<script src="./build/client.js"></script>-->
+  </body>
+</html>
