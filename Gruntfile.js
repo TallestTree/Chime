@@ -109,7 +109,10 @@ module.exports = function(grunt) {
 
     mochaTest: {
       frontEnd: {
-        src: ['tests/client/**/*.js']
+        src: ['tests/client/**/*.js'],
+        options: {
+          require: ['tests/client/compiler.js']
+        }
       },
       server: {
         src: ['tests/server/**/*.js']
