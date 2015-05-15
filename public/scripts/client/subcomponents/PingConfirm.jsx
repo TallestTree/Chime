@@ -11,7 +11,7 @@ var PingConfirm = React.createClass({
     var outerScope = this;
     window.setTimeout((function() {
       outerScope.transitionTo('/');
-    }), 8000);
+    }), 4000);
 
   },
   render: function() {
@@ -20,14 +20,13 @@ var PingConfirm = React.createClass({
       return(
         <div className="alert alert-success" role="alert">
           <span className="glyphicon" aria-hidden="true"></span>
-          Your ping has been sent!
+          Your ping message has been sent!
         </div>
       );
     } else {
       return(
         <div className="alert alert-danger" role="alert">
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          <span className="sr-only">Error:</span>
+          <span className="sr-only">Error: </span>
           Please try your ping again, or try pinging another person.
         </div>
       );
@@ -36,3 +35,4 @@ var PingConfirm = React.createClass({
 });
 
 module.exports = PingConfirm;
+
