@@ -194,7 +194,7 @@ describe('apiRoutes', function() {
         };
         requestWithSession(options, function(error, res, body) {
           expect(error).to.equal(null);
-          // expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error // TODO: Re-add when isClientLoggedIn is supported
+          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
           done();
         });
       });

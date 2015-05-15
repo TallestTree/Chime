@@ -22,13 +22,10 @@ var App = React.createClass({
     return {members: []};
   },
   fetchCompanyData: function() {
-    // TODO: pass the logged in user's id here, default to 1 for now
-    var query = {id: 1};
     // Make a request to the server to retrieve the member data
     $.ajax({
       url: '/api/orgs/client',
       method: 'GET',
-      data: query,
       success: function(resp) {
         var state = {};
         resp = JSON.parse(resp);
