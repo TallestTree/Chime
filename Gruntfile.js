@@ -1,7 +1,8 @@
 module.exports = function(grunt) {
-  // File-write plugins
+  // Build plugins
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-exorcise');
@@ -44,9 +45,10 @@ module.exports = function(grunt) {
     },
 
     // WARNING: DO NOT PUT IMPORTANT FILES HERE
-    // Empties the directory
+    // Empties these directories
     clean: {
-      clean: ['public/build']
+      build: ['public/build'],
+      fonts: ['public/fonts']
     },
 
     // Allows for watching for both transpiling and restarting node
@@ -56,6 +58,15 @@ module.exports = function(grunt) {
         options: {
           logConcurrentOutput: true
         }
+      }
+    },
+
+    copy: {
+      fonts: {
+        expand: true,
+        cwd: 'node_modules/bootstrap/fonts/',
+        src: '*',
+        dest: 'public/fonts/'
       }
     },
 
@@ -164,7 +175,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['jshint', 'csslint', 'clean', 'browserify', 'exorcise', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['jshint', 'csslint', 'clean', 'copy', 'browserify', 'exorcise', 'uglify', 'cssmin']);
   grunt.registerTask('test', ['build', 'mochaTest']);
   grunt.registerTask('serve', ['build', 'concurrent']);
   grunt.registerTask('default', ['serve']);
