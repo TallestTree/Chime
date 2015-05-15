@@ -3,8 +3,6 @@ var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-// ToDo:  Incorporate <div dangerouslySetInnerHTML={{__html="<p>foo</p>"}} />
-
 // Components for PingForm
 var Member = require('./Member.jsx');  // TODO:  Remove these two later. PLB
 var MemberList = require('./MemberList.jsx');
@@ -14,7 +12,7 @@ var PingConfirm = require('./PingConfirm.jsx');
 var PingForm = React.createClass({
   mixins: [Router.Navigation, Router.State],
   getInitialState: function() {
-    return {visitorName: '', visitorMessage: '', member: ''};
+    return {visitorName: '', visitorMessage: ''};
   },
   handleSubmit: function(e) {
     var messageObj = {
@@ -39,6 +37,9 @@ var PingForm = React.createClass({
     });
 
   },
+  exitView: function() {
+    this.transitionTo('/');
+  },
   render: function() {
     var targetId = +this.props.params.id;
     var member = this.props.members.reduce(function(a,b) {
@@ -46,7 +47,7 @@ var PingForm = React.createClass({
     }, null);
     if (member === null) {
       // MemberIndex not found, so return to Directory.
-      this.transitionTo('/client');
+      this.exitView();
     }
     return(
       <div className="container">
@@ -69,6 +70,7 @@ var PingForm = React.createClass({
             <label className="visitor-message">Message&nbsp;(optional)</label>
             <input type="text" className="form-control" ref="visitorMessage" />
           </div>
+          <button type="button" className="btn btn-default" onClick={this.exitView}>Cancel</button>
           <button type="submit" className="btn btn-default">Send Ping</button>
         </form>
       </div>
