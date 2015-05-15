@@ -2,6 +2,10 @@
 var React = require('react');
 
 var Member = React.createClass({
+  propTypes: {
+    data: React.PropTypes.object.isRequired,
+    memberClick: React.PropTypes.func.isRequired
+  },
   handleClick: function(e) {
     this.props.memberClick(this);
   },
