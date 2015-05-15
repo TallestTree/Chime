@@ -4,7 +4,7 @@ var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
-
+var utils = require('../shared/utils.jsx');
 
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
@@ -23,7 +23,7 @@ var App = React.createClass({
   },
   fetchCompanyData: function() {
     // Make a request to the server to retrieve the member data
-    $.ajax({
+    utils.makeRequest({
       url: '/api/orgs/client',
       method: 'GET',
       success: function(resp) {
@@ -46,10 +46,8 @@ var App = React.createClass({
       }.bind(this),
       error: function(error) {
         console.log(error);
-        window.setTimeout(this.fetchCompanyData, 2000); // On error, wait then retry...
       }.bind(this)
     });
-
   },
   componentDidMount: function() {
     this.fetchCompanyData();
@@ -61,6 +59,26 @@ var App = React.createClass({
         <RouteHandler members={this.state.members}/>
       </div>
     );
+  },
+  // Redirects if user tries to access page without the correct authorization
+  statics: {
+    willTransitionTo: function (transition, params, query, callback) {
+      utils.makeRequest({
+        url: '/api/auth-client',
+        method: 'GET',
+        success: function(data) {
+          callback();
+        }.bind(this),
+        error: function(error) {
+          if (error === 'Logged in as admin') {
+            window.location.href = '/#/dashboard';
+          } else {
+            window.location.href = '/';
+          }
+          callback(error);
+        }.bind(this)
+      });
+    }
   }
 });
 

@@ -121,6 +121,10 @@ module.exports = {
     return serveStatus(res, 204);
   },
 
+  getAuth: function(req, res, next) {
+    return serveStatus(res, 200);
+  },
+
   // Must be admin
   postAddMember: function(req, res, next) {
     dbUtils.getUser(req.user, function(error, user) {
