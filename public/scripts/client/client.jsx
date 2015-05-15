@@ -4,7 +4,7 @@ var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
-var Navigation = Router.Navigation;
+
 
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
@@ -18,11 +18,50 @@ var Directory = require('./subcomponents/Directory.jsx');
 
 // Main content class that holds everything on the page
 var App = React.createClass({
+  getInitialState: function() {
+    return {members: []};
+  },
+  fetchCompanyData: function() {
+    // TODO: pass the logged in user's id here, default to 1 for now
+    var query = {id: 1};
+    // Make a request to the server to retrieve the member data
+    $.ajax({
+      url: '/api/orgs/client',
+      method: 'GET',
+      data: query,
+      success: function(resp) {
+        var state = {};
+        resp = JSON.parse(resp);
+        if (resp.members) {
+          state.members = resp.members.sort(function(a, b) {
+            if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+              return -1;
+            } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+              return 1;
+            } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+              return 0;
+            } else {
+              return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+            }
+          });
+        }
+        this.setState(state);
+      }.bind(this),
+      error: function(error) {
+        console.log(error);
+        window.setTimeout(this.fetchCompanyData, 2000); // On error, wait then retry...
+      }.bind(this)
+    });
+
+  },
+  componentDidMount: function() {
+    this.fetchCompanyData();
+  },
   render: function() {
     return (
       <div>
         <h1>Chime</h1>
-        <RouteHandler />
+        <RouteHandler members={this.state.members}/>
       </div>
     );
   }
