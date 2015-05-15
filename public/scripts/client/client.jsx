@@ -48,32 +48,6 @@ var App = React.createClass({
         console.log(error);
       }.bind(this)
     });
-    // $.ajax({
-    //   url: '/api/orgs/client',
-    //   method: 'GET',
-    //   success: function(resp) {
-    //     var state = {};
-    //     resp = JSON.parse(resp);
-    //     if (resp.members) {
-    //       state.members = resp.members.sort(function(a, b) {
-    //         if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
-    //           return -1;
-    //         } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
-    //           return 1;
-    //         } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
-    //           return 0;
-    //         } else {
-    //           return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
-    //         }
-    //       });
-    //     }
-    //     this.setState(state);
-    //   }.bind(this),
-    //   error: function(error) {
-    //     console.log(error);
-    //   }.bind(this)
-    // });
-
   },
   componentDidMount: function() {
     this.fetchCompanyData();
@@ -96,7 +70,7 @@ var App = React.createClass({
           callback();
         }.bind(this),
         error: function(error) {
-          if (error === 'Not logged in as client') {
+          if (error === 'Logged in as admin') {
             window.location.href = '/#/dashboard';
           } else {
             window.location.href = '/';

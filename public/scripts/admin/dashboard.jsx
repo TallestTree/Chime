@@ -106,7 +106,7 @@ var Dashboard = React.createClass({
           callback();
         }.bind(this),
         error: function(error) {
-          if (error === 'Not logged in as admin') {
+          if (error === 'Logged in as client') {
             window.location.href = '/client';
           } else {
             window.location.href = '/';

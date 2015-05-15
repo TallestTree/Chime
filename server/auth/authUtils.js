@@ -23,7 +23,7 @@ module.exports = {
     if (req.isAuthenticated() && req.session.passport.user.admin_only) {
       next();
     } else if (req.isAuthenticated()) {
-      res.status(401).end('Not logged in as admin');
+      res.status(401).end('Logged in as client');
     }
     else {
       res.status(401).end('Not logged in');
@@ -34,7 +34,7 @@ module.exports = {
     if (req.isAuthenticated() && !req.session.passport.user.admin_only) {
       next();
     } else if (req.isAuthenticated()) {
-      res.status(401).end('Not logged in as client');
+      res.status(401).end('Logged in as admin');
     } else {
       res.status(401).end('Not logged in');
     }
