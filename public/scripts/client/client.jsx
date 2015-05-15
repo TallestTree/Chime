@@ -57,7 +57,6 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Chime</h1>
         <RouteHandler members={this.state.members}/>
       </div>
     );
@@ -82,6 +81,6 @@ var router = Router.create({
 
 // Render the Client view
 router.run(function(Handler) {
-  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
+  React.render(<Handler />, document.getElementsByClassName('chime-main-content')[0]);
 });
 
