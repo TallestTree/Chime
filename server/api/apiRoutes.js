@@ -26,7 +26,7 @@ module.exports = function(app) {
   usersRouter.route('/update')
     .post(loggedInAdmin, apiController.postUpdateMember);
   usersRouter.route('/ping')
-    .post(apiController.postPing); // TODO: add loggedInClient middleware
+    .post(loggedInClient, apiController.postPing);
 
   orgsRouter.route('/add')
     .post(loggedInAdmin, apiController.postAddOrg);
@@ -35,5 +35,5 @@ module.exports = function(app) {
   orgsRouter.route('/dashboard')
     .get(loggedInAdmin, apiController.getDashboardInfo);
   orgsRouter.route('/client')
-    .get(apiController.getClientInfo); // TODO: add loggedInClient middleware
+    .get(loggedInClient, apiController.getClientInfo);
 };

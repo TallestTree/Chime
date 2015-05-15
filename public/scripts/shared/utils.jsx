@@ -21,6 +21,9 @@ var pullRefs = function(refs, fields) {
   fields.required.forEach(function(val, key) {
     $node = $(React.findDOMNode(refs[val]));
     props[val] = $node.find('input').val().trim() || null;
+    if(val==='email' && props[val]) {
+      props[val] = props[val].toLowerCase();
+    }
     if (props[val] === null) {
       // Adds basic error highlighting
       missingRequired = true;
