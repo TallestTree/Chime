@@ -5,7 +5,7 @@ html {
 body {
   min-width: 600px;
   min-height: 100vh;
-  width: auto !important;
+  width: auto;
   background: rgb(153,153,153); /* Old browsers */
   background: -moz-linear-gradient(-45deg,  rgba(153,153,153,1) 0%, rgba(56,56,56,1) 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(153,153,153,1)), color-stop(100%,rgba(56,56,56,1))); /* Chrome,Safari4+ */
@@ -15,9 +15,8 @@ body {
   background: linear-gradient(135deg,  rgba(153,153,153,1) 0%,rgba(56,56,56,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#999999', endColorstr='#383838',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
-
   background-repeat: no-repeat;
-  background-attachment: stati;
+  background-attachment: fixed;
 }
 
 .container-fluid .row {
@@ -81,7 +80,7 @@ label {
 
 .btn {
   border: 1px solid #FFF;
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
   border-radius: 0;
   width: 100%;
 }
@@ -234,6 +233,7 @@ label {
 }
 
 .client-contact:hover {
+  background-color: #808080;
   background-color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
 }

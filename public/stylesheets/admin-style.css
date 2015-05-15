@@ -4,7 +4,7 @@ html {
 
 body {
   min-width: 600px;
-  width: auto !important;
+  width: auto;
   font-size: 1.4vw;
 }
 
@@ -76,7 +76,7 @@ label {
 
 .btn {
   border: 1px solid #FFF;
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
   border-radius: 0;
   width: 100%;
 }
@@ -108,7 +108,8 @@ label {
   width: 100%;
   padding: 0;
   margin: 0;
-  background: rgba(0,0,0,0.7);
+  background-color: #000;
+  background-color: rgba(0,0,0,0.7);
   min-height: 70px;
   line-height: 70px;
   border-top: none;
@@ -142,13 +143,13 @@ label {
 }
 
 .dashboard-button-medium-black {
-  color: #000 !important;
+  color: #000;
   border: solid 1px #000;
 }
 
 .dashboard-button-medium-black:hover {
   background-color: #000;
-  color: #FFF !important;
+  color: #FFF;
   border: solid 1px #FFF;
 }
 
@@ -176,6 +177,7 @@ label {
   margin-bottom: 100px;
   padding-top: 50px;
   padding-bottom: 50px;
+  background-color: #000;
   background-color: rgba(0,0,0,0.7);
 }
 
@@ -184,12 +186,14 @@ label {
   margin-bottom: 150px;
   padding-top: 120px;
   padding-bottom: 50px;
+  background-color: #000;
   background-color: rgba(0,0,0,0.7);
 }
 
 .dashboard-content-short {
   margin-top: 30px;
   margin-bottom: -70px;
+  background-color: #000;
   background-color: rgba(0,0,0,0.7);
 }
 
@@ -253,17 +257,18 @@ label {
 }
 
 .dashboard-glyphicons {
+  color: #FFF;
   color: rgba(255, 255, 255, 0.7);
   font-size: 3em;
   margin-top: 50px;
 }
 
 .dashboard-glyphicons:hover {
-  color: rgba(255, 255, 255, 1);
+  color: #FFF;
 }
 
 .dashboard-input {
-  border-radius: 0px;
+  border-radius: 0;
   color: #000;
   font-weight: 300;
 }
@@ -295,6 +300,7 @@ label {
 .dashboard-directory-avatar:hover {
   cursor: pointer;
   color: #297ACC;
+  background-color: #808080;
   background-color: rgba(255, 255, 255, 0.4);
 }
 
@@ -304,7 +310,6 @@ label {
 }
 
 .dashboard-avatar-footer {
-  background-color: none;
   margin-left: auto;
   margin-right: auto;
 }
@@ -339,10 +344,6 @@ label {
   background-color: #F0F0F0;
   padding-top: 75px;
   padding-bottom: 75px;
-}
-
-#dashboard-features-bottom {
-  padding-bottom: 200px;
 }
 
 .test {
