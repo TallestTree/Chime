@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chime</title>
+    <!-- <link rel="stylesheet" href="build/bundle.min.css" /> -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/dashboard-style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="main-content container-fluid">
+
+      <section class="row dashboard-photo-background">
+
+        <nav class="navbar navbar-default dashboard-navbar">
+          <div class="container-fluid">
+            <div class="col-xs-1 col-xs-push-1 navbar-header">
+              <a href=""><img class="dashboard-navbar-app-logo" src="images/logo_03.png"></a>
+            </div>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Log Out</button>
+            </div>
+          </div>
+        </nav>
+
+        <div class="col-xs-6 col-xs-push-3 dashboard-content">
+
+          <div class="row text-center dashboard-large">ORGANIZATION INFO</div>
+
+          <form class="dashboard-ping-form col-xs-6 col-xs-push-3">
+            <div class="form-group">
+              <label for="your-name" class="text-left dashboard-medium">Organization Name:</label>
+              <input type="email" class="dashboard-input form-control dashboard-small" id="your-name">
+            </div>
+            <div class="form-group">
+              <label for="your-message" class="text-left dashboard-medium">Logo (URL):</label>
+              <input type="password" class="dashboard-input form-control dashboard-small" id="your-message">
+            </div>
+            <div class="form-group">
+              <label for="your-message" class="text-left dashboard-medium">Welcome Message:</label>
+              <input type="password" class="dashboard-input form-control dashboard-small" id="your-message">
+            </div>
+            <div class="col-xs-4 col-xs-push-4">
+              <button type="submit" class="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+            </div>
+          </form>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <!--<script src="./build/client.js"></script>-->
+  </body>
+</html>

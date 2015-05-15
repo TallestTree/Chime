@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="build/admin-bundle.min.css" />
     <link rel="icon" type="image/png" href="images/favicon.ico">
   </head>
-  <body>
 
+  <body>
 
     <div class="main-content container-fluid">
 
@@ -18,11 +18,14 @@
         <nav class="navbar navbar-default dashboard-navbar">
           <div class="container-fluid">
             <div class="col-xs-1 col-xs-push-1 navbar-header">
-              <img class="dashboard-navbar-app-logo" src="images/logo_03.png">
+              <a href=""><img class="dashboard-navbar-app-logo" src="images/logo_03.png"></a>
             </div>
-            <ul class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
-              <li><button class="btn btn-default dashboard-small dashboard-navbar-button">Sign In</button></li>
-            </ul>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Log In</button>
+            </div>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Sign Up</button>
+            </div>
           </div>
         </nav>
 
@@ -127,39 +130,37 @@
 
         <div class="row col-xs-12 text-center">
 
-            <p class="dashboard-extralarge-features">Ready to get started?</P>
+          <p class="dashboard-extralarge-features">Ready to get started?</P>
 
-            <div class="row">
-              <form class="col-xs-10 col-xs-push-1">
-                <div class="col-xs-2 col-xs-push-5">
-                  <button type="submit" class="btn btn-default dashboard-button-medium-black dashboard-large">Sign Up</button>
-                </div>
-              </form>
-            </div>
-
+          <div class="row">
+            <form class="col-xs-10 col-xs-push-1">
+              <div class="col-xs-2 col-xs-push-5">
+                <button type="submit" class="btn btn-default dashboard-button-medium-black dashboard-large">Sign Up</button>
+              </div>
+            </form>
+          </div>
 
         </div>
 
       </div>
 
-
-
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>$(function() {
-  $('a[href*=#]:not([href=#])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html,body').animate({
-          scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
-});</script>
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top
+            }, 1000);
+            return false;
+          }
+        }
+      });
+    });
+    </script>
 
   </body>
 </html>
