@@ -14,7 +14,7 @@ var Directory = React.createClass({
   render: function() {
     return (
       <div className="container-fluid">
-        <h2>Welcome to {this.props.orgName}</h2>
+        <h2>{this.props.orgName}</h2>
         <h1>Who are you visiting?</h1>
         <MemberList members={this.props.members} />
       </div>

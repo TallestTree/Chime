@@ -30,27 +30,22 @@ var App = React.createClass({
       method: 'GET',
       data: query,
       success: function(resp) {
+        var state = {};
         resp = JSON.parse(resp);
-
-        // if (resp.members) {
-        //   state.members = data.members.sort(function(a, b) {
-        //     if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
-        //       return -1;
-        //     } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
-        //       return 1;
-        //     } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
-        //       return 0;
-        //     } else {
-        //       return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
-        //     }
-        //   });
-
-
-        this.setState({
-          orgName: resp.name,
-          members: resp.members
-        });
-        this.state.members = resp.members;
+        if (resp.members) {
+          state.members = resp.members.sort(function(a, b) {
+            if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+              return -1;
+            } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+              return 1;
+            } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+              return 0;
+            } else {
+              return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+            }
+          });
+        }
+        this.setState(state);
       }.bind(this),
       error: function(error) {
         console.log(error);

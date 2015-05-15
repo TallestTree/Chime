@@ -40,15 +40,23 @@ var PingForm = React.createClass({
 
   },
   render: function() {
+    var targetId = +this.props.params.id;
+    var member = this.props.members.reduce(function(a,b) {
+      return (a && a.id ? a : null) || (b.id === targetId ? b : null); // Return last selection || return this selection if found...  continue reducing.
+    }, null);
+    if (member === null) {
+      // MemberIndex not found, so return to Directory.
+      this.transitionTo('/client');
+    }
     return(
       <div className="container">
-        <h2>Send Ping to {this.props.members[this.props.params.id - 1].first_name} {this.props.members[this.props.params.id - 1].last_name}:</h2>
+        <h2>Send a ping to {member.first_name} {member.last_name}:</h2>
 
         <div className="btn btn-default btn-xl btn-member">
-          <img className="member-photo" src={this.props.members[this.props.params.id - 1].photo} />
+          <img className="member-photo" src={member.photo} />
           <div className="member-info">
-            <p className="member-name">{this.props.members[this.props.params.id - 1].first_name} {this.props.members[this.props.params.id - 1].last_name}</p>
-            <p className="member-title">{this.props.members[this.props.params.id - 1].title}</p>
+            <p className="member-name">{member.first_name} {member.last_name}</p>
+            <p className="member-title">{member.title}</p>
           </div>
         </div>
 
