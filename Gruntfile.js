@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 
     csslint: {
       target: {
-        src: ['public/stylesheets/style.css']
+        src: ['public/stylesheets/**/*.css']
       }
     },
 
@@ -71,7 +71,9 @@ module.exports = function(grunt) {
       },
       target: {
         files: {
-          'public/build/bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/style.css']
+          'public/build/admin-bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/admin-style.css'],
+          'public/build/client-bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/client-style.css'],
+          'public/build/bundle.min.css':['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/style.css'] // TODO: Delete this third file when migrations are complete
         }
       }
     },
@@ -116,7 +118,7 @@ module.exports = function(grunt) {
           sourceMapIn: 'public/build/admin.js.map'
         },
         files: {
-          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'public/build/admin.js']
+          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/build/admin.js']
         },
       },
       client: {
@@ -125,7 +127,7 @@ module.exports = function(grunt) {
           sourceMapIn: 'public/build/client.js.map'
         },
         files: {
-          'public/build/clientBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'public/build/client.js']
+          'public/build/clientBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/build/client.js']
         }
       }
     },
@@ -145,7 +147,7 @@ module.exports = function(grunt) {
         tasks: ['jshint', 'browserify', 'exorcise', 'uglify']
       },
       css: {
-        files: ['public/stylesheets/style.css'],
+        files: ['public/stylesheets/**/*.css'],
         tasks: ['csslint', 'cssmin']
       },
       server: {
