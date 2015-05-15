@@ -18,11 +18,11 @@
         <nav class="navbar navbar-default dashboard-navbar">
           <div class="container-fluid">
             <div class="col-xs-1 col-xs-push-1 navbar-header">
-              <img class="dashboard-navbar-app-logo" src="images/logo_03.png">
+              <a href=""><img class="dashboard-navbar-app-logo" src="images/logo_03.png"></a>
             </div>
-            <ul class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
-              <li><button class="btn btn-default dashboard-small dashboard-navbar-button">Log Out</button></li>
-            </ul>
+            <div class="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Log Out</button>
+            </div>
           </div>
         </nav>
 
@@ -35,38 +35,17 @@
             <form class="col-xs-6 col-xs-push-3">
 
               <div class="form-group">
-                <label class="text-left dashboard-medium">Name:</label>
+                <label class="text-left dashboard-medium">First Name:</label>
                 <input type="text" class="dashboard-input form-control dashboard-small">
               </div>
 
               <div class="form-group">
-                <label for="your-name" class="text-left dashboard-medium">Upload Photo:</label>
-                <div class="row text-center">
-                  <img id="uploadPreview" class="dashboard-upload-preview">
-                </div>
-                <input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" class="dashboard-small dashboard-input">
-                <script type="text/javascript">
-
-                    function PreviewImage() {
-                        var oFReader = new FileReader();
-                        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
-
-                        oFReader.onload = function (oFREvent) {
-                            document.getElementById("uploadPreview").src = oFREvent.target.result;
-                        };
-                    };
-
-                </script>
+                <label class="text-left dashboard-medium">Last Name:</label>
+                <input type="text" class="dashboard-input form-control dashboard-small">
               </div>
-
 
               <div class="form-group">
                 <label class="text-left dashboard-medium">Title:</label>
-                <input type="text" class="dashboard-input form-control dashboard-small">
-              </div>
-
-              <div class="form-group">
-                <label class="text-left dashboard-medium">Department:</label>
                 <input type="text" class="dashboard-input form-control dashboard-small">
               </div>
 
@@ -91,6 +70,8 @@
         </div>
 
       </section>
+
+    </div>
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   </body>
