@@ -200,6 +200,13 @@ label {
   margin-bottom: 50px;
 }
 
+.dashboard-supermassive {
+  font-weight: 100;
+  color: #000;
+  font-size: 20vw;
+  margin-bottom: 50px;
+}
+
 .dashboard-extralarge-features {
   font-weight: 100;
   color: #000;
@@ -256,7 +263,9 @@ label {
 }
 
 .dashboard-input {
-  border-radius: 0;
+  border-radius: 0px;
+  color: #000;
+  font-weight: 300;
 }
 
 .dashboard-org-logo {
