@@ -22,16 +22,21 @@ module.exports = {
   loggedInAdmin: function(req, res, next) {
     if (req.isAuthenticated() && req.session.passport.user.admin_only) {
       next();
-    } else {
+    } else if (req.isAuthenticated()) {
       res.status(401).end('Not logged in as admin');
+    }
+    else {
+      res.status(401).end('Not logged in');
     }
   },
 
   loggedInClient: function(req, res, next) {
     if (req.isAuthenticated() && !req.session.passport.user.admin_only) {
       next();
-    } else {
+    } else if (req.isAuthenticated()) {
       res.status(401).end('Not logged in as client');
+    } else {
+      res.status(401).end('Not logged in');
     }
   }
 

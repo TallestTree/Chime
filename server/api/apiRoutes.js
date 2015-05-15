@@ -20,6 +20,10 @@ module.exports = function(app) {
      .post(loggedInAdmin, apiController.postClientLogin);
   apiRouter.route('/logout')
      .post(apiController.postLogout);
+  apiRouter.route('/auth-admin')
+     .get(loggedInAdmin, apiController.getAuth);
+  apiRouter.route('/auth-client')
+     .get(loggedInClient, apiController.getAuth);
 
   usersRouter.route('/add')
     .post(loggedInAdmin, apiController.postAddMember);

@@ -95,6 +95,26 @@ var Dashboard = React.createClass({
         <RouteHandler refreshDashboard={this.refresh} org={this.state.org} members={this.state.members} />
       </div>
     );
+  },
+  // Redirects if user tries to access page without the correct authorization
+  statics: {
+    willTransitionTo: function (transition, params, query, callback) {
+      utils.makeRequest({
+        url: '/api/auth-admin',
+        method: 'GET',
+        success: function(data) {
+          callback();
+        }.bind(this),
+        error: function(error) {
+          if (error === 'Not logged in as admin') {
+            window.location.href = '/client';
+          } else {
+            window.location.href = '/';
+          }
+          callback(error);
+        }.bind(this)
+      });
+    }
   }
 });
 
