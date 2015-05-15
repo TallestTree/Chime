@@ -104,12 +104,15 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: ['public/scripts/**/*.jsx', 'server/**/*.js']
+      files: ['public/scripts/**/*.jsx', 'server/**/*.js', 'tests/**/*.js', 'tests/client/**/*.jsx']
     },
 
     mochaTest: {
       frontEnd: {
-        src: ['tests/client/**/*.js']
+        src: ['tests/client/**/*.jsx'],
+        options: {
+          require: ['tests/client/compiler.js']
+        }
       },
       server: {
         src: ['tests/server/**/*.js']
