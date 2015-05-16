@@ -1,5 +1,7 @@
 var express = require('express');
-var apiController = require('./apiController');
+var apiController = require('../controllers/apiController');
+var orgsController = require('../controllers/orgsController');
+var usersController = require('../controllers/usersController');
 var loggedInAdmin = require('../auth/authUtils').loggedInAdmin;
 var loggedInClient = require('../auth/authUtils').loggedInClient;
 
@@ -26,21 +28,22 @@ module.exports = function(app) {
      .get(loggedInClient, apiController.getAuth);
 
   usersRouter.route('/add')
-    .post(loggedInAdmin, apiController.postAddMember);
+    .post(loggedInAdmin, usersController.postAddMember);
   usersRouter.route('/update')
-    .post(loggedInAdmin, apiController.postUpdateMember);
+    .post(loggedInAdmin, usersController.postUpdateMember);
   usersRouter.route('/delete')
-    .post(loggedInAdmin, apiController.postDeleteMember);
-
+    .post(loggedInAdmin, usersController.postDeleteMember);
   usersRouter.route('/ping')
-    .post(loggedInClient, apiController.postPing);
+    .post(loggedInClient, usersController.postPing);
 
   orgsRouter.route('/add')
-    .post(loggedInAdmin, apiController.postAddOrg);
+    .post(loggedInAdmin, orgsController.postAddOrg);
   orgsRouter.route('/update')
-    .post(loggedInAdmin, apiController.postUpdateOrg);
+    .post(loggedInAdmin, orgsController.postUpdateOrg);
+  orgsRouter.route('/delete')
+    .post(loggedInAdmin, orgsController.postDeleteOrg);
   orgsRouter.route('/dashboard')
-    .get(loggedInAdmin, apiController.getDashboardInfo);
+    .get(loggedInAdmin, orgsController.getDashboardInfo);
   orgsRouter.route('/client')
-    .get(loggedInClient, apiController.getClientInfo);
+    .get(loggedInClient, orgsController.getClientInfo);
 };

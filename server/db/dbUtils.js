@@ -1,5 +1,5 @@
 var pg = require('pg');
-var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('../../config/config').testdb.config) : (process.env.DATABASE_URL || require('../../config/config').proddb.config);
+var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('../config/config').testdb.config) : (process.env.DATABASE_URL || require('../config/config').proddb.config);
 var md5 = require('md5');
 var fs = require('fs');
 
@@ -117,7 +117,7 @@ var connect = function(params) {
         return augmentCb(params.callback, 'failed client request')(error);
       }
       done();
-      params.success(params.callback, result);
+      params.success(result, params.callback);
     });
   });
 };
@@ -132,7 +132,7 @@ var addEntry = function(type, entry, cb) {
   var insertString = function(entryFieldStrings, parameters) {
     return 'INSERT INTO '+type+'s ('+entryFieldStrings[0]+') VALUES ('+parameters[0]+') RETURNING *';
   };
-  var success = function(cb, result) {
+  var success = function(result, cb) {
     cb(null, result.rows[0]);
   };
   connect({
@@ -156,7 +156,7 @@ var updateEntry = function(type, entry, cb) {
   var updateString = function(entryFieldStrings, parameters) {
     return 'UPDATE '+type+'s SET ('+entryFieldStrings[0]+',updated_at) = ('+parameters[0]+',DEFAULT) WHERE ('+entryFieldStrings[1]+') = ('+parameters[1]+') RETURNING *';
   };
-  var success = function(cb, result) {
+  var success = function(result, cb) {
     if (result.rows.length) {
       cb(null, result.rows[0]);
     } else {
@@ -183,7 +183,7 @@ var getEntries = function(type, entry, cb) {
   var selectString = function(entryFieldStrings, parameters) {
     return 'SELECT * FROM '+type+'s WHERE ('+entryFieldStrings[0]+') = ('+parameters[0]+')';
   };
-  var success = function(cb, result) {
+  var success = function(result, cb) {
     if (result.rows.length) {
       cb(null, result.rows);
     } else {
@@ -210,7 +210,7 @@ var deleteEntry = function(type, entry, cb) {
   var deleteString = function(entryFieldStrings, parameters) {
     return 'DELETE FROM '+type+'s WHERE ('+entryFieldStrings[0]+') = ('+parameters[0]+') RETURNING *';
   };
-  var success = function(cb, result) {
+  var success = function(result, cb) {
     if (result.rows.length) {
       cb(null, result.rows[0]);
     } else {
@@ -321,8 +321,8 @@ exports.getUsersShareOrganization = function(user, cb) {
 };
 
 exports._clearDb = function(config, cb) {
-  config = config || process.env.DATABASE_TEST_URL || require('../../config/config').testdb.config;
-  if (config === process.env.DATABASE_URL || (!process.env.DATABASE_URL && config.database && config.database === require('../../config/config').proddb.config.database)) {
+  config = config || process.env.DATABASE_TEST_URL || require('../config/config').testdb.config;
+  if (config === process.env.DATABASE_URL || (!process.env.DATABASE_URL && config.database && config.database === require('../config/config').proddb.config.database)) {
     cb('do not clear the production database');
   } else {
     var schema = fs.readFileSync(__dirname+'/dbSchema.sql').toString();

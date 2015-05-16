@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
   res.sendFile('admin.html', {root: path.join(__dirname, '../public')});
 });
 
-require('./api/apiRoutes')(app);
+require('./routers/apiRouter')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

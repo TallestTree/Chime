@@ -3,7 +3,7 @@ var expect = chai.expect;
 var rewire = require('rewire');
 
 describe('emailUtils', function() {
-  var emailUtils = rewire('../../../../server/utils/pingUtils/emailUtils');
+  var emailUtils = rewire('../../../server/ping/emailUtils');
   emailUtils.__set__('transporter', {
     sendMail: function(mailOptions, cb) {
       cb(null, {
