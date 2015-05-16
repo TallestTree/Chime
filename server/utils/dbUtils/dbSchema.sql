@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS organizations CASCADE;
 CREATE TABLE organizations (
   id  SERIAL ,
   admin_id INTEGER NOT NULL UNIQUE,
+  default_id INTEGER NOT NULL UNIQUE,
   name TEXT NOT NULL UNIQUE,
   logo TEXT ,
   welcome_message TEXT ,
@@ -33,3 +34,4 @@ CREATE TABLE organizations (
 
 ALTER TABLE users ADD FOREIGN KEY (organization_id) REFERENCES organizations (id);
 ALTER TABLE organizations ADD FOREIGN KEY (admin_id) REFERENCES users (id);
+ALTER TABLE organizations ADD FOREIGN KEY (default_id) REFERENCES users (id);

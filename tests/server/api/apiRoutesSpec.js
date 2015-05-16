@@ -228,5 +228,32 @@ describe('apiRoutes', function() {
         });
       });
     });
+    it('throws an error if updating an unaffiliated user as an org\'s default', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/orgs/add',
+        json: {
+          name: 'Cult of Bryan',
+          logo: 'rosary.png',
+          welcome_message: 'All hail Bryan'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        var options = {
+          method: 'POST',
+          uri: url+'api/orgs/update',
+          json: {
+            default_id: 2
+          }
+        };
+        requestWithSession(options, function(error, res, body) {
+          expect(error).to.equal(null);
+          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // Success
+          done();
+        });
+      });
+    });
   });
 });
