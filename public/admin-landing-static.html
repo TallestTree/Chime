@@ -146,6 +146,19 @@
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/vegas/dist/vegas.min.js"></script>
+    <script>
+      $('.dashboard-photo-background').vegas({
+        delay: 10000,
+        timer: false,
+        slides: [
+            { src: 'images/01r.jpg' },
+            { src: 'images/02r.jpg' },
+            { src: 'images/03r.jpg' },
+            { src: 'images/04r.jpg' }
+        ]
+      });
+    </script>
     <script>$(function() {
       $('a[href*=#]:not([href=#])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
