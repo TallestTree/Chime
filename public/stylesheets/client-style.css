@@ -143,14 +143,26 @@ label {
   border-radius: 0;
 }
 
-.client-huge {
-  font-size: 6em;
-  font-weight: 100;
+@media screen and (min-width:992px) {
+  .client-huge {
+    font-size: 6vw;
+    font-weight: 100;
+  }
+  .client-large {
+    font-size: 2.5vw;
+    font-weight: 100;
+  }
 }
 
-.client-large {
-  font-size: 3em;
-  font-weight: 100;
+@media screen and (max-width:991px) {
+  .client-huge {
+    font-size: 8vw;
+    font-weight: 100;
+  }
+  .client-large {
+    font-size: 4vw;
+    font-weight: 100;
+  }
 }
 
 .client-medium {
@@ -192,8 +204,8 @@ label {
 .client-ping-avatar {
   margin-top: 20px;
   border: solid 1px #FFF;
-  width: 200px;
-  height: 200px;
+  width: 75%;
+  height: auto;
 }
 
 .client-button {
