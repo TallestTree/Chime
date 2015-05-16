@@ -11,14 +11,33 @@ var Welcome = React.createClass({
     return {};
   },
   handleClick: function(e) {
+    console.log("WELCOME CLICK!");
     this.transitionTo('directory');
   },
   render: function() {
     return (
 
-      <div className="col-xs-3 client-contact" onClick={this.handleClick}>
-        <div>WELCOME TO THE PEOPLES!</div>
-        CLICK FOR DIRECTORY
+      <div className="container">
+
+        <div className="main-content container-fluid" onClick={this.handleClick}>
+
+          <div className="row client-app-logo">
+            <img className="col-sm-2" src="images/logo_03.png" />
+          </div>
+
+          <div className="row text-center">
+            <div className="col-xs-4 col-xs-push-4">
+              <img className="client-org-logo-welcome" src="images/mks-02.png" />
+            </div>
+          </div>
+
+          <div className="row text-center client-welcome">
+            <p className="client-huge">Welcome visitors!</p>
+            <p className="client-large">Please tap the screen to let us know you're here.</p>
+          </div>
+
+        </div>
+
       </div>
 
     );
