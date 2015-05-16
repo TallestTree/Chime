@@ -18,21 +18,40 @@ var PingConfirm = React.createClass({
 
     if(this.props.params.success==='1') {
       return(
-        <div className="alert alert-success" role="alert">
-          <span className="glyphicon" aria-hidden="true"></span>
-          Your ping message has been sent!
+
+        <div className="main-content container-fluid">
+          <div className="row client-app-logo">
+            <img className="col-sm-2" src="images/logo_03.png" />
+          </div>
+          <div className="row">
+            <div className="col-xs-8 col-xs-push-2 client-ping">
+
+                <p class="client-large text-center">Your ping message has been sent!</p>
+
+            </div>
+          </div>
         </div>
+
       );
     } else {
       return(
-        <div className="alert alert-danger" role="alert">
-          <span className="sr-only">Error: </span>
-          Please try your ping again, or try pinging another person.
+
+        <div className="main-content container-fluid">
+          <div className="row client-app-logo">
+            <img className="col-sm-2" src="images/logo_03.png" />
+          </div>
+          <div className="row">
+            <div className="col-xs-8 col-xs-push-2 client-ping">
+
+              <p class="client-large text-center">ERROR - Please try your ping again, or try pinging another person.</p>
+
+            </div>
+          </div>
         </div>
+
       );
     }
   }
 });
 
 module.exports = PingConfirm;
-

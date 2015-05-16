@@ -11,7 +11,6 @@ var Welcome = React.createClass({
     return {};
   },
   handleClick: function(e) {
-    console.log("WELCOME CLICK!");
     this.transitionTo('directory');
   },
   render: function() {
