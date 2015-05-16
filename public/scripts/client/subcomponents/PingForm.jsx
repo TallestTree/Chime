@@ -53,8 +53,8 @@ var PingForm = React.createClass({
 
       <div className="main-content container-fluid">
 
-        <div className="row client-app-logo">
-          <img className="col-sm-2" src="images/logo_03.png" />
+        <div className="row client-app-logo" onClick={this.exitView}>
+          <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
         </div>
 
         <div className="row">
@@ -65,7 +65,7 @@ var PingForm = React.createClass({
             <p className="client-medium text-center">&nbsp;{member.title}&nbsp;</p>
 
             <div className="row">
-              <div className="col-xs-4 col-xs-push-4 text-center">
+              <div className="col-xs-8 col-xs-push-2 col-md-4 col-md-push-4 text-center">
                 <img className="client-ping-avatar" src={member.photo} />
               </div>
             </div>
@@ -79,9 +79,13 @@ var PingForm = React.createClass({
                 <label for="your-message" className="text-left client-medium">Your message:</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
               </div>
-              <div className="col-xs-4 col-xs-push-4">
-                <button type="submit" className="btn btn-default client-button client-medium">Send</button>
-                <button type="button" className="btn btn-default client-button client-medium" onClick={this.exitView}>Cancel</button>
+              <div className="row">
+                <div className="col-xs-6">
+                  <button type="button" className="btn btn-default client-button client-medium pull-left" onClick={this.exitView}>Cancel</button>
+                </div>
+                <div className="col-xs-6">
+                  <button type="submit" className="btn btn-default client-button client-medium pull-right">Send</button>
+                </div>
               </div>
             </form>
 

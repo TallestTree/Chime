@@ -5,7 +5,7 @@ var RouteHandler = Router.RouteHandler;
 
 // First client-facing page
 var Welcome = React.createClass({
-  mixins: [Router.Navigation],
+  mixins: [Router.Navigation, Router.State],
   getInitialState: function() {
     React.initializeTouchEvents(true); // Required to enable touch event handling.
     return {};
@@ -16,12 +16,10 @@ var Welcome = React.createClass({
   render: function() {
     return (
 
-      <div className="container">
-
         <div className="main-content container-fluid" onClick={this.handleClick}>
 
           <div className="row client-app-logo">
-            <img className="col-sm-2" src="images/logo_03.png" />
+            <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
           </div>
 
           <div className="row text-center">
@@ -32,12 +30,11 @@ var Welcome = React.createClass({
 
           <div className="row text-center client-welcome">
             <p className="client-huge">Welcome visitors!</p>
-            <p className="client-large">Please tap the screen to let us know you're here.</p>
+            <p className="client-large">Please tap the screen and let us know you're here.</p>
           </div>
 
         </div>
 
-      </div>
 
     );
   }

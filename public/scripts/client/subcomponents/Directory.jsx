@@ -1,5 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
 
 
 // Components for Directory
@@ -7,15 +9,23 @@ var MemberList = require('./MemberList.jsx');
 
 
 var Directory = React.createClass({
+  mixins: [Router.Navigation, Router.State],
   getInitialState: function() {
     React.initializeTouchEvents(true); // Required to enable touch event handling.
     return {members: []};
+  },
+  handleHomeClick: function(e) {
+    this.exitView();
+    e.preventDefault();
+  },
+  exitView: function() {
+    this.transitionTo('/');
   },
   render: function() {
     return (
 
       <div className="main-content container-fluid">
-        <div className="row client-app-logo">
+        <div className="row client-app-logo" onClick={this.handleHomeClick}>
           <img className="col-sm-2" src="images/logo_03.png" />
         </div>
         <div className="row text-center">
