@@ -6,14 +6,18 @@ var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var utils = require('../shared/utils.jsx');
 
+
+// Components for WELCOME
+var Welcome = require('./subcomponents/Welcome.jsx');
+
+// Components for DIRECTORY
+var Directory = require('./subcomponents/Directory.jsx');
+var MemberList = require('./subcomponents/MemberList.jsx');
+var Member = require('./subcomponents/Member.jsx');
+
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
 var PingConfirm = require('./subcomponents/PingConfirm.jsx');
-
-// Components for Directory
-var MemberList = require('./subcomponents/MemberList.jsx');
-var Member = require('./subcomponents/Member.jsx');
-var Directory = require('./subcomponents/Directory.jsx');
 
 
 // Main content class that holds everything on the page
@@ -55,7 +59,6 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Chime</h1>
         <RouteHandler members={this.state.members}/>
       </div>
     );
@@ -86,7 +89,8 @@ var App = React.createClass({
 // The routes that the index page will use
 var routes = (
   <Route handler={App}>
-    <DefaultRoute handler={Directory} />
+    <DefaultRoute handler={Welcome} />
+    <Route name="directory" path="/directory" handler={Directory} />
     <Route name="ping" path="/ping/:id" handler={PingForm} />
     <Route name="pingconfirm" path="/pingconfirm/:success" handler={PingConfirm} />
   </Route>
@@ -100,6 +104,6 @@ var router = Router.create({
 
 // Render the Client view
 router.run(function(Handler) {
-  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
+  React.render(<Handler />, document.getElementsByClassName('chime-main-content')[0]);
 });
 

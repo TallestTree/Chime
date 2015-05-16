@@ -16,13 +16,13 @@ var Member = React.createClass({
   },
   render: function() {
     return (
-      <button type="button" className="btn btn-default btn-xl btn-member" onClick={this.handleClick}>
-        <img className="member-photo" src={this.props.data.photo} />
-        <div className="member-info">
-          <p className="member-name">{this.props.data.last_name}, {this.props.data.first_name}</p>
-          <p className="member-title">{this.props.data.title}</p>
+      <div className="col-xs-3 client-contact" onClick={this.handleClick}>
+        <img className="client-avatar-photo" src={this.props.data.photo} />
+        <div className="row client-avatar-footer">
+          <p className="client-avatar-name">{this.props.data.last_name}, {this.props.data.first_name}</p>
+          <p className="client-avatar-position">&nbsp;{this.props.data.title}&nbsp;</p>
         </div>
-      </button>
+      </div>
     );
   }
 });

@@ -38,7 +38,7 @@ var PingForm = React.createClass({
 
   },
   exitView: function() {
-    this.transitionTo('/');
+    this.transitionTo('directory');
   },
   render: function() {
     var targetId = +this.props.params.id;
@@ -50,30 +50,47 @@ var PingForm = React.createClass({
       this.exitView();
     }
     return(
-      <div className="container">
-        <h2>Send a ping to {member.first_name} {member.last_name}:</h2>
 
-        <div className="btn btn-default btn-xl btn-member">
-          <img className="member-photo" src={member.photo} />
-          <div className="member-info">
-            <p className="member-name">{member.first_name} {member.last_name}</p>
-            <p className="member-title">{member.title}</p>
-          </div>
+      <div className="main-content container-fluid">
+
+        <div className="row client-app-logo">
+          <img className="col-sm-2" src="images/logo_03.png" />
         </div>
 
-        <form className="col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label className="visitor-name">Your name</label>
-            <input type="text" className="form-control" ref="visitorName" />
+        <div className="row">
+
+          <div className="col-xs-8 col-xs-push-2 client-ping">
+
+            <p className="client-large text-center">{member.first_name} {member.last_name}</p>
+            <p className="client-medium text-center">&nbsp;{member.title}&nbsp;</p>
+
+            <div className="row">
+              <div className="col-xs-4 col-xs-push-4 text-center">
+                <img className="client-ping-avatar" src={member.photo} />
+              </div>
+            </div>
+
+            <form className="client-ping-form col-xs-8 col-xs-push-2" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label for="your-name" className="client-medium">Your name:</label>
+                <input type="text" className="form-control client-small client-input" ref="visitorName" />
+              </div>
+              <div className="form-group">
+                <label for="your-message" className="text-left client-medium">Your message:</label>
+                <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
+              </div>
+              <div className="col-xs-4 col-xs-push-4">
+                <button type="submit" className="btn btn-default client-button client-medium">Send</button>
+                <button type="button" className="btn btn-default client-button client-medium" onClick={this.exitView}>Cancel</button>
+              </div>
+            </form>
+
           </div>
-          <div className="form-group">
-            <label className="visitor-message">Message&nbsp;(optional)</label>
-            <input type="text" className="form-control" ref="visitorMessage" />
-          </div>
-          <button type="button" className="btn btn-default" onClick={this.exitView}>Cancel</button>
-          <button type="submit" className="btn btn-default">Send Ping</button>
-        </form>
+
+        </div>
+
       </div>
+
     );
   }
 });
