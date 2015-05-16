@@ -38,7 +38,7 @@ var PingForm = React.createClass({
 
   },
   exitView: function() {
-    this.transitionTo('/');
+    this.transitionTo('directory');
   },
   render: function() {
     var targetId = +this.props.params.id;

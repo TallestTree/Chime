@@ -10,7 +10,7 @@ var PingConfirm = React.createClass({
   componentDidMount: function() {
     var outerScope = this;
     window.setTimeout((function() {
-      outerScope.transitionTo('/');
+      outerScope.transitionTo('directory');
     }), 4000);
 
   },
