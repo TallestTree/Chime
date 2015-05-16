@@ -199,6 +199,33 @@ var getEntries = function(type, entry, cb) {
   });
 };
 
+// Helper function for deleteUser and deleteOrganization
+// Uses id field attached to entry to delete the entry
+var deleteEntry = function(type, entry, cb) {
+  var fields = ['id'];
+  if (!entry.id) {
+    return cb('id field missing');
+  }
+
+  var deleteString = function(entryFieldStrings, parameters) {
+    return 'DELETE FROM '+type+'s WHERE ('+entryFieldStrings[0]+') = ('+parameters[0]+') RETURNING *';
+  };
+  var success = function(cb, result) {
+    if (result.rows.length) {
+      cb(null, result.rows[0]);
+    } else {
+      cb('no matches');
+    }
+  };
+  connect({
+    entry: entry,
+    entryFields: [fields],
+    queryString: deleteString,
+    callback: cb,
+    success: success
+  });
+};
+
 // Helper function for getUser and getOrganization
 var getEntry = function(type, entry, cb) {
   var rejectIfMultiple = function(cb, users) {
@@ -235,6 +262,16 @@ exports.updateUser = function(user, cb) {
 // Takes an organization entry and updates it
 exports.updateOrganization = function(organization, cb) {
   updateEntry('organization', organization, augmentCb(cb, 'updating organization'));
+};
+
+// Takes a user entry and deletes it
+exports.deleteUser = function(user, cb) {
+  deleteEntry('user', user, augmentCb(cb, 'deleting user'));
+};
+
+// Takes an organization entry and deletes it
+exports.deleteOrganization = function(organization, cb) {
+  deleteEntry('organization', organization, augmentCb(cb, 'deleting organization'));
 };
 
 // Takes partial user fields and returns user entry

@@ -10,22 +10,25 @@ var useDb = true;
 
 // Serves default messages for corresponding error codes
 var serveStatus = function(res, statusCode, message) {
-  var defaultMessage;
+  statusCode = statusCode || 500;
+  message = message || '';
   res.status(statusCode);
   if (statusCode === 201) {
-    defaultMessage = 'Created';
+    message = 'Created';
   } else if (statusCode === 204) {
-    defaultMessage = 'No content';
+    message = 'No content';
   } else if (statusCode === 301) {
-    defaultMessage = 'Ping sent';
+    message = 'Ping sent';
   } else if (statusCode === 401) {
-    defaultMessage = 'Invalid login';
+    message = 'Invalid login';
   } else if (statusCode === 403) {
-    defaultMessage = 'Forbidden';
+    message = 'Forbidden';
   } else if (statusCode === 422) {
-    defaultMessage = 'Unique field already taken';
+    message = 'Unique field already taken';
+  } else if (statusCode === 500) {
+    message = 'Internal server error';
   }
-  return res.end(message || defaultMessage || '');
+  return res.end(message);
 };
 
 // Handles user errors
@@ -184,6 +187,72 @@ module.exports = {
             if (!checkUserError(res, error)) {
               return serveStatus(res, 204);
             }
+          });
+        });
+      });
+    });
+  },
+
+  // Must be admin and share organizations or be deleting self
+  postDeleteMember: function(req, res, next) {
+    dbUtils.getUser(req.user, function(error, user) {
+      if (error) {
+        console.error(error);
+        return serveStatus(res, 500);
+      }
+      if (!user.organization_id) {
+        if (user.id === +req.body.id) {
+          dbUtils.deleteUser(req.body, function(error, user) {
+            if (error) {
+              console.error(error);
+              return serveStatus(res, 500);
+            }
+            return serveStatus(res, 204);
+          });
+        }
+        return serveStatus(res, 403);
+      }
+      dbUtils.getUser(req.body, function(error, member) {
+        if (error) {
+          console.error(error);
+          return serveStatus(res, 500);
+        }
+        if (user.organization_id !== member.organization_id) {
+          return serveStatus(res, 403);
+        }
+        dbUtils.getOrganization({id: member.organization_id}, function(error, organization) {
+          if (error) {
+            console.error(error);
+            return serveStatus(res, 500);
+          }
+          if (organization.admin_id !== user.id) {
+            return serveStatus(res, 403);
+          }
+          if (user.id === member.id) {
+            return serveStatus(res, 400);
+          }
+          if (organization.default_id === member.id) {
+            dbUtils.updateOrganization({id: organization.id, default_id: organization.admin_id}, function(error) {
+              if (error) {
+                console.error(error);
+                return serveStatus(res, 500);
+              }
+              dbUtils.deleteUser(member, function(error, user) {
+                if (error) {
+                  console.error(error);
+                  return serveStatus(res, 500);
+                }
+                return serveStatus(res, 204);
+              });
+            });
+            return;
+          }
+          dbUtils.deleteUser(member, function(error, user) {
+            if (error) {
+              console.error(error);
+              return serveStatus(res, 500);
+            }
+            return serveStatus(res, 204);
           });
         });
       });

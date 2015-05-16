@@ -29,5 +29,6 @@ build/Release
 node_modules
 
 server/config/config.js
+server/utils/dbUtils/chimeTeam.sql
 
 .DS_Store

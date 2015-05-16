@@ -3,7 +3,7 @@ var expect = chai.expect;
 var rewire = require('rewire');
 
 describe('dbUtils', function() {
-  this.timeout(30000);
+  this.timeout(10000);
   var pg = require('pg');
   var dbUtils = rewire('../../../../server/utils/dbUtils/dbUtils');
   var config = process.env.DATABASE_TEST_URL || require('../../../../server/config/config').testdb.config;
