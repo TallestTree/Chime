@@ -125,6 +125,7 @@ describe('dbUtils', function() {
               expect(result.rows.length).to.equal(1);
               expect(result.rows[0].name).to.equal('Tallest Tree');
               expect(result.rows[0].admin_id).to.equal(1);
+              expect(result.rows[0].default_id).to.equal(1);
               testDone();
             });
           });

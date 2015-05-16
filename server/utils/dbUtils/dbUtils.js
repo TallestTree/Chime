@@ -14,9 +14,9 @@ var allFields = {
   },
   organization: {
     required: ['admin_id', 'name'],
-    optional: ['logo', 'welcome_message'],
+    optional: ['default_id', 'logo', 'welcome_message'],
     auto: ['id'],
-    unique: ['id', 'admin_id', 'name']
+    unique: ['id', 'admin_id', 'default_id', 'name']
   }
 };
 
@@ -61,6 +61,9 @@ var augmentFields = function(entry, fields) {
   // Defaults photo to one from gravatar
   if (validatedEntry.photo === null) {
     validatedEntry.photo = 'http://www.gravatar.com/avatar/' + md5.digest_s(validatedEntry.email);
+  }
+  if (validatedEntry.default_id === null) {
+    validatedEntry.default_id = validatedEntry.admin_id;
   }
   return validatedEntry;
 };

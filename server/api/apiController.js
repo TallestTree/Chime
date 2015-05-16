@@ -69,7 +69,6 @@ var login = function(req, res, next) {
         return next(error);
       }
       req.session.passport.user.admin_only = true;
-      // TODO: add proper response handling
       return serveStatus(res, 201);
     });
   })(req, res, next);
@@ -274,10 +273,30 @@ module.exports = {
   postUpdateOrg: function(req, res, next) {
     dbUtils.getOrganization({admin_id: req.user.id}, function(error, org) {
       if (error) {
+        if (error.match(/no matches/i)) {
+          return serveStatus(res, 403);
+        }
         console.error(error);
         return serveStatus(res, 500);
       }
       req.body.id = org.id;
+      if (req.body.default_id) {
+        dbUtils.getUser({id: req.body.default_id}, function(error, member) {
+          if (error) {
+            console.error(error);
+            return serveStatus(res, 500);
+          }
+          if (member.organization_id !== org.id) {
+            return serveStatus(res, 400);
+          }
+          dbUtils.updateOrganization(req.body, function(error, org) {
+            if (!checkOrgError(res, error)) {
+              return serveStatus(res, 204);
+            }
+          });
+        });
+        return;
+      }
       dbUtils.updateOrganization(req.body, function(error, org) {
         if (!checkOrgError(res, error)) {
           return serveStatus(res, 204);

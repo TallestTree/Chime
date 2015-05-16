@@ -108,7 +108,7 @@ module.exports = function(grunt) {
     },
 
     mochaTest: {
-      frontEnd: {
+      client: {
         src: ['tests/client/**/*.jsx'],
         options: {
           require: ['tests/client/compiler.js']
@@ -168,11 +168,11 @@ module.exports = function(grunt) {
         tasks: ['csslint', 'cssmin']
       },
       server: {
-        files: ['server/**/*'],
+        files: ['server/**/*.js'],
         tasks: ['jshint']
       },
       tests: {
-        files: ['tests/**/*'],
+        files: ['tests/**/*.js', 'tests/**/*.jsx'],
         tasks: ['jshint']
       }
     }
