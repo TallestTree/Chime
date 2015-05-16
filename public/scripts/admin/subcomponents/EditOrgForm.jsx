@@ -4,7 +4,7 @@ var Dropdown = require('react-dropdown');
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
 
-var OrgForm = React.createClass({
+var EditOrgForm = React.createClass({
   mixins: [Router.Navigation],
   componentDidMount: function() {
     utils.fillRefs(this.props.org, this.refs, FORM_REFS);
@@ -21,28 +21,19 @@ var OrgForm = React.createClass({
     this.setState({selected: defaultOption});
   },
   getInitialState: function() {
-    var initialState = {};
-    if (this.props.org) {
-      initialState.title = 'Edit Organization';
-      initialState.url = '/update';
-    } else {
-      initialState.title = 'Create Organization';
-      initialState.url = '/add';
-    }
-    return initialState;
+    return {};
   },
   handleSubmit: function(e) {
     e.preventDefault();
 
     var org = utils.pullRefs(this.refs, FORM_REFS);
     if (!org) {
-      alert('Missing required field');
       return;
     }
     org.default_id = this.state.selected.value;
 
     utils.makeRequest({
-      url: '/api/orgs' + this.state.url,
+      url: '/api/orgs/update',
       method: 'POST',
       data: org,
       success: function(data) {
@@ -58,7 +49,7 @@ var OrgForm = React.createClass({
     this.setState({selected: option});
   },
   render: function() {
-    if (!this.props.org.name) {
+    if (!this.props.org) {
       this.transitionTo('/dashboard');
     }
     var options = [];
@@ -75,7 +66,7 @@ var OrgForm = React.createClass({
     return (
       <div className="container">
         <Form.Form onSubmit={this.handleSubmit}>
-          <h3>Create Organization</h3>
+          <h3>Edit Organization</h3>
           <Form.Input label="Organization Name" type="text" ref="name" />
           <Form.Input label="Logo Url" type="url" ref="logo" />
           <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
@@ -100,4 +91,4 @@ var FORM_REFS = {
   ]
 };
 
-module.exports = OrgForm;
+module.exports = EditOrgForm;
