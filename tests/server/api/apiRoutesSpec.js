@@ -16,7 +16,7 @@ var chai = require('chai');
 var expect = chai.expect;
 
 describe('apiRoutes', function() {
-  this.timeout(30000);
+  this.timeout(10000);
 
   var http = require('http');
   var app = require('../../../server/app');
@@ -53,8 +53,8 @@ describe('apiRoutes', function() {
         method: 'POST',
         uri: url+'api/signup',
         json: {
-          first_name: 'bryan',
-          last_name: 'bryan',
+          first_name: 'Bryan',
+          last_name: 'Bryan',
           email: 'bryan@bry.an',
           password: 'bryan'
         }
@@ -118,7 +118,8 @@ describe('apiRoutes', function() {
         method: 'POST',
         uri: url+'api/orgs/update',
         json: {
-          logo: 'pitchfork.jpg'
+          logo: 'pitchfork.jpg',
+          default_id: 2
         }
       };
       requestWithSession(options, function(error, res, body) {
@@ -138,10 +139,37 @@ describe('apiRoutes', function() {
         body = JSON.parse(body);
         expect(body.name).to.equal('Bryan\'s');
         expect(body.logo).to.equal('pitchfork.jpg');
+        expect(body.admin_id).to.equal(1);
+        expect(body.default_id).to.equal(2);
         expect(body.members[1].first_name).to.equal('Bryan\'s');
         expect(body.members[1].last_name).to.equal('Good Twin');
         expect(body.members[1].password_hash).to.equal(undefined);
         done();
+      });
+    });
+    it('deletes users', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/delete',
+        json: {
+          id: 2
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
+        var options = {
+          method: 'GET',
+          uri: url+'api/orgs/dashboard'
+        };
+        requestWithSession(options, function(error, res, body) {
+          expect(error).to.equal(null);
+          expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
+          body = JSON.parse(body);
+          expect(body.members.length).to.equal(1);
+          expect(body.default_id).to.equal(body.admin_id);
+          done();
+        });
       });
     });
   });
@@ -174,9 +202,9 @@ describe('apiRoutes', function() {
         expect(error).to.equal(null);
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
         body = JSON.parse(body);
-        expect(body.members[1].last_name).to.equal('Good Twin');
-        expect(body.members[1].password_hash).to.equal(undefined);
-        expect(body.members[1].email).to.equal(undefined);
+        expect(body.members[0].last_name).to.equal('Bryan');
+        expect(body.members[0].password_hash).to.equal(undefined);
+        expect(body.members[0].email).to.equal(undefined);
         done();
       });
     });
@@ -199,7 +227,7 @@ describe('apiRoutes', function() {
         });
       });
     });
-    it('throws an error if user is logged in to another account', function(done) {
+    it('throws an error if updating from another account', function(done) {
       var options = {
         method: 'POST',
         uri: url+'api/signup',
@@ -228,6 +256,34 @@ describe('apiRoutes', function() {
         });
       });
     });
+    it('throws an error if deleting from another account', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/delete',
+        json: {
+          id: 1
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
+      });
+    });
+    it('throws an error if deleting self as admin', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/delete',
+        json: {
+          id: 2
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
+      });
+    });
     it('throws an error if updating an unaffiliated user as an org\'s default', function(done) {
       var options = {
         method: 'POST',
@@ -245,7 +301,7 @@ describe('apiRoutes', function() {
           method: 'POST',
           uri: url+'api/orgs/update',
           json: {
-            default_id: 2
+            default_id: 1
           }
         };
         requestWithSession(options, function(error, res, body) {

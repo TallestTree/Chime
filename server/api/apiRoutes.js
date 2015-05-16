@@ -29,6 +29,9 @@ module.exports = function(app) {
     .post(loggedInAdmin, apiController.postAddMember);
   usersRouter.route('/update')
     .post(loggedInAdmin, apiController.postUpdateMember);
+  usersRouter.route('/delete')
+    .post(loggedInAdmin, apiController.postDeleteMember);
+
   usersRouter.route('/ping')
     .post(loggedInClient, apiController.postPing);
 
