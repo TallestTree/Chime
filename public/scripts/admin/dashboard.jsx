@@ -51,6 +51,7 @@ var Dashboard = React.createClass({
         if (data.name) {
           state.org = {
             name: data.name,
+            default_id: data.default_id,
             logo: data.logo || null,
             welcome_message: data.welcome_message || null
           };
