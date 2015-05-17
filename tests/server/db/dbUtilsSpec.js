@@ -5,8 +5,8 @@ var rewire = require('rewire');
 describe('dbUtils', function() {
   this.timeout(10000);
   var pg = require('pg');
-  var dbUtils = rewire('../../../../server/utils/dbUtils/dbUtils');
-  var config = process.env.DATABASE_TEST_URL || require('../../../../server/config/config').testdb.config;
+  var dbUtils = rewire('../../../server/db/dbUtils');
+  var config = process.env.DATABASE_TEST_URL || require('../../../server/config/config').testdb.config;
 
   var john = {first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567};
   var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}; // Phone numbers collide for an error

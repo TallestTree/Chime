@@ -15,12 +15,12 @@ process.env.TEST = true;
 var chai = require('chai');
 var expect = chai.expect;
 
-describe('apiRoutes', function() {
+describe('apiRouter', function() {
   this.timeout(10000);
 
   var http = require('http');
   var app = require('../../../server/app');
-  var dbUtils = require('../../../server/utils/dbUtils/dbUtils');
+  var dbUtils = require('../../../server/db/dbUtils');
   var config = process.env.DATABASE_TEST_URL || require('../../../server/config/config').testdb.config;
 
   var requestWithSession = require('request').defaults({jar: true});

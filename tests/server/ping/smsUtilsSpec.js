@@ -3,7 +3,7 @@ var expect = chai.expect;
 var rewire = require('rewire');
 
 describe('smsUtils', function() {
-  var smsUtils = rewire('../../../../server/utils/pingUtils/smsUtils');
+  var smsUtils = rewire('../../../server/ping/smsUtils');
   smsUtils.__set__('client', {
     altsms: function(smsOptions, cb) {
       cb(null, {
