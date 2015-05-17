@@ -23,7 +23,7 @@ var PingConfirm = require('./subcomponents/PingConfirm.jsx');
 // Main content class that holds everything on the page
 var App = React.createClass({
   getInitialState: function() {
-    return {members: []};
+    return {org: {}, members: []};
   },
   fetchCompanyData: function() {
     // Make a request to the server to retrieve the member data
@@ -31,8 +31,14 @@ var App = React.createClass({
       url: '/api/orgs/client',
       method: 'GET',
       success: function(resp) {
-        var state = {};
         resp = JSON.parse(resp);
+        var state = {};
+        state.org = {
+          name: resp.name,
+          default_id: resp.default_id,
+          logo: resp.logo || '',
+          welcome_message: resp.welcome_message || 'Welcome'
+        };
         if (resp.members) {
           state.members = resp.members.sort(function(a, b) {
             if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
@@ -59,7 +65,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <RouteHandler members={this.state.members}/>
+        <RouteHandler org={this.state.org} members={this.state.members} />
       </div>
     );
   },
@@ -85,7 +91,6 @@ var App = React.createClass({
   }
 });
 
-
 // The routes that the index page will use
 var routes = (
   <Route handler={App}>
@@ -95,7 +100,6 @@ var routes = (
     <Route name="pingconfirm" path="/pingconfirm/:success" handler={PingConfirm} />
   </Route>
 );
-
 
 var router = Router.create({
   routes: routes,

@@ -3,17 +3,11 @@ var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-
 // Components for Directory
 var MemberList = require('./MemberList.jsx');
 
-
 var Directory = React.createClass({
   mixins: [Router.Navigation, Router.State],
-  getInitialState: function() {
-    React.initializeTouchEvents(true); // Required to enable touch event handling.
-    return {members: []};
-  },
   handleHomeClick: function(e) {
     this.exitView();
     e.preventDefault();
@@ -30,7 +24,7 @@ var Directory = React.createClass({
         </div>
         <div className="row text-center">
           <div className="col-xs-4 col-xs-push-4">
-            <img className="client-org-logo-directory" src="images/mks-02.png" />
+            <img className="client-org-logo-directory" src={this.props.org.logo} />
           </div>
         </div>
         <div className="row text-center client-directory-intro">
@@ -39,11 +33,7 @@ var Directory = React.createClass({
         </div>
         <div className="row text-center">
           <div className="col-xs-10 col-xs-push-1 client-directory">
-
-
             <MemberList members={this.props.members} />
-
-
           </div>
         </div>
       </div>
