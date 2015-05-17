@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chime</title>
     <link rel="stylesheet" href="build/admin-bundle.min.css" />
+    <link rel="stylesheet" href="../node_modules/vegas/dist/vegas.min.css">
     <link rel="icon" type="image/png" href="images/favicon.ico">
   </head>
 
@@ -60,5 +61,18 @@
       </section>
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/vegas/dist/vegas.min.js"></script>
+    <script>
+      $('.dashboard-photo-background').vegas({
+        timer: false,
+        delay: 10000,
+        slides: [
+            { src: 'images/01r.jpg' },
+            { src: 'images/02r.jpg' },
+            { src: 'images/03r.jpg' },
+            { src: 'images/04r.jpg' }
+        ]
+      });
+    </script>
   </body>
 </html>
