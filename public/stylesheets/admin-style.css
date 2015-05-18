@@ -74,6 +74,10 @@ label {
   font-weight: 300;
 }
 
+.vegas-container {
+  position: static;
+}
+
 .btn {
   border: 1px solid #FFF;
   background-color: transparent;
@@ -150,6 +154,7 @@ label {
 .dashboard-photo-background {
   min-height: 100vh;
   max-width: 100vw;
+  background-image: url('../images/01r.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -172,7 +177,6 @@ label {
 
 .dashboard-navbar-button {
   width: 100%;
-  /*margin-left: 5%;*/
 }
 
 .dashboard-navbar-app-logo {
