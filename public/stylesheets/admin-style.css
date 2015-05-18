@@ -74,10 +74,6 @@ label {
   font-weight: 300;
 }
 
-.vegas-container {
-  position: static;
-}
-
 .btn {
   border: 1px solid #FFF;
   background-color: transparent;
