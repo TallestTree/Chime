@@ -1,188 +1,130 @@
-var dbUtils = require('../db/dbUtils');
+var Promise = require('bluebird');
+var dbUtils = Promise.promisifyAll(require('../db/dbUtils'));
 var controllerUtils = require('./controllerUtils');
-var emailUtils = require('../ping/emailUtils');
-var smsUtils = require('../ping/smsUtils');
+var emailUtilsAsync = Promise.promisify(require('../ping/emailUtils'));
+var smsUtilsAsync = Promise.promisify(require('../ping/smsUtils'));
 
 module.exports = {
-  // Must be admin
+  // Admins can add members into their organization
   postAddMember: function(req, res, next) {
-    dbUtils.getUser(req.user, function(error, user) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      dbUtils.getOrganization({id: user.organization_id}, function(error, org) {
-        if (error) {
-          console.error(error);
-          return controllerUtils.serveStatus(res, 500);
+    dbUtils.getUserAsync(req.user)
+      .then(dbUtils.getOrganizationAsync)
+      .then(function(org) {
+        // User must be admin
+        if (req.user.id !== org.admin_id) {
+          throw new Error(403);
         }
-        if (user.id !== org.admin_id) {
-          return controllerUtils.serveStatus(res, 403);
-        }
-        req.body.organization_id = user.organization_id;
-        dbUtils.addUser(req.body, function(error, member) {
-          if (!controllerUtils.checkUserError(res, error)) {
-            return controllerUtils.serveStatus(res, 201);
-          }
-        });
-      });
-    });
+        // Member is added to user's organization
+        req.body.organization_id = org.id;
+        return req.body;
+      }).then(dbUtils.addUserAsync)
+      .then(function(member) { controllerUtils.serveStatus(res, 201); })
+      .catch(function(error) { controllerUtils.checkUserError(res, error); });
   },
 
-  // Must be admin and share organizations or be updating self
+  // Users can update themselves, and admins can update members of their organization
   postUpdateMember: function(req, res, next) {
-    if (req.user.id === +req.body.id) {
-      dbUtils.updateUser(req.body, function(error, user) {
-        if (!controllerUtils.checkUserError(res, error)) {
-          return controllerUtils.serveStatus(res, 204);
-        }
-      });
-      return;
-    }
-    dbUtils.getUser(req.user, function(error, user) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
+    // First check if we have permission to update
+    Promise.try(function() {
+      // Users can update themselves
+      if (req.user.id === +req.body.id) {
+        return;
       }
-      dbUtils.getUser({id: req.body.id}, function(error, member) {
-        if (error) {
-          console.error(error);
-          return controllerUtils.serveStatus(res, 500);
-        }
-        if (user.organization_id !== member.organization_id) {
-          return controllerUtils.serveStatus(res, 403);
-        }
-        dbUtils.getOrganization({id: user.organization_id}, function(error, org) {
-          if (error) {
-            console.error(error);
-            return controllerUtils.serveStatus(res, 500);
+      return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
+          // Member must be of the same organization
+          if (!user.organization_id || user.organization_id !== member.organization_id) {
+            throw new Error(403);
           }
-          if (user.id !== org.admin_id) {
-            return controllerUtils.serveStatus(res, 403);
+          return user;
+        }).then(function(user) { return dbUtils.getOrganizationAsync({id: user.organization_id}); })
+        .then(function(org) {
+          // User must be admin
+          if (req.user.id !== org.admin_id) {
+            throw new Error(403);
           }
-          dbUtils.updateUser(req.body, function(error, member) {
-            if (!controllerUtils.checkUserError(res, error)) {
-              return controllerUtils.serveStatus(res, 204);
-            }
-          });
         });
-      });
-    });
+    }).then(function() { return dbUtils.updateUserAsync(req.body); })
+    .then(function() { controllerUtils.serveStatus(res, 204); })
+    .catch(function(error) { controllerUtils.checkUserError(res, error); });
   },
 
-  // Must be admin and share organizations or be deleting self
+  // Users can delete themselves, and admins can delete members of their organization
+  // Admins cannot be deleted
   postDeleteMember: function(req, res, next) {
-    dbUtils.getUser(req.user, function(error, user) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      if (!user.organization_id) {
-        if (user.id === +req.body.id) {
-          dbUtils.deleteUser(req.body, function(error, user) {
-            if (error) {
-              console.error(error);
-              return controllerUtils.serveStatus(res, 500);
+    Promise.try(function() {
+      if (req.user.id === +req.body.id) {
+        return dbUtils.getUserAsync(req.user)
+          .then(function(user) {
+            if (!user.organization_id) {
+              return false;
             }
-            return controllerUtils.serveStatus(res, 204);
-          });
-        }
-        return controllerUtils.serveStatus(res, 403);
-      }
-      dbUtils.getUser(req.body, function(error, member) {
-        if (error) {
-          console.error(error);
-          return controllerUtils.serveStatus(res, 500);
-        }
-        if (user.organization_id !== member.organization_id) {
-          return controllerUtils.serveStatus(res, 403);
-        }
-        dbUtils.getOrganization({id: member.organization_id}, function(error, organization) {
-          if (error) {
-            console.error(error);
-            return controllerUtils.serveStatus(res, 500);
-          }
-          if (organization.admin_id !== user.id) {
-            return controllerUtils.serveStatus(res, 403);
-          }
-          if (user.id === member.id) {
-            return controllerUtils.serveStatus(res, 400);
-          }
-          if (organization.default_id === member.id) {
-            dbUtils.updateOrganization({id: organization.id, default_id: organization.admin_id}, function(error) {
-              if (error) {
-                console.error(error);
-                return controllerUtils.serveStatus(res, 500);
-              }
-              dbUtils.deleteUser(member, function(error, user) {
-                if (error) {
-                  console.error(error);
-                  return controllerUtils.serveStatus(res, 500);
+            return dbUtils.getOrganizationAsync({id: user.organization_id})
+              .then(function(org) {
+                // Admins cannot be deleted
+                if (+req.body.id === org.admin_id) {
+                  throw new Error(403);
                 }
-                return controllerUtils.serveStatus(res, 204);
+                return org;
               });
-            });
-            return;
-          }
-          dbUtils.deleteUser(member, function(error, user) {
-            if (error) {
-              console.error(error);
-              return controllerUtils.serveStatus(res, 500);
-            }
-            return controllerUtils.serveStatus(res, 204);
           });
+      }
+      return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
+          if (!user.organization_id || user.organization_id !== member.organization_id) {
+            throw new Error(403);
+          }
+          return user;
+        }).then(function(user) { return dbUtils.getOrganizationAsync({id: user.organization_id}); })
+        .then(function(org) {
+          // User must be admin
+          if (req.user.id !== org.admin_id) {
+            throw new Error(403);
+          }
+          return org;
         });
-      });
-    });
+    }).then(function(org) {
+      if (org) {
+        // If a default user is deleted, reset it back to admin
+        if (+req.body.id === org.default_id) {
+          return dbUtils.updateOrganizationAsync({id: org.id, default_id: org.admin_id});
+        }
+      }
+    }).then(function() { return dbUtils.deleteUserAsync(req.body); })
+    .then(function() { controllerUtils.serveStatus(res, 204); })
+    .catch(function(error) { controllerUtils.checkUserError(res, error); });
   },
 
   // Must share organizations
   postPing: function(req, res, next) {
-    var params = req.body;
-    dbUtils.getUser(req.user, function(error, user) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
+    Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
+      if (!user.organization_id || user.organization_id !== member.organization_id) {
+        throw new Error(403);
       }
-      dbUtils.getUser(params, function(error, member) {
-        if (error) {
-          console.error(error);
-          return controllerUtils.serveStatus(res, 500);
+      return member;
+    }).then(function(member) {
+      // SMS ping
+      var smsPromise = Promise.resolve();
+      if (member.phone) {
+        var message = req.body.visitor ? 'Visit from ' + req.body.visitor : 'You have a visitor';
+        if (req.body.text) {
+          message += ' - ' + req.body.text;
         }
-        if (!user.organization_id || user.organization_id !== member.organization_id) {
-          return controllerUtils.serveStatus(res, 403);
-        }
-        // SMS ping
-        if (member.phone) {
-          var message = params.visitor ? 'Visit from ' + params.visitor : 'You have a visitor';
-          if (params.text) {
-            message += ' - ' + params.text;
-          }
-          var smsOptions = {
-            to: member.phone,
-            text: message
-          };
-          smsUtils(smsOptions, function(error, results) {
-            if (error) {
-              console.error(error);
-            }
-          });
-        }
-        // Email ping
-        var subject = params.visitor ? params.visitor + ' is here to see you' : 'You have a visitor';
-        var mailOptions = {
-          to: member.email,
-          subject: subject,
-          text: params.text
+        var smsOptions = {
+          to: member.phone,
+          text: message
         };
-        emailUtils(mailOptions, function(error, results) {
-          if (error) {
-            console.error(error);
-            return controllerUtils.serveStatus(res, 500);
-          }
-          return controllerUtils.serveStatus(res, 204);
-        });
-      });
-    });
+        smsPromise = smsUtilsAsync(smsOptions);
+      }
+      // Email ping
+      var subject = req.body.visitor ? req.body.visitor + ' is here to see you' : 'You have a visitor';
+      var mailOptions = {
+        to: member.email,
+        subject: subject,
+        text: req.body.text
+      };
+      var emailPromise = emailUtilsAsync(mailOptions);
+      return [smsPromise, emailPromise];
+    }).all().then(function() {
+      controllerUtils.serveStatus(res, 204);
+    }).catch(function(error) { console.error(error); controllerUtils.checkUserError(res, error); });
   }
 };

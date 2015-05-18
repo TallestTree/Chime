@@ -25,6 +25,11 @@ module.exports = {
   // Handles connection errors
   checkError: function(res, error) {
     if (error) {
+      error = error.message || error;
+      // Parse out error code if one exists
+      if (error.match(/\d{3}/)) {
+        return module.exports.serveStatus(res, +error.match(/\d{3}/), error.replace(/\d{3}\s?/, ''));
+      }
       return module.exports.serveStatus(res, 500);
     }
   },
@@ -32,6 +37,7 @@ module.exports = {
   // Handles user errors
   checkUserError: function(res, error) {
     if (error) {
+      error = error.message || error;
       if (error.match(/unique/i)) {
         if (error.match(/phone/i)) {
           return module.exports.serveStatus(res, 422, 'Phone number taken');
@@ -47,6 +53,7 @@ module.exports = {
   // Handles organization errors
   checkOrgError: function(res, error) {
     if (error) {
+      error = error.message || error;
       if (error.match(/unique/i)) {
         if (error.match(/name/i)) {
           return module.exports.serveStatus(res, 422, 'Org name taken');
