@@ -7,7 +7,7 @@ var Form = React.createClass({
   },
   render: function() {
     return (
-      <form className="col-sm-8 col-sm-offset-2 col-xs-12" onSubmit={this.props.onSubmit}>
+      <form className="dashboard-ping-form col-xs-6 col-xs-push-3" onSubmit={this.props.onSubmit}>
       {this.props.children}
       </form>
     );
@@ -22,7 +22,7 @@ var Input = React.createClass({
   render: function() {
     return (
       <div className="form-group">
-        <label>{this.props.label}</label>
+        <label className="text-left dashboard-medium">{this.props.label}</label>
         <label className="warning-label hidden">Required</label>
         <input type={this.props.type} className="form-control" />
       </div>

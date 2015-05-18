@@ -22,8 +22,7 @@ var EditOrgForm = require('./subcomponents/EditOrgForm.jsx');
 var App = React.createClass({
   render: function() {
     return (
-      <div>
-        <h1>Chime</h1>
+      <div className="main-content container-fluid">
         <RouteHandler />
       </div>
     );
@@ -54,5 +53,5 @@ var router = Router.create({
 
 // Render the Login form on the page
 router.run(function(Handler) {
-  React.render(<Handler />, document.getElementsByClassName('main-content')[0]);
+  React.render(<Handler />, document.body);
 });
