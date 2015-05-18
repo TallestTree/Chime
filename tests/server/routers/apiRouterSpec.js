@@ -103,7 +103,7 @@ describe('apiRouter', function() {
         method: 'POST',
         uri: url+'api/users/update',
         json: {
-          id: 2,
+          id: '2',
           last_name: 'Good Twin'
         }
       };
@@ -119,7 +119,7 @@ describe('apiRouter', function() {
         uri: url+'api/orgs/update',
         json: {
           logo: 'pitchfork.jpg',
-          default_id: 2
+          default_id: '2'
         }
       };
       requestWithSession(options, function(error, res, body) {
@@ -152,7 +152,7 @@ describe('apiRouter', function() {
         method: 'POST',
         uri: url+'api/users/delete',
         json: {
-          id: 2
+          id: '2'
         }
       };
       requestWithSession(options, function(error, res, body) {
@@ -245,7 +245,7 @@ describe('apiRouter', function() {
           method: 'POST',
           uri: url+'api/users/update',
           json: {
-            id: 1,
+            id: '1',
             title: 'Not-At-All Evil'
           }
         };
@@ -261,21 +261,7 @@ describe('apiRouter', function() {
         method: 'POST',
         uri: url+'api/users/delete',
         json: {
-          id: 1
-        }
-      };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
-        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
-        done();
-      });
-    });
-    it('throws an error if deleting self as admin', function(done) {
-      var options = {
-        method: 'POST',
-        uri: url+'api/users/delete',
-        json: {
-          id: 2
+          id: '1'
         }
       };
       requestWithSession(options, function(error, res, body) {
@@ -301,7 +287,7 @@ describe('apiRouter', function() {
           method: 'POST',
           uri: url+'api/orgs/update',
           json: {
-            default_id: 1
+            default_id: '1'
           }
         };
         requestWithSession(options, function(error, res, body) {
@@ -309,6 +295,20 @@ describe('apiRouter', function() {
           expect(res.statusCode.toString()).to.match(/^4\d\d$/); // Success
           done();
         });
+      });
+    });
+    it('throws an error if deleting self as admin', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/users/delete',
+        json: {
+          id: '3'
+        }
+      };
+      requestWithSession(options, function(error, res, body) {
+        expect(error).to.equal(null);
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
       });
     });
   });
