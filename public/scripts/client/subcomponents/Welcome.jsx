@@ -15,8 +15,8 @@ var Welcome = React.createClass({
   },
   render: function() {
     return (
-
-        <div className="main-content container-fluid" onClick={this.handleClick}>
+      <div onClick={this.handleClick}>
+        <div className="main-content container-fluid">
 
           <div className="row client-app-logo">
             <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
@@ -34,7 +34,7 @@ var Welcome = React.createClass({
           </div>
 
         </div>
-
+      </div>
 
     );
   }
