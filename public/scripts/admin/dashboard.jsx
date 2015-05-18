@@ -26,20 +26,6 @@ var Dashboard = React.createClass({
       }.bind(this)
     });
   },
-  handleLogout: function(e) {
-    e.preventDefault();
-
-    utils.makeRequest({
-      url: '/api/logout',
-      method: 'POST',
-      success: function(data) {
-        this.transitionTo('/login');
-        location.reload(false);
-      }.bind(this),
-      error: function(error) {
-      }.bind(this)
-    });
-  },
   refresh: function() {
     // Refresh the member list. This function is called whenever the Directory mounts
     utils.makeRequest({
@@ -87,7 +73,6 @@ var Dashboard = React.createClass({
       <div>
         <h2>{this.state.org.name}</h2>
         <button type="button" onClick={this.handleClient}>Launch Client</button>
-        <button type="button" onClick={this.handleLogout}>Logout</button>
         <h3>Dashboard</h3>
         <Link to="dashboard">Directory</Link>
         <Link to="editOrg">Edit Org</Link>

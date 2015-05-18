@@ -51,7 +51,7 @@ var UserForm = React.createClass({
   },
   render: function() {
     return (
-      <div className="container">
+      <div>
         <Form.Form onSubmit={this.handleSubmit}>
           <h3>{this.props.title}</h3>
           <Form.Input label="First Name" type="text" ref="first_name" />
