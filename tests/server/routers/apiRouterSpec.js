@@ -5,7 +5,7 @@ var oldInfo = {
 };
 
 // Change some environmental variables before starting tests
-// On dev machines, allow this to run concurrently with the server
+// On dev machines, allow this to run concurrently with the server (on another port)
 // On production machines, test before running the server
 if (!process.env.PORT) {
   process.env.PORT = 55987;
@@ -20,10 +20,12 @@ describe('apiRouter', function() {
 
   var http = require('http');
   var app = require('../../../server/app');
+  var Promise = require('bluebird');
   var dbUtils = require('../../../server/db/dbUtils');
   var config = process.env.DATABASE_TEST_URL || require('../../../server/config/config').testdb.config;
 
-  var requestWithSession = require('request').defaults({jar: true});
+  // Promise-returning request with session
+  var reqAsync = Promise.promisify(require('request').defaults({jar: true}));
   var instance;
   var url = 'http://localhost:'+process.env.PORT+'/';
 
@@ -59,8 +61,7 @@ describe('apiRouter', function() {
           password: 'bryan'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
       });
@@ -75,8 +76,7 @@ describe('apiRouter', function() {
           welcome_message: 'Bryan\'s Bryan Bryan Bryans Bryanly'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
       });
@@ -92,8 +92,7 @@ describe('apiRouter', function() {
           title: 'Or Is This The Good One?'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
       });
@@ -107,8 +106,7 @@ describe('apiRouter', function() {
           last_name: 'Good Twin'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
       });
@@ -122,8 +120,7 @@ describe('apiRouter', function() {
           default_id: '2'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         done();
       });
@@ -133,8 +130,7 @@ describe('apiRouter', function() {
         method: 'GET',
         uri: url+'api/orgs/dashboard'
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         body = JSON.parse(body);
         expect(body.name).to.equal('Bryan\'s');
@@ -155,21 +151,19 @@ describe('apiRouter', function() {
           id: '2'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
           method: 'GET',
           uri: url+'api/orgs/dashboard'
         };
-        requestWithSession(options, function(error, res, body) {
-          expect(error).to.equal(null);
-          expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
-          body = JSON.parse(body);
-          expect(body.members.length).to.equal(1);
-          expect(body.default_id).to.equal(body.admin_id);
-          done();
-        });
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
+        body = JSON.parse(body);
+        expect(body.members.length).to.equal(1);
+        expect(body.default_id).to.equal(body.admin_id);
+        done();
       });
     });
   });
@@ -179,18 +173,16 @@ describe('apiRouter', function() {
         method: 'POST',
         uri: url+'api/client-login'
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
           method: 'GET',
           uri: url+'api/orgs/dashboard'
         };
-        requestWithSession(options, function(error, res, body) {
-          expect(error).to.equal(null);
-          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User Error
-          done();
-        });
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User Error
+        done();
       });
     });
     it('fails to retrieve sensitive fields', function(done) {
@@ -198,8 +190,7 @@ describe('apiRouter', function() {
         method: 'GET',
         uri: url+'api/orgs/client'
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
         body = JSON.parse(body);
         expect(body.members[0].last_name).to.equal('Bryan');
@@ -213,18 +204,16 @@ describe('apiRouter', function() {
         method: 'POST',
         uri: url+'api/logout'
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
           method: 'GET',
           uri: url+'api/orgs/client'
         };
-        requestWithSession(options, function(error, res, body) {
-          expect(error).to.equal(null);
-          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
-          done();
-        });
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
       });
     });
     it('throws an error if updating from another account', function(done) {
@@ -238,8 +227,7 @@ describe('apiRouter', function() {
           password: 'bryan'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
           method: 'POST',
@@ -249,11 +237,10 @@ describe('apiRouter', function() {
             title: 'Not-At-All Evil'
           }
         };
-        requestWithSession(options, function(error, res, body) {
-          expect(error).to.equal(null);
-          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
-          done();
-        });
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
       });
     });
     it('throws an error if deleting from another account', function(done) {
@@ -264,8 +251,7 @@ describe('apiRouter', function() {
           id: '1'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
         done();
       });
@@ -280,8 +266,7 @@ describe('apiRouter', function() {
           welcome_message: 'All hail Bryan'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
           method: 'POST',
@@ -290,11 +275,10 @@ describe('apiRouter', function() {
             default_id: '1'
           }
         };
-        requestWithSession(options, function(error, res, body) {
-          expect(error).to.equal(null);
-          expect(res.statusCode.toString()).to.match(/^4\d\d$/); // Success
-          done();
-        });
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // Success
+        done();
       });
     });
     it('throws an error if deleting self as admin', function(done) {
@@ -305,9 +289,26 @@ describe('apiRouter', function() {
           id: '3'
         }
       };
-      requestWithSession(options, function(error, res, body) {
-        expect(error).to.equal(null);
+      reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
+        done();
+      });
+    });
+    it('deletes an organization', function(done) {
+      var options = {
+        method: 'POST',
+        uri: url+'api/orgs/delete'
+      };
+      reqAsync(options).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/);
+        var options = {
+          method: 'GET',
+          uri: url+'api/orgs/dashboard'
+        };
+        return reqAsync(options);
+      }).spread(function(res, body) {
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/);
+        expect(body).to.equal('{}');
         done();
       });
     });

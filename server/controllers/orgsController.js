@@ -1,90 +1,70 @@
-var dbUtils = require('../db/dbUtils');
+var Promise = require('bluebird');
+var dbUtils = Promise.promisifyAll(require('../db/dbUtils'));
 var controllerUtils = require('./controllerUtils');
 
+var getInfo = function(req, res, next, fields) {
+  dbUtils.getUsersShareOrganizationAsync(req.user)
+    .then(function(results) {
+      controllerUtils.sanitizeFields(results.members, fields);
+      res.end(JSON.stringify(results));
+    }).catch(function(error) { controllerUtils.checkError(res, error); });
+};
+
 module.exports = {
-  // Must not have an organization
+  // User must not have an organization
   postAddOrg: function(req, res, next) {
-    dbUtils.getUser(req.user, function(error, user) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      if (user.organization_id) {
-        return controllerUtils.serveStatus(res, 422, 'Members may only be in one organization');
-      }
-      req.body.admin_id = user.id;
-      dbUtils.addOrganization(req.body, function(error, org) {
-        if (!controllerUtils.checkOrgError(res, error)) {
-          return controllerUtils.serveStatus(res, 201);
+    dbUtils.getUserAsync(req.user)
+      .then(function(user) {
+        if (user.organization_id) {
+          throw new Error('422 Users may be in only one organization');
         }
-      });
-    });
+        // User is set to admin
+        req.body.admin_id = user.id;
+        return dbUtils.addOrganizationAsync(req.body);
+      }).then(function() { controllerUtils.serveStatus(res, 201); })
+      .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // Must be admin of organization
+  // User must be admin
   postUpdateOrg: function(req, res, next) {
-    dbUtils.getOrganization({admin_id: req.user.id}, function(error, org) {
-      if (error) {
-        if (error.match(/no matches/i)) {
-          return controllerUtils.serveStatus(res, 403);
+    dbUtils.getOrgAsync({admin_id: req.user.id})
+      .then(function(org) {
+        // Updates are on user's organization
+        req.body.id = org.id;
+        // If default_id is changed, check that new default is in organization
+        if (req.body.default_id) {
+          return dbUtils.getUserAsync({id: req.body.default_id})
+            .then(function(member) {
+              if (member.organization_id !== org.id) {
+                throw new Error(400);
+              }
+              return dbUtils.updateOrgAsync(req.body);
+            });
         }
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      req.body.id = org.id;
-      if (req.body.default_id) {
-        dbUtils.getUser({id: req.body.default_id}, function(error, member) {
-          if (error) {
-            console.error(error);
-            return controllerUtils.serveStatus(res, 500);
-          }
-          if (member.organization_id !== org.id) {
-            return controllerUtils.serveStatus(res, 400);
-          }
-          dbUtils.updateOrganization(req.body, function(error, org) {
-            if (!controllerUtils.checkOrgError(res, error)) {
-              return controllerUtils.serveStatus(res, 204);
-            }
-          });
-        });
-        return;
-      }
-      dbUtils.updateOrganization(req.body, function(error, org) {
-        if (!controllerUtils.checkOrgError(res, error)) {
-          return controllerUtils.serveStatus(res, 204);
-        }
-      });
-    });
+      }).then(function() { controllerUtils.serveStatus(res, 204); })
+      .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // TODO
+  // User must be admin
   postDeleteOrg: function(req, res, next) {
-    controllerUtils.serveStatus(res, 501);
+    dbUtils.getOrgAsync({admin_id: req.user.id})
+      .then(function(org) {
+        // Change user's organization to null
+        // Let cascade delete all other members
+        return dbUtils.updateUserAsync({id: req.user.id, organization_id: null})
+          .then(function() { dbUtils.deleteOrgAsync(org); });
+    }).then(function() { controllerUtils.serveStatus(res, 204); })
+    .catch(function(error) { console.error(error); controllerUtils.checkError(res, error); });
   },
 
-  // Must be in organization
+  // User must be in organization
   getDashboardInfo: function(req, res, next) {
-    var user = req.user;
-    dbUtils.getUsersShareOrganization(user, function(error, results) {
-      if(error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      controllerUtils.sanitizeFields(results.members, ['password_hash']);
-      res.end(JSON.stringify(results));
-    });
+    getInfo(req, res, next, ['password_hash']);
   },
 
-  // Must be in organization
+  // User must be in organization
+  // Acts like getDashboardInfo except direct contact info is removed
   getClientInfo: function(req, res, next) {
-    var user = req.user;
-    dbUtils.getUsersShareOrganization(user, function(error, results) {
-      if (error) {
-        console.error(error);
-        return controllerUtils.serveStatus(res, 500);
-      }
-      controllerUtils.sanitizeFields(results.members, ['password_hash', 'phone', 'email']);
-      res.end(JSON.stringify(results));
-    });
+    getInfo(req, res, next, ['password_hash', 'phone', 'email']);
   }
 };

@@ -137,7 +137,7 @@ describe('dbUtils', function() {
         expect(error).to.equal(null);
         dbUtils.addOrganization(tallestTree, function(error) {
           expect(error).to.equal(null);
-          dbUtils.getOrganization({name: 'Tallest Tree'}, function(error, organization) {
+          dbUtils.getOrg({name: 'Tallest Tree'}, function(error, organization) {
             expect(error).to.equal(null);
             expect(organization.name).to.equal('Tallest Tree');
             testDone();
@@ -184,18 +184,6 @@ describe('dbUtils', function() {
             expect(user.organization_id).to.equal(1);
             testDone();
           });
-        });
-      });
-    });
-    it('updates updated_at when updating', function(testDone) {
-      dbUtils.addUser(john, function(error, user) {
-        expect(error).to.equal(null);
-        expect(user.updated_at.getTime()).to.equal(user.created_at.getTime());
-        dbUtils.updateUser({id: 1, email: 'johndoe@myurl.com', first_name: 'Jane'}, function(error, user) {
-          expect(error).to.equal(null);
-          expect(user.first_name).to.equal('Jane');
-          expect(user.updated_at.getTime()).to.not.equal(user.created_at.getTime());
-          testDone();
         });
       });
     });

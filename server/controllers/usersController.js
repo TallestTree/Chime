@@ -7,8 +7,7 @@ var smsUtilsAsync = Promise.promisify(require('../ping/smsUtils'));
 module.exports = {
   // Admins can add members into their organization
   postAddMember: function(req, res, next) {
-    dbUtils.getUserAsync(req.user)
-      .then(dbUtils.getOrganizationAsync)
+    dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
         // User must be admin
         if (req.user.id !== org.admin_id) {
@@ -19,7 +18,7 @@ module.exports = {
         return req.body;
       }).then(dbUtils.addUserAsync)
       .then(function(member) { controllerUtils.serveStatus(res, 201); })
-      .catch(function(error) { controllerUtils.checkUserError(res, error); });
+      .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
   // Users can update themselves, and admins can update members of their organization
@@ -30,22 +29,15 @@ module.exports = {
       if (req.user.id === +req.body.id) {
         return;
       }
-      return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
-          // Member must be of the same organization
-          if (!user.organization_id || user.organization_id !== member.organization_id) {
-            throw new Error(403);
-          }
-          return user;
-        }).then(function(user) { return dbUtils.getOrganizationAsync({id: user.organization_id}); })
-        .then(function(org) {
-          // User must be admin
-          if (req.user.id !== org.admin_id) {
-            throw new Error(403);
-          }
-        });
+      return Promise.join(dbUtils.getUserAsync({id: req.body.id}), dbUtils.getOrgAsync({admin_id: req.user.id}), function(member, org) {
+        // Member must be of the same organization
+        if (member.organization_id !== org.id) {
+          throw new Error(403);
+        }
+      });
     }).then(function() { return dbUtils.updateUserAsync(req.body); })
     .then(function() { controllerUtils.serveStatus(res, 204); })
-    .catch(function(error) { controllerUtils.checkUserError(res, error); });
+    .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
   // Users can delete themselves, and admins can delete members of their organization
@@ -58,7 +50,7 @@ module.exports = {
             if (!user.organization_id) {
               return false;
             }
-            return dbUtils.getOrganizationAsync({id: user.organization_id})
+            return dbUtils.getOrgAsync({id: user.organization_id})
               .then(function(org) {
                 // Admins cannot be deleted
                 if (+req.body.id === org.admin_id) {
@@ -73,7 +65,7 @@ module.exports = {
             throw new Error(403);
           }
           return user;
-        }).then(function(user) { return dbUtils.getOrganizationAsync({id: user.organization_id}); })
+        }).then(function(user) { return dbUtils.getOrgAsync({id: user.organization_id}); })
         .then(function(org) {
           // User must be admin
           if (req.user.id !== org.admin_id) {
@@ -85,12 +77,12 @@ module.exports = {
       if (org) {
         // If a default user is deleted, reset it back to admin
         if (+req.body.id === org.default_id) {
-          return dbUtils.updateOrganizationAsync({id: org.id, default_id: org.admin_id});
+          return dbUtils.updateOrgAsync({id: org.id, default_id: org.admin_id});
         }
       }
     }).then(function() { return dbUtils.deleteUserAsync(req.body); })
     .then(function() { controllerUtils.serveStatus(res, 204); })
-    .catch(function(error) { controllerUtils.checkUserError(res, error); });
+    .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
   // Must share organizations
@@ -125,6 +117,6 @@ module.exports = {
       return [smsPromise, emailPromise];
     }).all().then(function() {
       controllerUtils.serveStatus(res, 204);
-    }).catch(function(error) { console.error(error); controllerUtils.checkUserError(res, error); });
+    }).catch(function(error) { console.error(error); controllerUtils.checkError(res, error); });
   }
 };

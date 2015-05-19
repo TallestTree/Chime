@@ -26,48 +26,48 @@ module.exports = {
   checkError: function(res, error) {
     if (error) {
       error = error.message || error;
+
+      // Check for user errors
+      if (error.match(/user/i)) {
+        if (error.match(/unique/i)) {
+          if (error.match(/phone/i)) {
+            return module.exports.serveStatus(res, 422, 'Phone number taken');
+          }
+          if (error.match(/email/i)) {
+            return module.exports.serveStatus(res, 422, 'Email taken');
+          }
+        }
+      }
+
+      // Check for org errors
+      if (error.match(/organization/i)) {
+        if (error.match(/unique/i)) {
+          if (error.match(/name/i)) {
+            return module.exports.serveStatus(res, 422, 'Org name taken');
+          }
+        }
+        if (error.match(/no matches/i)) {
+          return module.exports.serveStatus(res, 403);
+        }
+      }
+
       // Parse out error code if one exists
       if (error.match(/\d{3}/)) {
         return module.exports.serveStatus(res, +error.match(/\d{3}/), error.replace(/\d{3}\s?/, ''));
       }
+      // Log out internal server errors
+      console.error(error);
       return module.exports.serveStatus(res, 500);
     }
   },
 
-  // Handles user errors
-  checkUserError: function(res, error) {
-    if (error) {
-      error = error.message || error;
-      if (error.match(/unique/i)) {
-        if (error.match(/phone/i)) {
-          return module.exports.serveStatus(res, 422, 'Phone number taken');
-        }
-        if (error.match(/email/i)) {
-          return module.exports.serveStatus(res, 422, 'Email taken');
-        }
-      }
-    }
-    return module.exports.checkError(res, error);
-  },
-
-  // Handles organization errors
-  checkOrgError: function(res, error) {
-    if (error) {
-      error = error.message || error;
-      if (error.match(/unique/i)) {
-        if (error.match(/name/i)) {
-          return module.exports.serveStatus(res, 422, 'Org name taken');
-        }
-      }
-    }
-    return module.exports.checkError(res, error);
-  },
-
   sanitizeFields: function(members, fields) {
-    members.forEach(function(member) {
-      fields.forEach(function(field) {
-        delete member[field];
+    if (members) {
+      members.forEach(function(member) {
+        fields.forEach(function(field) {
+          delete member[field];
+        });
       });
-    });
+    }
   }
 };

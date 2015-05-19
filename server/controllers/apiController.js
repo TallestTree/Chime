@@ -32,7 +32,7 @@ module.exports = {
       }
       user.password_hash = hash;
       dbUtils.addUser(user, function(error, results) {
-        if (!controllerUtils.checkUserError(res, error)) {
+        if (!controllerUtils.checkError(res, error)) {
           login(req, res, next);
         }
       });
