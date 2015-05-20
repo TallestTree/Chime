@@ -34,4 +34,4 @@ CREATE TABLE organizations (
 
 ALTER TABLE users ADD FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE;
 ALTER TABLE organizations ADD FOREIGN KEY (admin_id) REFERENCES users (id) ON DELETE RESTRICT;
-ALTER TABLE organizations ADD FOREIGN KEY (default_id) REFERENCES users (id) ON DELETE SET NULL;
+ALTER TABLE organizations ADD FOREIGN KEY (default_id) REFERENCES users (id) ON DELETE RESTRICT;

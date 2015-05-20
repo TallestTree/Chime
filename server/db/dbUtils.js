@@ -56,13 +56,16 @@ var augmentFields = function(entry, fields) {
     validatedEntry[fields.required[i]] = entry[fields.required[i]];
   }
   for (var j=0; j<fields.optional.length; j++) {
-    validatedEntry[fields.optional[j]] = entry[fields.optional[j]] || null;
+    if (entry[fields.optional[j]] !== undefined) {
+      validatedEntry[fields.optional[j]] = entry[fields.optional[j]];
+    }
   }
   // Defaults photo to one from gravatar
-  if (validatedEntry.photo === null) {
+  if (validatedEntry.email && (validatedEntry.photo === undefined || validatedEntry.photo === '')) {
     validatedEntry.photo = 'http://www.gravatar.com/avatar/' + md5.digest_s(validatedEntry.email);
   }
-  if (validatedEntry.default_id === null) {
+  // Defaults the default member to the admin
+  if (validatedEntry.admin_id && !validatedEntry.default_id) {
     validatedEntry.default_id = validatedEntry.admin_id;
   }
   return validatedEntry;
@@ -75,7 +78,7 @@ var getEntryFields = function(entry, possibleEntryFields) {
   }
   var fields = [];
   for (var i=0; i<possibleEntryFields.length; i++) {
-    if (entry[possibleEntryFields[i]]) {
+    if (entry[possibleEntryFields[i]] !== undefined) {
       fields.push(possibleEntryFields[i]);
     }
   }
@@ -144,7 +147,7 @@ var addEntry = function(type, entry, cb) {
   });
 };
 
-// Helper function for updateUser and updateOrganization
+// Helper function for updateUser and updateOrg
 // Uses id field attached to entry to update the rest
 var updateEntry = function(type, entry, cb) {
   // Validate against possible fields
@@ -172,7 +175,7 @@ var updateEntry = function(type, entry, cb) {
   });
 };
 
-// Helper function for getUsers and getOrganizations
+// Helper function for getUsers and getOrgs
 var getEntries = function(type, entry, cb) {
   // Validate against possible fields
   var fields = getEntryFields(entry, allFields[type].required.concat(allFields[type].optional, allFields[type].auto));
@@ -199,7 +202,7 @@ var getEntries = function(type, entry, cb) {
   });
 };
 
-// Helper function for deleteUser and deleteOrganization
+// Helper function for deleteUser and deleteOrg
 // Uses id field attached to entry to delete the entry
 var deleteEntry = function(type, entry, cb) {
   var fields = ['id'];
@@ -226,7 +229,7 @@ var deleteEntry = function(type, entry, cb) {
   });
 };
 
-// Helper function for getUser and getOrganization
+// Helper function for getUser and getOrg
 var getEntry = function(type, entry, cb) {
   var rejectIfMultiple = function(cb, users) {
     if (users.length>1) {
@@ -260,7 +263,7 @@ exports.updateUser = function(user, cb) {
 };
 
 // Takes an organization entry and updates it
-exports.updateOrganization = function(organization, cb) {
+exports.updateOrg = function(organization, cb) {
   updateEntry('organization', organization, augmentCb(cb, 'updating organization'));
 };
 
@@ -270,7 +273,7 @@ exports.deleteUser = function(user, cb) {
 };
 
 // Takes an organization entry and deletes it
-exports.deleteOrganization = function(organization, cb) {
+exports.deleteOrg = function(organization, cb) {
   deleteEntry('organization', organization, augmentCb(cb, 'deleting organization'));
 };
 
@@ -285,12 +288,12 @@ exports.getUsers = function(users, cb) {
 };
 
 // Takes partial organization fields and returns organization entry
-exports.getOrganization = function(organization, cb) {
+exports.getOrg = function(organization, cb) {
   getEntry('organization', organization, augmentCb(cb, 'getting organization'));
 };
 
 // Takes partial organization fields and returns organization entries
-exports.getOrganizations = function(organizations, cb) {
+exports.getOrgs = function(organizations, cb) {
   getEntries('organization', organizations, augmentCb(cb, 'getting organizations'));
 };
 
@@ -304,7 +307,7 @@ exports.getUsersByOrganization = function(organization, cb) {
     };
     exports.getUsers({organization_id: organization.id}, augmentCb(cb, null, buildOrgInfo));
   };
-  exports.getOrganization(organization, augmentCb(cb, 'getting users by organization', getUsers));
+  exports.getOrg(organization, augmentCb(cb, 'getting users by organization', getUsers));
 };
 
 // Takes a user and retrieves all users that share an organization
