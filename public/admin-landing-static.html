@@ -145,18 +145,26 @@
       </div>
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/admin/jquery.easybg.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../node_modules/vegas/dist/vegas.min.js"></script>
     <script>
-      $('.dashboard-photo-background').vegas({
-        delay: 10000,
-        timer: false,
-        slides: [
-            { src: 'images/01r.jpg' },
-            { src: 'images/02r.jpg' },
-            { src: 'images/03r.jpg' },
-            { src: 'images/04r.jpg' }
-        ]
+      $(window).load(function(){
+      $('.dashboard-photo-background').easybg({
+      images: [ // an array of background dimages
+      'images/01r.jpg',
+      'images/02r.jpg',
+      'images/03r.jpg',
+      'images/04r.jpg'
+      ],
+      interval: 10000,
+      speed : 1000, // 1 minute
+      ignoreError : false,
+      changeMode : 'normal', // normal or random
+      initIndex : 0,
+      cloneClassId : null,
+      cloneClassName : 'easybgClone',
+      debug : false
+      });
       });
     </script>
     <script>$(function() {

@@ -82,7 +82,7 @@ module.exports = function(grunt) {
       },
       target: {
         files: {
-          'public/build/admin-bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'node_modules/vegas/dist/vegas.min.css', 'public/stylesheets/admin-style.css'],
+          'public/build/admin-bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/admin-style.css'],
           'public/build/client-bundle.min.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/client-style.css'],
           'public/build/bundle.min.css':['node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/stylesheets/style.css'] // TODO: Delete this third file when migrations are complete
         }
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
           sourceMapIn: 'public/build/admin.js.map'
         },
         files: {
-          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/vegas/dist/vegas.min.js', 'public/build/admin.js']
+          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/build/admin.js']
         },
       },
       client: {
