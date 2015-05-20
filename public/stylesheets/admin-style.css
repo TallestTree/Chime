@@ -254,12 +254,6 @@ label {
   }
 }
 
-/*.dashboard-small {
-  font-weight: 100;
-  color: #FFF;
-  font-size: 1.2vw;
-}
-*/
 .dashboard-photo-background {
   min-height: 100vh;
   max-width: 100vw;
@@ -435,19 +429,6 @@ label {
   margin-right: auto;
 }
 
-/*.dashboard-avatar-name {
-  font-weight: 300;
-  margin-top: 3px;
-  margin-bottom: 0;
-  font-size: .8em;
-}*/
-
-/*.dashboard-avatar-position {
-  margin-top: 0;
-  margin-bottom: 3px;
-  font-size: .8em;
-}
-*/
 .dashboard-upload-preview {
   margin-top: 20px;
   margin-bottom: 30px;
