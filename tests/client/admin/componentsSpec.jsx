@@ -89,58 +89,40 @@ describe('front-end admin pages', function() {
         expect(types.indexOf('password')).to.not.equal(-1);
       });
     });
-
-    describe('links', function() {
-      it('should contain link named \'Sign up\'', function() {
-        var links = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'a');
-        var linksArray = Array.prototype.slice.call(links);
-
-        var names = [];
-        linksArray.forEach(function(element) {
-          var node = React.findDOMNode(element);
-          names.push(node.innerHTML);
-        });
-
-        expect(names.indexOf('Sign up')).to.not.equal(-1);
-      });
-    });
   });
 
   describe('dashboard', function() {
     var Dashboard = require('../../../public/scripts/admin/dashboard.jsx');
     var DashboardStub = stubRouterContext(Dashboard);
+    var RouteHandler = require('react-router').RouteHandler;
 
     beforeEach(function() {
       instance = TestUtils.renderIntoDocument(<DashboardStub />);
     });
 
-    it('should contain \'dashboard\' header', function() {
-      var heading = TestUtils.findRenderedDOMComponentWithTag(instance, 'h3');
-      expect(React.findDOMNode(heading).innerHTML).to.equal('Dashboard');
+    it('should contain \'Launch Client\'', function() {
+      var buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+      var LaunchClient;
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].props.children === 'Launch Client') {
+          LaunchClient = buttons[i];
+          break;
+        }
+      }
+
+      expect(LaunchClient).to.not.equal(undefined);
     });
 
-    describe('links', function() {
-      it('should contain links named Directory, Edit Org, and Add User', function() {
-        var links = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'a');
-        var linksArray = Array.prototype.slice.call(links);
-
-        expect(links.length).to.equal(3);
-
-        var names = [];
-        linksArray.forEach(function(element) {
-          var node = React.findDOMNode(element);
-          names.push(node.innerHTML);
-        });
-
-        expect(names.indexOf('Directory')).to.not.equal(-1);
-        expect(names.indexOf('Edit Org')).to.not.equal(-1);
-        expect(names.indexOf('Add User')).to.not.equal(-1);
-      });
+    it('should contain a RouteHandler for nested children', function() {
+      var handler = TestUtils.findRenderedComponentWithType(instance, RouteHandler);
+      expect(handler).to.not.equal(undefined);
     });
   });
 
   describe('directory', function() {
     var Directory = require('../../../public/scripts/admin/subcomponents/Directory.jsx');
+    var Member = require('../../../public/scripts/shared/member.jsx');
 
     var refreshSpy = sinon.spy();
     var DirectoryStub = stubRouterContext(Directory, {
@@ -159,9 +141,9 @@ describe('front-end admin pages', function() {
       });
 
       it('should populate the member list', function() {
-        var members = TestUtils.findRenderedDOMComponentWithClass(instance, 'member-list').getDOMNode();
+        var members = TestUtils.scryRenderedComponentsWithType(instance, Member);
 
-        expect(members.children.length).to.equal(3);
+        expect(members.length).to.equal(3);
       });
     });
   });
