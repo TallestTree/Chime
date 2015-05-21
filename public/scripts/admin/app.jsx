@@ -17,13 +17,16 @@ var AddForm = require('./subcomponents/AddForm.jsx');
 var EditForm = require('./subcomponents/EditForm.jsx');
 var AddOrgForm = require('./subcomponents/AddOrgForm.jsx');
 var EditOrgForm = require('./subcomponents/EditOrgForm.jsx');
+var SectionRotatingBg = require('./subcomponents/RotatingBg.jsx');
 
 // Main content class that holds everything on the page
 var App = React.createClass({
   render: function() {
     return (
       <div className="main-content container-fluid">
-        <RouteHandler />
+        <SectionRotatingBg>
+          <RouteHandler />
+        </SectionRotatingBg>
       </div>
     );
   }

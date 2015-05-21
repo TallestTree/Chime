@@ -2,7 +2,6 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
-var SectionRotatingBg = require('./RotatingBg.jsx');
 var NavBar = require('./NavBar.jsx');
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
@@ -36,7 +35,7 @@ var LoginForm = React.createClass({
   },
   render: function() {
     return (
-      <SectionRotatingBg>
+      <div>
         <NavBar page="login" />
         <div className="col-xs-6 col-xs-push-3 dashboard-content">
           <div className="row text-center dashboard-large">LOG IN</div>
@@ -48,7 +47,7 @@ var LoginForm = React.createClass({
             </div>
           </Form.Form>
         </div>
-      </SectionRotatingBg>
+      </div>
     );
   }
 });
