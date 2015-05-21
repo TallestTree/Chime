@@ -3,13 +3,13 @@ var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-// Components for PingForm
+// Components for PingDefault
 var Member = require('./Member.jsx');  // TODO:  Remove these two later. PLB
 var MemberList = require('./MemberList.jsx');
 var PingConfirm = require('./PingConfirm.jsx');
 
 
-var PingForm = React.createClass({
+var PingDefault = React.createClass({
   mixins: [Router.Navigation, Router.State],
   getInitialState: function() {
     return {visitorName: '', visitorMessage: ''};
@@ -30,7 +30,7 @@ var PingForm = React.createClass({
         this.transitionTo('pingconfirm', {success: 1}); // Ping success!
       }.bind(this),
       error: function(jqXHR, status, error) {
-        console.error('(PingForm) Error submitting form to server: ' + error );
+        console.error('(PingDefault) Error submitting form to server: ' + error );
         this.transitionTo('pingconfirm', {success: 0}); // Ping fail!
       }.bind(this),
       timeout: 10000
@@ -49,7 +49,6 @@ var PingForm = React.createClass({
       // MemberIndex not found, so return to Directory.
       this.exitView();
     }
-    this.jobTitle = member.title;
     return(
 
       <div className="main-content container-fluid">
@@ -63,8 +62,7 @@ var PingForm = React.createClass({
           <div className="col-xs-8 col-xs-push-2 client-ping">
 
             <p className="client-large text-center">{member.first_name} {member.last_name}</p>
-            <p className="client-medium text-center">{this.jobTitle}</p>
-            <p className="client-medium text-center">{this.defaultIdMsg}</p>
+            <p className="client-medium text-center">&nbsp;{member.first_name} can assist you with general office inquiries.</p>
 
             <div className="row">
               <div className="col-xs-8 col-xs-push-2 col-md-4 col-md-push-4 text-center">
@@ -101,5 +99,5 @@ var PingForm = React.createClass({
   }
 });
 
-module.exports = PingForm;
+module.exports = PingDefault;
 

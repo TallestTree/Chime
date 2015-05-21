@@ -11,7 +11,7 @@ var PingConfirm = React.createClass({
     var outerScope = this;
     window.setTimeout((function() {
       outerScope.transitionTo('directory');
-    }), 5000);
+    }), 10000);
 
   },
   render: function() {
@@ -26,7 +26,7 @@ var PingConfirm = React.createClass({
           <div className="row">
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
-                <h2>Your ping message has been sent!</h2>
+              <p className="client-medium text-center">Success!!!&nbsp;&nbsp;Your message has been sent!</p>
 
             </div>
           </div>
@@ -43,7 +43,7 @@ var PingConfirm = React.createClass({
           <div className="row">
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
-              <h2>ERROR - Please try your ping again, or ping another person.</h2>
+              <p className="client-medium text-center">ERROR - Please try sending your message again, or choose another recipient.</p>
 
             </div>
           </div>

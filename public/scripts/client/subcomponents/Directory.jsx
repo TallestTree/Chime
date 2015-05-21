@@ -15,6 +15,10 @@ var Directory = React.createClass({
   exitView: function() {
     this.transitionTo('/');
   },
+  handleDefaultPingClick: function(e) {
+    var defaultId = this.props.org.default_id || this.props.data.id;
+    this.transitionTo('pingdefault', {id: this.props.org.default_id});
+  },
   render: function() {
     return (
 
@@ -29,7 +33,7 @@ var Directory = React.createClass({
         </div>
         <div className="row text-center client-directory-intro">
           <p className="client-large">Please tap on the person you're here to see.</p>
-          <p className="client-large">Not sure? <a href="#">Tap here.</a></p>
+          <p className="client-large">Not sure? <span className="client-large linkColored" onClick={this.handleDefaultPingClick}>TAP HERE</span></p>
         </div>
         <div className="row text-center">
           <div className="col-xs-10 col-xs-push-1 client-directory">

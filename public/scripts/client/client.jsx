@@ -18,6 +18,7 @@ var Member = require('./subcomponents/Member.jsx');
 // Components for PING
 var PingForm = require('./subcomponents/PingForm.jsx');
 var PingConfirm = require('./subcomponents/PingConfirm.jsx');
+var PingDefault = require('./subcomponents/PingDefault.jsx');
 
 
 // Main content class that holds everything on the page
@@ -97,6 +98,7 @@ var routes = (
     <DefaultRoute handler={Welcome} />
     <Route name="directory" path="/directory" handler={Directory} />
     <Route name="ping" path="/ping/:id" handler={PingForm} />
+    <Route name="pingdefault" path="/pingdefault/:id" handler={PingDefault} />
     <Route name="pingconfirm" path="/pingconfirm/:success" handler={PingConfirm} />
   </Route>
 );
