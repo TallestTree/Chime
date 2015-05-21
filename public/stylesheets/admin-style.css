@@ -431,6 +431,7 @@ label {
 }
 
 .dashboard-avatar-footer {
+  height: 5vw;
   margin-left: auto;
   margin-right: auto;
 }
