@@ -33,7 +33,7 @@ var PingForm = React.createClass({
         console.error('(PingForm) Error submitting form to server: ' + error );
         this.transitionTo('pingconfirm', {success: 0}); // Ping fail!
       }.bind(this),
-      timeout: 5000
+      timeout: 10000
     });
 
   },
@@ -49,6 +49,7 @@ var PingForm = React.createClass({
       // MemberIndex not found, so return to Directory.
       this.exitView();
     }
+    this.jobTitle = member.title;
     return(
 
       <div className="main-content container-fluid">
@@ -62,7 +63,8 @@ var PingForm = React.createClass({
           <div className="col-xs-8 col-xs-push-2 client-ping">
 
             <p className="client-large text-center">{member.first_name} {member.last_name}</p>
-            <p className="client-medium text-center">&nbsp;{member.title}&nbsp;</p>
+            <p className="client-medium text-center">{this.jobTitle}</p>
+            <p className="client-medium text-center">{this.defaultIdMsg}</p>
 
             <div className="row">
               <div className="col-xs-8 col-xs-push-2 col-md-4 col-md-push-4 text-center">
@@ -81,10 +83,10 @@ var PingForm = React.createClass({
               </div>
               <div className="row">
                 <div className="col-xs-6">
-                  <button type="button" className="btn btn-default client-button client-medium pull-left" onClick={this.exitView}>Cancel</button>
+                  <button type="submit" className="btn btn-default client-button client-medium pull-right">Send</button>
                 </div>
                 <div className="col-xs-6">
-                  <button type="submit" className="btn btn-default client-button client-medium pull-right">Send</button>
+                  <button type="button" className="btn btn-default client-button client-medium pull-left" onClick={this.exitView}>Cancel</button>
                 </div>
               </div>
             </form>

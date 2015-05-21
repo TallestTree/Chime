@@ -15,8 +15,8 @@ var Welcome = React.createClass({
   },
   render: function() {
     return (
-
-        <div className="main-content container-fluid" onClick={this.handleClick}>
+      <div onClick={this.handleClick}>
+        <div className="main-content container-fluid">
 
           <div className="row client-app-logo">
             <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
@@ -29,12 +29,12 @@ var Welcome = React.createClass({
           </div>
 
           <div className="row text-center client-welcome">
-            <p className="client-huge">Welcome visitors!</p>
+            <p className="client-huge">{this.props.org.welcome_message}</p>
             <p className="client-large">Please tap the screen and let us know you're here.</p>
           </div>
 
         </div>
-
+      </div>
 
     );
   }

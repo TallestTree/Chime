@@ -76,6 +76,11 @@ a:hover {
   text-decoration: none;
 }
 
+.linkColored {
+  color: #52A3CC;
+  text-decoration: none;
+}
+
 label {
   font-weight: 300;
 }
