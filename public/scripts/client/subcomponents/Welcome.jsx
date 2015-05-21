@@ -29,7 +29,7 @@ var Welcome = React.createClass({
           </div>
 
           <div className="row text-center client-welcome">
-            <p className="client-huge">Welcome visitors!</p>
+            <p className="client-huge">{this.props.org.welcome_message}</p>
             <p className="client-large">Please tap the screen and let us know you're here.</p>
           </div>
 
