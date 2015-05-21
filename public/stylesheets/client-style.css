@@ -134,12 +134,6 @@ label {
   max-width: 75%;
 }
 
-.client-org-logo-directory {
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 50%;
-}
-
 .client-welcome {
   margin-top: 30px;
   color: #FFF;
@@ -191,10 +185,13 @@ label {
 
 .client-directory {
   margin-top: 50px;
+  padding-top: 50px;
   color: #FFF;
+  border: solid 1px #FFF;
 }
 
 .client-directory-intro {
+  margin-top: 100px;
   color: #FFF;
 }
 
