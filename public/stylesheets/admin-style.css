@@ -1,8 +1,14 @@
+@font-face {
+    font-family: "Montserrat-Hairline";
+    src: url(../fonts/Montserrat-Hairline.ttf) format("truetype");
+}
+
 html {
   overflow-y: scroll;
 }
 
 body {
+  font-family: "Helvetica Neue", "Montserrat-Hairline", sans-serif;
   min-width: 600px;
   width: auto;
   font-size: 1.4vw;
