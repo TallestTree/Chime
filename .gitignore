@@ -21,7 +21,7 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 public/build/
-public/fonts/
+public/fonts/glyphicons-*
 build/Release
 
 # Dependency directory
