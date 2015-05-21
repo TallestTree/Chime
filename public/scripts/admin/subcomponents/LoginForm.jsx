@@ -1,6 +1,8 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
+
+var NavBar = require('./NavBar.jsx');
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
 
@@ -33,14 +35,18 @@ var LoginForm = React.createClass({
   },
   render: function() {
     return (
-      <div className="container">
-        <Form.Form onSubmit={this.handleSubmit}>
-          <h2>Log in</h2>
-          <Form.Input label="Email" type="email" ref="email" />
-          <Form.Input label="Password" type="password" ref="password" />
-          <button type="submit" className="btn btn-default">Log in</button>
-          <Link to="signup" className="btn btn-default">Sign up</Link>
-        </Form.Form>
+      <div>
+        <NavBar page="login" />
+        <div className="col-xs-6 col-xs-push-3 dashboard-content">
+          <div className="row text-center dashboard-large">LOG IN</div>
+          <Form.Form onSubmit={this.handleSubmit}>
+            <Form.Input label="Email" type="email" ref="email" />
+            <Form.Input label="Password" type="password" ref="password" />
+            <div className="col-xs-4 col-xs-push-4">
+              <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Log in</button>
+            </div>
+          </Form.Form>
+        </div>
       </div>
     );
   }
