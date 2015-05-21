@@ -73,7 +73,7 @@ var EditOrgForm = React.createClass({
             <Form.Input label="Logo Url" type="url" ref="logo" />
             <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
             <div className="form-group">
-              <label>Default Contact</label>
+              <label className="text-left dashboard-medium">Default Contact</label>
               <Dropdown options={options} value={defaultOption} onChange={this.onSelect} />
             </div>
             <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">

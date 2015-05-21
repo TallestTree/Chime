@@ -52,7 +52,7 @@ var NavBar = React.createClass({
       <nav className="navbar navbar-default dashboard-navbar">
         <div className="container-fluid">
           <div className="col-xs-1 col-xs-push-1 navbar-header">
-            <a href=""><img className="dashboard-navbar-app-logo" src="images/logo_03.png" /></a>
+            <Link to="dashboard"><img className="dashboard-navbar-app-logo" src="images/logo_03.png" /></Link>
           </div>
           {login}
           {signup}
