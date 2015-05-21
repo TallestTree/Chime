@@ -15,15 +15,16 @@ var Welcome = React.createClass({
   },
   render: function() {
     return (
-      <div onClick={this.handleClick}>
+
+      <div onClick={this.handleClick} className="cursorPointer">
         <div className="main-content container-fluid">
 
           <div className="row client-app-logo">
-            <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
+            <img className="col-xs-2 col-sm-2 col-md-2" src="images/logo_03.png" />
           </div>
 
           <div className="row text-center">
-            <div className="col-xs-4 col-xs-push-4">
+            <div className="col-xs-4 col-xs-push-4 col-xm-4 col-xm-push-4">
               <img className="client-org-logo-welcome" src={this.props.org.logo} />
             </div>
           </div>
