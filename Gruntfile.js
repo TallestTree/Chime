@@ -45,10 +45,9 @@ module.exports = function(grunt) {
     },
 
     // WARNING: DO NOT PUT IMPORTANT FILES HERE
-    // Empties these directories
+    // Empties this directory
     clean: {
-      build: ['public/build'],
-      fonts: ['public/fonts']
+      build: ['public/build']
     },
 
     // Allows for watching for both transpiling and restarting node

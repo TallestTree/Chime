@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Montserrat-Hairline";
-    src: url(fonts/Montserrat-Hairline.ttf) format("truetype");
+    src: url(../fonts/Montserrat-Hairline.ttf) format("truetype");
 }
 
 html {
@@ -157,6 +157,18 @@ label {
     font-size: 1.9vw;
     font-weight: 100;
   }
+  .client-avatar-name {
+    font-weight: 100;
+    font-size: 1.7em;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  .client-avatar-position {
+    font-weight: 100;
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
 }
 
 @media screen and (max-width:991px) {
@@ -171,6 +183,18 @@ label {
   .client-medium {
     font-size: 2.5vw;
     font-weight: 100;
+  }
+  .client-avatar-name {
+    font-weight: 100;
+    font-size: 2.2em;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+  .client-avatar-position {
+    font-weight: 100;
+    font-size: 1.9em;
+    margin-top: 0;
+    margin-bottom: 5px;
   }
 }
 
@@ -230,20 +254,6 @@ label {
   margin-top: 5px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.client-avatar-name {
-  font-weight: 100;
-  font-size: 1.8em;
-  margin-top: 5px;
-  margin-bottom: 0;
-}
-
-.client-avatar-position {
-  font-weight: 100;
-  font-size: 1.4em;
-  margin-top: 0;
-  margin-bottom: 5px;
 }
 
 .client-contact {
