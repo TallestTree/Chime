@@ -1,6 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
 
+var SectionRotatingBg = require('./RotatingBg.jsx');
 var NavBar = require('./NavBar.jsx');
 var utils = require('../../shared/utils.jsx');
 var Form = require('../../shared/form.jsx');
@@ -39,7 +40,7 @@ var SignupForm = React.createClass({
   },
   render: function() {
     return (
-      <section className="row dashboard-photo-background">
+      <SectionRotatingBg>
         <NavBar page="signup" />
         <div className="col-xs-6 col-xs-push-3 dashboard-content">
           <div className="row text-center dashboard-large">SIGN UP</div>
@@ -54,7 +55,7 @@ var SignupForm = React.createClass({
             </div>
           </Form.Form>
         </div>
-      </section>
+      </SectionRotatingBg>
     );
   }
 });

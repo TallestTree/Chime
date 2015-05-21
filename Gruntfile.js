@@ -135,7 +135,7 @@ module.exports = function(grunt) {
           sourceMapIn: 'public/build/admin.js.map'
         },
         files: {
-          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/build/admin.js']
+          'public/build/adminBundle.min.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/scripts/admin/jquery.easybg.js', 'public/build/admin.js']
         },
       },
       client: {

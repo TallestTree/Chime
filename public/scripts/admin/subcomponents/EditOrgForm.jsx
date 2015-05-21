@@ -1,6 +1,8 @@
 var React = require('react');
 var Router = require('react-router');
 var Dropdown = require('react-dropdown');
+
+var SectionRotatingBg = require('./RotatingBg.jsx');
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
 
@@ -64,7 +66,7 @@ var EditOrgForm = React.createClass({
     }
 
     return (
-      <div className="container">
+      <SectionRotatingBg>
         <Form.Form onSubmit={this.handleSubmit}>
           <h3>Edit Organization</h3>
           <Form.Input label="Organization Name" type="text" ref="name" />
@@ -76,7 +78,7 @@ var EditOrgForm = React.createClass({
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
         </Form.Form>
-      </div>
+      </SectionRotatingBg>
     );
   }
 });
