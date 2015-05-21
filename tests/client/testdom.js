@@ -7,4 +7,5 @@ module.exports = function(markup) {
   global.navigator = {
     userAgent: 'node.js'
   };
+  global.$ = require('jquery');
 };
