@@ -56,12 +56,10 @@ var augmentFields = function(entry, fields) {
     validatedEntry[fields.required[i]] = entry[fields.required[i]];
   }
   for (var j=0; j<fields.optional.length; j++) {
-    if (entry[fields.optional[j]] !== undefined) {
-      validatedEntry[fields.optional[j]] = entry[fields.optional[j]];
-    }
+    validatedEntry[fields.optional[j]] = entry[fields.optional[j]] || null;
   }
   // Defaults photo to one from gravatar
-  if (validatedEntry.email && (validatedEntry.photo === undefined || validatedEntry.photo === '')) {
+  if (validatedEntry.email && !validatedEntry.photo) {
     validatedEntry.photo = 'http://www.gravatar.com/avatar/' + md5.digest_s(validatedEntry.email);
   }
   // Defaults the default member to the admin
@@ -108,7 +106,7 @@ var connect = function(params) {
 
     var entryFieldValues = params.entryFields.map(function(entryField) {
       return entryField.map(function(current) {
-        return params.entry[current];
+        return params.entry[current] || null;
       });
     }).reduce(function(memo, current) {
       return memo.concat(current);

@@ -35,9 +35,16 @@ var UserForm = React.createClass({
       member.id = this.props.member.id;
     }
 
+    var method;
+    if (this.props.url.match(/update/)) {
+      method = 'PUT';
+    } else {
+      method = 'POST';
+    }
+
     utils.makeRequest({
-      url: '/api/users' + this.props.url,
-      method: 'POST',
+      url: '/api/users' + (method==='PUT' ? '/'+member.id : ''),
+      method: method,
       data: member,
       success: function(data) {
         // TODO: Add confirmation of user add

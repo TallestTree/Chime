@@ -18,7 +18,7 @@ var AddOrgForm = React.createClass({
     }
 
     utils.makeRequest({
-      url: '/api/orgs/add',
+      url: '/api/orgs',
       method: 'POST',
       data: org,
       success: function(data) {

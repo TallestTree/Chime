@@ -27,21 +27,21 @@ module.exports = function(app) {
   apiRouter.route('/auth-client')
      .get(loggedInClient, apiController.getAuth);
 
-  usersRouter.route('/add')
+  usersRouter.route('/')
     .post(loggedInAdmin, usersController.postAddMember);
-  usersRouter.route('/update')
-    .post(loggedInAdmin, usersController.postUpdateMember);
-  usersRouter.route('/delete')
-    .post(loggedInAdmin, usersController.postDeleteMember);
+  usersRouter.route('/:id')
+    .put(loggedInAdmin, usersController.postUpdateMember);
+  usersRouter.route('/:id')
+    .delete(loggedInAdmin, usersController.postDeleteMember);
   usersRouter.route('/ping')
     .post(loggedInClient, usersController.postPing);
 
-  orgsRouter.route('/add')
+  orgsRouter.route('/')
     .post(loggedInAdmin, orgsController.postAddOrg);
-  orgsRouter.route('/update')
-    .post(loggedInAdmin, orgsController.postUpdateOrg);
-  orgsRouter.route('/delete')
-    .post(loggedInAdmin, orgsController.postDeleteOrg);
+  orgsRouter.route('/')
+    .put(loggedInAdmin, orgsController.postUpdateOrg);
+  orgsRouter.route('/')
+    .delete(loggedInAdmin, orgsController.postDeleteOrg);
   orgsRouter.route('/dashboard')
     .get(loggedInAdmin, orgsController.getDashboardInfo);
   orgsRouter.route('/client')
