@@ -81,6 +81,10 @@ a:hover {
   text-decoration: none;
 }
 
+.cursorPointer {
+  cursor: pointer;
+}
+
 label {
   font-weight: 300;
 }

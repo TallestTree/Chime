@@ -53,7 +53,7 @@ var PingDefault = React.createClass({
 
       <div className="main-content container-fluid">
 
-        <div className="row client-app-logo" onClick={this.exitView}>
+        <div className="row client-app-logo cursorPointer" onClick={this.exitView}>
           <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
         </div>
 
@@ -76,7 +76,7 @@ var PingDefault = React.createClass({
                 <input type="text" className="form-control client-small client-input" ref="visitorName" />
               </div>
               <div className="form-group">
-                <label for="your-message" className="text-left client-medium">Your message:</label>
+                <label for="your-message" className="text-left client-medium">Message:</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
               </div>
               <div className="row">
