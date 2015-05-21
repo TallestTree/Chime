@@ -25,7 +25,7 @@ var Directory = React.createClass({
     }
     return (
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
-        <div className="row text-center dashboard-large">{this.props.org.name ? this.props.org.name + ' - ' : ''}Dashboard</div>
+        <div className="row text-center dashboard-large">{this.props.org.name} Dashboard</div>
 
         <div className="col-xs-12">
           <div className="col-xs-6 col-md-4 col-md-push-2 text-right">

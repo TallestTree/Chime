@@ -24,7 +24,7 @@ var Input = React.createClass({
       <div className="form-group">
         <label className="text-left dashboard-medium">{this.props.label}</label>
         <label className="warning-label hidden">Required</label>
-        <input type={this.props.type} className="form-control" />
+        <input type={this.props.type} className="dashboard-input form-control dashboard-small" />
       </div>
     );
   }

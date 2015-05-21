@@ -42,7 +42,7 @@ var LoginForm = React.createClass({
           <Form.Form onSubmit={this.handleSubmit}>
             <Form.Input label="Email" type="email" ref="email" />
             <Form.Input label="Password" type="password" ref="password" />
-            <div className="col-xs-4 col-xs-push-4">
+            <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Log in</button>
             </div>
           </Form.Form>
