@@ -33,8 +33,8 @@ var EditOrgForm = React.createClass({
     org.default_id = this.state.selected.value;
 
     utils.makeRequest({
-      url: '/api/orgs/update',
-      method: 'POST',
+      url: '/api/orgs',
+      method: 'PUT',
       data: org,
       success: function(data) {
         this.transitionTo('dashboard');

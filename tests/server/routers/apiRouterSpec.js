@@ -69,7 +69,7 @@ describe('apiRouter', function() {
     it('creates an organization', function(done) {
       var options = {
         method: 'POST',
-        uri: url+'api/orgs/add',
+        uri: url+'api/orgs/',
         json: {
           name: 'Bryan\'s',
           logo: 'halo.jpg',
@@ -84,7 +84,7 @@ describe('apiRouter', function() {
     it('adds a user', function(done) {
       var options = {
         method: 'POST',
-        uri: url+'api/users/add',
+        uri: url+'api/users/',
         json: {
           first_name: 'Bryan\'s',
           last_name: 'Evil Twin',
@@ -99,10 +99,9 @@ describe('apiRouter', function() {
     });
     it('updates a user', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/users/update',
+        method: 'PUT',
+        uri: url+'api/users/2',
         json: {
-          id: '2',
           last_name: 'Good Twin'
         }
       };
@@ -113,8 +112,8 @@ describe('apiRouter', function() {
     });
     it('updates an organization', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/orgs/update',
+        method: 'PUT',
+        uri: url+'api/orgs/',
         json: {
           logo: 'pitchfork.jpg',
           default_id: '2'
@@ -145,11 +144,8 @@ describe('apiRouter', function() {
     });
     it('deletes users', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/users/delete',
-        json: {
-          id: '2'
-        }
+        method: 'DELETE',
+        uri: url+'api/users/2'
       };
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
@@ -230,10 +226,9 @@ describe('apiRouter', function() {
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
-          method: 'POST',
-          uri: url+'api/users/update',
+          method: 'PUT',
+          uri: url+'api/users/1',
           json: {
-            id: '1',
             title: 'Not-At-All Evil'
           }
         };
@@ -245,11 +240,8 @@ describe('apiRouter', function() {
     });
     it('throws an error if deleting from another account', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/users/delete',
-        json: {
-          id: '1'
-        }
+        method: 'DELETE',
+        uri: url+'api/users/1'
       };
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
@@ -259,7 +251,7 @@ describe('apiRouter', function() {
     it('throws an error if updating an unaffiliated user as an org\'s default', function(done) {
       var options = {
         method: 'POST',
-        uri: url+'api/orgs/add',
+        uri: url+'api/orgs/',
         json: {
           name: 'Cult of Bryan',
           logo: 'rosary.png',
@@ -269,8 +261,8 @@ describe('apiRouter', function() {
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var options = {
-          method: 'POST',
-          uri: url+'api/orgs/update',
+          method: 'PUT',
+          uri: url+'api/orgs/',
           json: {
             default_id: '1'
           }
@@ -283,11 +275,8 @@ describe('apiRouter', function() {
     });
     it('throws an error if deleting self as admin', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/users/delete',
-        json: {
-          id: '3'
-        }
+        method: 'DELETE',
+        uri: url+'api/users/3'
       };
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User error
@@ -296,8 +285,8 @@ describe('apiRouter', function() {
     });
     it('deletes an organization', function(done) {
       var options = {
-        method: 'POST',
-        uri: url+'api/orgs/delete'
+        method: 'DELETE',
+        uri: url+'api/orgs/'
       };
       reqAsync(options).spread(function(res, body) {
         expect(res.statusCode.toString()).to.match(/^2\d\d$/);

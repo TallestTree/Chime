@@ -26,17 +26,19 @@ module.exports = {
     // First check if we have permission to update
     Promise.try(function() {
       // Users can update themselves
-      if (req.user.id === +req.body.id) {
+      if (req.user.id === +req.params.id) {
         return;
       }
-      return Promise.join(dbUtils.getUserAsync({id: req.body.id}), dbUtils.getOrgAsync({admin_id: req.user.id}), function(member, org) {
+      return Promise.join(dbUtils.getUserAsync({id: req.params.id}), dbUtils.getOrgAsync({admin_id: req.user.id}), function(member, org) {
         // Member must be of the same organization
         if (member.organization_id !== org.id) {
           throw new Error(403);
         }
       });
-    }).then(function() { return dbUtils.updateUserAsync(req.body); })
-    .then(function() { controllerUtils.serveStatus(res, 204); })
+    }).then(function() {
+      req.body.id = req.params.id;
+      return dbUtils.updateUserAsync(req.body);
+    }).then(function() { controllerUtils.serveStatus(res, 204); })
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
@@ -44,7 +46,7 @@ module.exports = {
   // Admins cannot be deleted
   postDeleteMember: function(req, res, next) {
     Promise.try(function() {
-      if (req.user.id === +req.body.id) {
+      if (req.user.id === +req.params.id) {
         return dbUtils.getUserAsync(req.user)
           .then(function(user) {
             if (!user.organization_id) {
@@ -53,14 +55,14 @@ module.exports = {
             return dbUtils.getOrgAsync({id: user.organization_id})
               .then(function(org) {
                 // Admins cannot be deleted
-                if (+req.body.id === org.admin_id) {
+                if (+req.params.id === org.admin_id) {
                   throw new Error(403);
                 }
                 return org;
               });
           });
       }
-      return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
+      return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.params.id}), function(user, member) {
           if (!user.organization_id || user.organization_id !== member.organization_id) {
             throw new Error(403);
           }
@@ -76,11 +78,11 @@ module.exports = {
     }).then(function(org) {
       if (org) {
         // If a default user is deleted, reset it back to admin
-        if (+req.body.id === org.default_id) {
+        if (+req.params.id === org.default_id) {
           return dbUtils.updateOrgAsync({id: org.id, default_id: org.admin_id});
         }
       }
-    }).then(function() { return dbUtils.deleteUserAsync(req.body); })
+    }).then(function() { return dbUtils.deleteUserAsync(req.params); })
     .then(function() { controllerUtils.serveStatus(res, 204); })
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
