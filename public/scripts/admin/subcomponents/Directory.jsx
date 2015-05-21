@@ -1,5 +1,7 @@
 var React = require('react');
-var Navigation = require('react-router').Navigation;
+var Router = require('react-router');
+var Navigation = Router.Navigation;
+var Link = Router.Link;
 var Member = require('../../shared/member.jsx');
 
 var Directory = React.createClass({
@@ -22,10 +24,20 @@ var Directory = React.createClass({
       members = ( <div>Loading directory</div> );
     }
     return (
-      <div>
-        <h4>Directory</h4>
-        <div className="member-list">
-        {members}
+      <div className="col-xs-8 col-xs-push-2 dashboard-content">
+        <div className="row text-center dashboard-large">{this.props.org.name ? this.props.org.name + ' - ' : ''}Dashboard</div>
+
+        <div className="col-xs-12">
+          <div className="col-xs-6 col-md-4 col-md-push-2 text-right">
+            <Link to="editOrg" className="btn btn-default dashboard-button-small dashboard-medium">Team Info</Link>
+          </div>
+          <div className="col-xs-6 col-md-4 col-md-push-2 text-left">
+            <Link to="addUser" className="btn btn-default dashboard-button-small dashboard-medium">Add Member</Link>
+          </div>
+        </div>
+
+        <div className="row dashboard-directory text-center">
+          {members}
         </div>
       </div>
     );

@@ -4,10 +4,10 @@ var SectionRotatingBg = React.createClass({
   componentDidMount: function() {
     $('.dashboard-photo-background').easybg({
       images: [ // an array of background dimages
-      'images/01r.jpg',
-      'images/02r.jpg',
-      'images/03r.jpg',
-      'images/04r.jpg'
+        'images/01r.jpg',
+        'images/02r.jpg',
+        'images/03r.jpg',
+        'images/04r.jpg'
       ],
       interval: 10000,
       speed : 1000, // 1 minute

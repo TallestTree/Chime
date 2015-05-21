@@ -181,4 +181,5 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['build', 'mochaTest']);
   grunt.registerTask('serve', ['build', 'concurrent']);
   grunt.registerTask('default', ['serve']);
+  grunt.registerTask('dev', ['browserify']);
 };

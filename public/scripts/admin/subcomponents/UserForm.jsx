@@ -51,16 +51,20 @@ var UserForm = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <Form.Form onSubmit={this.handleSubmit}>
-          <h3>{this.props.title}</h3>
-          <Form.Input label="First Name" type="text" ref="first_name" />
-          <Form.Input label="Last Name" type="text" ref="last_name" />
-          <Form.Input label="Title" type="text" ref="title" />
-          <Form.Input label="Email" type="email" ref="email" />
-          <Form.Input label="Phone" type="tel" ref="phone" />
-          <button type="submit" className="btn btn-default">Submit</button>
-        </Form.Form>
+      <div className="col-xs-8 col-xs-push-2 dashboard-content">
+        <div className="row text-center dashboard-large">{this.props.title}</div>
+        <div class="row dashboard-directory">
+          <Form.Form onSubmit={this.handleSubmit}>
+            <Form.Input label="First Name" type="text" ref="first_name" />
+            <Form.Input label="Last Name" type="text" ref="last_name" />
+            <Form.Input label="Title" type="text" ref="title" />
+            <Form.Input label="Email" type="email" ref="email" />
+            <Form.Input label="Phone" type="tel" ref="phone" />
+            <div class="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+              <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+            </div>
+          </Form.Form>
+        </div>
       </div>
     );
   }

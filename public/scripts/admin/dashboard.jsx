@@ -3,6 +3,8 @@ var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
+
+var NavBar = require('./subcomponents/NavBar.jsx');
 var utils = require('../shared/utils.jsx');
 
 var Dashboard = React.createClass({
@@ -72,13 +74,15 @@ var Dashboard = React.createClass({
   render: function() {
     return (
       <div>
-        <h2>{this.state.org.name}</h2>
-        <button type="button" onClick={this.handleClient}>Launch Client</button>
-        <h3>Dashboard</h3>
-        <Link to="dashboard">Directory</Link>
-        <Link to="editOrg">Edit Org</Link>
-        <Link to="addUser">Add User</Link>
+        <NavBar page="dashboard" />
+        <div className="col-xs-8 col-xs-push-2 dashboard-content-short">
+          <div className="col-xs-6 col-xs-push-3 col-lg-4 col-lg-push-4 text-center">
+            <button type="submit" onClick={this.handleClient} className="col-xs-12 btn btn-default dashboard-button-small dashboard-medium dashboard-button-launch">Launch Client</button>
+          </div>
+        </div>
+
         <RouteHandler refreshDashboard={this.refresh} org={this.state.org} members={this.state.members} />
+
       </div>
     );
   },

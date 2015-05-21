@@ -2,6 +2,8 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
+var utils = require('../../shared/utils.jsx');
+
 var NavBar = React.createClass({
   propTypes: {
     page: React.PropTypes.string
