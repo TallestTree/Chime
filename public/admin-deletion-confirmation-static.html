@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chime</title>
+    <link rel="stylesheet" href="build/admin-bundle.min.css" />
+    <link rel="stylesheet" href="stylesheets/admin-style.css">
+    <link rel="icon" type="image/png" href="images/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="main-content container-fluid">
+
+      <section class="row dashboard-photo-background">
+
+        <nav class="navbar navbar-default dashboard-navbar">
+          <div class="container-fluid">
+            <div class="col-xs-1 col-xs-push-1 navbar-header">
+              <a href=""><img class="dashboard-navbar-app-logo" src="images/logo_03.png"></a>
+            </div>
+            <div class="nav navbar-nav navbar-right col-xs-2 col-xs-pull-1 col-lg-1 col-lg-pull-1">
+              <button class="btn btn-navbar dashboard-small dashboard-navbar-button">Log Out</button>
+            </div>
+          </div>
+        </nav>
+
+        <div class="col-xs-8 col-xs-push-2 dashboard-content">
+
+          <div class="row text-center dashboard-large">DELETE USER</div>
+
+          <div class="row text-center dashboard-medium">
+            <div class="col-xs-8 col-xs-push-2 dashboard-deletion-box">
+              <p>Are you sure you want to delete this user?</p>
+              <div class="col-xs-6 col-md-4 col-md-push-2 text-right">
+                <button type="submit" class="btn btn-default dashboard-button-small dashboard-medium">Delete</button>
+              </div>
+              <div class="col-xs-6 col-md-4 col-md-push-2 text-left">
+                <button type="submit" class="btn btn-default dashboard-button-small dashboard-medium">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="scripts/admin/jquery.easybg.js"></script>
+    <script>
+      $(window).load(function(){
+      $('.dashboard-photo-background').easybg({
+      images: [ // an array of background dimages
+      'images/01r.jpg',
+      'images/02r.jpg',
+      'images/03r.jpg',
+      'images/04r.jpg'
+      ],
+      interval: 10000,
+      speed : 1000, // 1 minute
+      ignoreError : false,
+      changeMode : 'normal', // normal or random
+      initIndex : 0,
+      cloneClassId : null,
+      cloneClassName : 'easybgClone',
+      debug : false
+      });
+      });
+    </script>
+  </body>
+</html>

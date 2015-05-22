@@ -370,6 +370,12 @@ label {
   background-color: rgba(0,0,0,0.8);
 }
 
+.dashboard-deletion-box{
+  border: solid 1px #FF6666;
+  padding-top: 75px;
+  padding-bottom: 25px;
+}
+
 .dashboard-hr {
   border-color: #A3A3A3;
   border-width: 2px;
