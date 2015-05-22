@@ -14,6 +14,9 @@ var UserForm = React.createClass({
     // If a member is provided, fill in the input fields with that member's current info
     utils.fillRefs(this.props.member, this.refs, FORM_REFS);
   },
+  confirmDelete: function() {
+    this.transitionTo('deleteUser', {user: this.props.member.id});
+  },
   handleSubmit: function(e) {
     e.preventDefault();
 
@@ -57,6 +60,12 @@ var UserForm = React.createClass({
     });
   },
   render: function() {
+    var deleteButton;
+    if (this.props.member) {
+      deleteButton = (
+        <button type="button" onClick={this.confirmDelete} className="btn btn-default dashboard-medium dashboard-button-medium dashboard-button-red">Delete User</button>
+      );
+    }
     return (
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
         <div className="row text-center dashboard-large">{this.props.title}</div>
@@ -69,6 +78,7 @@ var UserForm = React.createClass({
             <Form.Input label="Phone" type="tel" ref="phone" />
             <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+              {deleteButton}
             </div>
           </Form.Form>
         </div>

@@ -42,14 +42,14 @@ var App = React.createClass({
         };
         if (resp.members) {
           state.members = resp.members.sort(function(a, b) {
-            if (a.last_name.toUpperCase() < b.last_name.toUpperCase()) {
+            if (a.first_name.toUpperCase() < b.first_name.toUpperCase()) {
               return -1;
-            } else if (a.last_name.toUpperCase() > b.last_name.toUpperCase()) {
+            } else if (a.first_name.toUpperCase() > b.first_name.toUpperCase()) {
               return 1;
-            } else if (a.first_name.toUpperCase() === b.first_name.toUpperCase()) {
+            } else if (a.last_name.toUpperCase() === b.last_name.toUpperCase()) {
               return 0;
             } else {
-              return a.first_name.toUpperCase() < b.first_name.toUpperCase() ? -1 : 1;
+              return a.last_name.toUpperCase() < b.last_name.toUpperCase() ? -1 : 1;
             }
           });
         }

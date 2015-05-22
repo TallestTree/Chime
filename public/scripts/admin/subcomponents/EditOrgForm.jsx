@@ -1,7 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
 var Dropdown = require('react-dropdown');
-
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
 
@@ -20,6 +19,9 @@ var EditOrgForm = React.createClass({
     }
     var defaultOption = {value: defaultMember.id, label: defaultMember.first_name + ' ' + defaultMember.last_name};
     this.setState({selected: defaultOption});
+  },
+  confirmDelete: function() {
+    this.transitionTo('deleteOrg');
   },
   getInitialState: function() {
     return {};
@@ -50,7 +52,7 @@ var EditOrgForm = React.createClass({
     this.setState({selected: option});
   },
   render: function() {
-    if (!this.props.org) {
+    if (!this.props.org.name) {
       this.transitionTo('/dashboard');
     }
     var options = [];
@@ -65,22 +67,21 @@ var EditOrgForm = React.createClass({
     }
 
     return (
-      <div>
-        <div className="col-xs-8 col-xs-push-2 dashboard-content">
-          <div className="row text-center dashboard-large">ORGANIZATION INFO</div>
-          <Form.Form onSubmit={this.handleSubmit}>
-            <Form.Input label="Organization Name" type="text" ref="name" />
-            <Form.Input label="Logo Url" type="url" ref="logo" />
-            <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
-            <div className="form-group">
-              <label>Default Contact</label>
-              <Dropdown options={options} value={defaultOption} onChange={this.onSelect} />
-            </div>
-            <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
-              <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
-            </div>
-          </Form.Form>
-        </div>
+      <div className="col-xs-8 col-xs-push-2 dashboard-content">
+        <div className="row text-center dashboard-large">EDIT ORGANIZATION</div>
+        <Form.Form onSubmit={this.handleSubmit}>
+          <Form.Input label="Organization Name" type="text" ref="name" />
+          <Form.Input label="Logo Url" type="url" ref="logo" />
+          <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
+          <div className="form-group">
+            <label className="text-left dashboard-medium">Default Contact</label>
+            <Dropdown options={options} value={defaultOption} onChange={this.onSelect} />
+          </div>
+          <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+            <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+            <button type="button" onClick={this.confirmDelete} className="btn btn-default dashboard-medium dashboard-button-medium dashboard-button-red">Delete Organization</button>
+          </div>
+        </Form.Form>
       </div>
     );
   }
