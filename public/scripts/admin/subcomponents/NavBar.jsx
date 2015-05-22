@@ -30,7 +30,7 @@ var NavBar = React.createClass({
     if (this.props.page === 'signup' || this.props.page === 'landing') {
       login = (
         <div className="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
-          <Link to="login" className="btn btn-navbar dashboard-small dashboard-navbar-button">Login</Link>
+          <Link to="login" className="btn btn-navbar dashboard-small dashboard-navbar-button">Log In</Link>
         </div>
       );
     }
@@ -44,7 +44,7 @@ var NavBar = React.createClass({
     if (this.props.page === 'dashboard') {
       logout = (
         <div className="nav navbar-nav navbar-right col-xs-1 col-xs-pull-1">
-          <button type="button" className="btn btn-navbar dashboard-small dashboard-navbar-button" onClick={this.handleLogout}>Log  out</button>
+          <button type="button" className="btn btn-navbar dashboard-small dashboard-navbar-button" onClick={this.handleLogout}>Log Out</button>
         </div>
       );
     }

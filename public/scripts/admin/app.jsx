@@ -7,10 +7,12 @@ var Navigation = Router.Navigation;
 var Redirect = Router.Redirect;
 
 // Components for Login page
+var LoginContainer = require('./subcomponents/LoginContainer.jsx');
 var LoginForm = require('./subcomponents/LoginForm.jsx');
 var SignupForm = require('./subcomponents/SignupForm.jsx');
 
 // Components for the dashboard
+var Landing = require('./landing.jsx');
 var Dashboard = require('./dashboard.jsx');
 var Directory = require('./subcomponents/Directory.jsx');
 var AddForm = require('./subcomponents/AddForm.jsx');
@@ -24,9 +26,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="main-content container-fluid">
-        <SectionRotatingBg>
-          <RouteHandler />
-        </SectionRotatingBg>
+        <RouteHandler />
       </div>
     );
   }
@@ -34,17 +34,19 @@ var App = React.createClass({
 
 // The routes that the index page will use
 var routes = (
-  <Route ignoreScrollBehavior handler={App}>
-    <Redirect from="/" to="login" />
-    <Route name="login" path="/login" handler={LoginForm} />
-    <Route name="signup" path="/signup" handler={SignupForm} />
-    <Route name="dashboard" handler={Dashboard}>
+  <Route ignoreScrollBehavior path="/" handler={App}>
+    <DefaultRoute handler={Landing} />
+    <Route name="login" path="/login" handler={LoginContainer}>
+      <DefaultRoute handler={LoginForm} />
+      <Route name="signup" path="/signup" handler={SignupForm} />
+      <Route name="addOrg" path="/signup/add" handler={AddOrgForm} />
+    </Route>
+    <Route name="dashboard" path="/dashboard" handler={Dashboard}>
       <DefaultRoute handler={Directory} />
       <Route name="addUser" path="add" handler={AddForm} />
       <Route name="editUser" path="edit/:user" handler={EditForm} />
       <Route name="editOrg" path="organization" handler={EditOrgForm} />
     </Route>
-    <Route name="addOrg" handler={AddOrgForm} />
   </Route>
 );
 
