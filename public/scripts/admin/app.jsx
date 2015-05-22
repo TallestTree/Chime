@@ -17,6 +17,7 @@ var Dashboard = require('./dashboard.jsx');
 var Directory = require('./subcomponents/Directory.jsx');
 var AddForm = require('./subcomponents/AddForm.jsx');
 var EditForm = require('./subcomponents/EditForm.jsx');
+var DeleteUserConfirm = require('./subcomponents/DeleteUserConfirm.jsx');
 var AddOrgForm = require('./subcomponents/AddOrgForm.jsx');
 var EditOrgForm = require('./subcomponents/EditOrgForm.jsx');
 var SectionRotatingBg = require('./subcomponents/RotatingBg.jsx');
@@ -45,6 +46,7 @@ var routes = (
       <DefaultRoute handler={Directory} />
       <Route name="addUser" path="add" handler={AddForm} />
       <Route name="editUser" path="edit/:user" handler={EditForm} />
+      <Route name="deleteUser" path="deleteUser/:user" handler={DeleteUserConfirm} />
       <Route name="editOrg" path="organization" handler={EditOrgForm} />
     </Route>
   </Route>
