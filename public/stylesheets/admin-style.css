@@ -114,6 +114,13 @@ label {
     font-size: 2.25vw;
     margin-bottom: 30px;
   }
+  .dashboard-large-org-name {
+    font-weight: 100;
+    color: #FFF;
+    font-size: 2.25vw;
+    margin-top: 25px;
+    margin-bottom: 5px;
+  }
   .dashboard-large-features {
     font-weight: 100;
     color: #000;
@@ -169,6 +176,13 @@ label {
     font-size: 3.0vw;
     margin-bottom: 30px;
   }
+  .dashboard-large-org-name {
+    font-weight: 100;
+    color: #FFF;
+    font-size: 3.0vw;
+    margin-top: 25px;
+    margin-bottom: 5px;
+  }
   .dashboard-large-features {
     font-weight: 100;
     color: #000;
@@ -223,6 +237,13 @@ label {
     color: #FFF;
     font-size: 3.75vw;
     margin-bottom: 30px;
+  }
+  .dashboard-large-org-name {
+    font-weight: 100;
+    color: #FFF;
+    font-size: 3.75vw;
+    margin-top: 25px;
+    margin-bottom: 5px;
   }
   .dashboard-large-features {
     font-weight: 100;
