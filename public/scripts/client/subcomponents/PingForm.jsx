@@ -18,12 +18,9 @@ var PingForm = React.createClass({
     return {visitorName: '', visitorMessage: ''};
   },
   focus: function() {
-    // this.setState({focused: true});
-    console.log("Focused!");
     if(defaultGreetingString === React.findDOMNode(this.refs.visitorMessage).value) {
       React.findDOMNode(this.refs.visitorMessage).value = '';
     }
-
   },
   handleSubmit: function(e) {
     var messageObj = {
