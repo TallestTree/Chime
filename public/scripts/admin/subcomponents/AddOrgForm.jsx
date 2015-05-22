@@ -34,16 +34,17 @@ var AddOrgForm = React.createClass({
     if (this.props.org) {
       this.transitionTo('/dashboard');
     }
-    var options = [];
 
     return (
-      <div className="container">
+      <div className="col-xs-8 col-xs-push-2 dashboard-content">
+        <div className="row text-center dashboard-large">CREATE ORGANIZATION</div>
         <Form.Form onSubmit={this.handleSubmit}>
-          <h3>Create Organization</h3>
           <Form.Input label="Organization Name" type="text" ref="name" />
           <Form.Input label="Logo Url" type="url" ref="logo" />
           <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
-          <button type="submit" className="btn btn-default">Submit</button>
+          <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+            <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+          </div>
         </Form.Form>
       </div>
     );

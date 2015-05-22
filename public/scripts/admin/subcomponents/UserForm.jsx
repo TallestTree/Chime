@@ -1,6 +1,5 @@
 var React = require('react');
 var Router = require('react-router');
-var DeleteUserConfirm = require('./DeleteUserConfirm.jsx');
 var Form = require('../../shared/form.jsx');
 var utils = require('../../shared/utils.jsx');
 

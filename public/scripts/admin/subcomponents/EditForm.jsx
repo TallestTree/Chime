@@ -21,7 +21,7 @@ var EditForm = React.createClass({
 
     return (
       <div>
-        <UserForm title="Edit User" url="/update" member={member}/>
+        <UserForm title="EDIT USER" url="/update" member={member}/>
       </div>
     );
   }
