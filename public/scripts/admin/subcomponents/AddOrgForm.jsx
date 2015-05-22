@@ -40,7 +40,6 @@ var AddOrgForm = React.createClass({
     }
 
     return (
-
       <div>
         <NavBar page="dashboard" />
         <div className="col-xs-8 col-xs-push-2 dashboard-content">
