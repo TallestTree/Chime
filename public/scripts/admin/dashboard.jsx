@@ -4,6 +4,7 @@ var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 
+var SectionRotatingBg = require('./subcomponents/RotatingBg.jsx');
 var NavBar = require('./subcomponents/NavBar.jsx');
 var utils = require('../shared/utils.jsx');
 
@@ -73,7 +74,7 @@ var Dashboard = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <SectionRotatingBg>
         <NavBar page="dashboard" />
         <div className="col-xs-8 col-xs-push-2 dashboard-content-short">
           <div className="col-xs-6 col-xs-push-3 col-lg-4 col-lg-push-4 text-center">
@@ -83,7 +84,7 @@ var Dashboard = React.createClass({
 
         <RouteHandler refreshDashboard={this.refresh} org={this.state.org} members={this.state.members} />
 
-      </div>
+      </SectionRotatingBg>
     );
   },
   // Redirects if user tries to access page without the correct authorization
