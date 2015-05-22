@@ -38,7 +38,7 @@ var App = React.createClass({
           name: resp.name,
           default_id: resp.default_id,
           logo: resp.logo || '',
-          welcome_message: resp.welcome_message || 'Welcome'
+          welcome_message: resp.welcome_message || 'Welcome visitors!'
         };
         if (resp.members) {
           state.members = resp.members.sort(function(a, b) {

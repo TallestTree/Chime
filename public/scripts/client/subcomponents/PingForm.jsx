@@ -54,7 +54,7 @@ var PingForm = React.createClass({
 
       <div className="main-content container-fluid">
 
-        <div className="row client-app-logo" onClick={this.exitView}>
+        <div className="row client-app-logo cursorPointer" onClick={this.exitView}>
           <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
         </div>
 
@@ -74,11 +74,11 @@ var PingForm = React.createClass({
 
             <form className="client-ping-form col-xs-8 col-xs-push-2" onSubmit={this.handleSubmit}>
               <div className="form-group">
-                <label for="your-name" className="client-medium">Your name:</label>
+                <label className="client-medium">Your name:</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorName" />
               </div>
               <div className="form-group">
-                <label for="your-message" className="text-left client-medium">Your message:</label>
+                <label className="text-left client-medium">Message:</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
               </div>
               <div className="row">
