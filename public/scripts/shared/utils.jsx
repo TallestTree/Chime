@@ -57,7 +57,7 @@ var makeRequest = function(params) {
     error: function(jqXHR, status, error) {
       console.error(jqXHR.responseText);
       if (params.error) {
-        params.error(jqXHR.responseText);
+        params.error(jqXHR.responseText,jqXHR.status);
       }
     }
   });

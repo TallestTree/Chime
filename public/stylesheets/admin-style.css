@@ -498,9 +498,10 @@ label {
 */
 
 .warning-label {
-  color: #a94442;
+  color: #FF3333;
   display: block;
   font-size: 0.7em;
+  font-weight: bold;
 }
 
 /*

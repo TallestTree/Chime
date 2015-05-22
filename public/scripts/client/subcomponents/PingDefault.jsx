@@ -18,7 +18,7 @@ var PingDefault = React.createClass({
     var messageObj = {
       id: this.props.params.id,
       visitor: React.findDOMNode(this.refs.visitorName).value,
-      text: React.findDOMNode(this.refs.visitorMessage).value,
+      text: React.findDOMNode(this.refs.visitorMessage).value.slice(0, 160),
     };
     e.preventDefault();
 
