@@ -27,13 +27,14 @@ var augmentCb = function(cb, failMessage, successCb) {
     console.error(error);
   };
   var onFail = function(error, result) {
+    // If an error is thrown, prepend a failMessage if one exists
     cb(error && (failMessage ? failMessage + ' > ': '') + error, result);
   };
   var onSuccess = function(error, result) {
     if (successCb) {
-      successCb(onFail, result);
+      successCb(result, onFail);
     } else {
-      cb(error, result);
+      onFail(error, result);
     }
   };
   return function(error, result) {
@@ -45,7 +46,7 @@ var augmentCb = function(cb, failMessage, successCb) {
   };
 };
 
-// Checks for required fields and replaces missing optional fields with null
+// Checks for required fields and parses out optional fields
 var augmentFields = function(entry, fields) {
   var validatedEntry = {};
   entry = entry || {};
@@ -74,13 +75,7 @@ var getEntryFields = function(entry, possibleEntryFields) {
   if (!entry) {
     return [];
   }
-  var fields = [];
-  for (var i=0; i<possibleEntryFields.length; i++) {
-    if (entry[possibleEntryFields[i]] !== undefined) {
-      fields.push(possibleEntryFields[i]);
-    }
-  }
-  return fields;
+  return possibleEntryFields.filter(function(field) { return entry[field] !== undefined; });
 };
 
 // Sets up database connection and queries entry
@@ -96,7 +91,7 @@ var connect = function(params) {
       return entryField.join(',');
     });
 
-    // Create a scope paramIndex so entryFields' index counts don't reset
+    // Create outer scope paramIndex so entryFields' index counts don't reset
     var paramIndex = 1;
     var parameters = params.entryFields.map(function(entryField) {
       return '$'+entryField.map(function() {
@@ -123,7 +118,7 @@ var connect = function(params) {
   });
 };
 
-// Helper function for addUser and addOrganization
+// Helper function for addUser and addOrg
 var addEntry = function(type, entry, cb) {
   entry = augmentFields(entry, allFields[type]);
   if (!entry) {
@@ -229,7 +224,7 @@ var deleteEntry = function(type, entry, cb) {
 
 // Helper function for getUser and getOrg
 var getEntry = function(type, entry, cb) {
-  var rejectIfMultiple = function(cb, users) {
+  var rejectIfMultiple = function(users, cb) {
     if (users.length>1) {
       cb('multiple matches');
     } else {
@@ -245,8 +240,8 @@ exports.addUser = function(user, cb) {
 };
 
 // Takes an organization entry and adds it
-exports.addOrganization = function(organization, cb) {
-  var updateUser = function(cb, organization) {
+exports.addOrg = function(organization, cb) {
+  var updateUser = function( organization, cb) {
     exports.updateUser({
       id: organization.admin_id,
       organization_id: organization.id
@@ -297,9 +292,9 @@ exports.getOrgs = function(organizations, cb) {
 
 // Takes an organization and retrieves all users belonging to it
 // Attaches the users array as the property users and returns the organization
-exports.getUsersByOrganization = function(organization, cb) {
-  var getUsers = function(cb, organization) {
-    var buildOrgInfo = function(cb, users) {
+exports.getUsersByOrg = function(organization, cb) {
+  var getUsers = function(organization, cb) {
+    var buildOrgInfo = function(users, cb) {
       organization.members = users;
       cb(null, organization);
     };
@@ -310,35 +305,46 @@ exports.getUsersByOrganization = function(organization, cb) {
 
 // Takes a user and retrieves all users that share an organization
 // Attaches the users array as the property users and returns the organization
-exports.getUsersShareOrganization = function(user, cb) {
-  var getUsersByOrganization = function(cb, user) {
+exports.getUsersShareOrg = function(user, cb) {
+  var getUsersByOrg = function(user, cb) {
     if (!user.organization_id) {
       cb(null, {});
     } else {
-      exports.getUsersByOrganization({id: user.organization_id}, augmentCb(cb, 'getting users that share organization'));
+      exports.getUsersByOrg({id: user.organization_id}, augmentCb(cb, 'getting users that share organization'));
     }
   };
-  exports.getUser(user, augmentCb(cb, 'getting users share organization', getUsersByOrganization));
+  exports.getUser(user, augmentCb(cb, 'getting users share organization', getUsersByOrg));
 };
 
-exports._clearDb = function(config, cb) {
+var schemaCache; // Cache the schema to prevent multiple file reads during testing
+exports.clearDb = function(config, cb) {
   config = config || process.env.DATABASE_TEST_URL || require('../config/config').testdb.config;
   if (config === process.env.DATABASE_URL || (!process.env.DATABASE_URL && config.database && config.database === require('../config/config').proddb.config.database)) {
     cb('do not clear the production database');
   } else {
-    var schema = fs.readFileSync(__dirname+'/dbSchema.sql').toString();
-    pg.connect(config, function(error, client, pgDone) {
-      if (error) {
-        return cb('Error: failed database request - ' + error);
-      }
-      client.query(schema, function(error, result) {
+    var clear = function(schema) {
+      pg.connect(config, function(error, client, pgDone) {
         if (error) {
-          pgDone(client);
-          return cb('Error: failed client request - ' + error);
+          return cb('Error: failed database request - ' + error);
         }
-        pgDone();
-        cb(null);
+        client.query(schema.toString(), function(error, result) {
+          if (error) {
+            pgDone(client);
+            return cb('Error: failed client request - ' + error);
+          }
+          pgDone();
+          cb(null);
+        });
       });
+    };
+    if (schemaCache) {
+      return clear(schemaCache);
+    }
+    fs.readFile(__dirname+'/dbSchema.sql', function(error, text) {
+      if (error) {
+        return cb('Error: failed to read schema - ' + error);
+      }
+      clear(schemaCache = text);
     });
   }
 };

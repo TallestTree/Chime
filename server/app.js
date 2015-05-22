@@ -10,7 +10,10 @@ var session = require('express-session');
 var app = express();
 
 app.use(favicon(path.join(__dirname, '../public/images/favicon.ico')));
-app.use(logger('dev'));
+if (!process.env.TEST) {
+  // Suppress logger while testing to clean up output
+  app.use(logger('dev'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -3,7 +3,7 @@ var dbUtils = Promise.promisifyAll(require('../db/dbUtils'));
 var controllerUtils = require('./controllerUtils');
 
 var getInfo = function(req, res, next, fields) {
-  dbUtils.getUsersShareOrganizationAsync(req.user)
+  dbUtils.getUsersShareOrgAsync(req.user)
     .then(function(results) {
       controllerUtils.sanitizeFields(results.members, fields);
       res.end(JSON.stringify(results));
@@ -20,7 +20,7 @@ module.exports = {
         }
         // User is set to admin
         req.body.admin_id = user.id;
-        return dbUtils.addOrganizationAsync(req.body);
+        return dbUtils.addOrgAsync(req.body);
       }).then(function() { controllerUtils.serveStatus(res, 201); })
       .catch(function(error) { controllerUtils.checkError(res, error); });
   },
@@ -54,7 +54,7 @@ module.exports = {
         return dbUtils.updateUserAsync({id: req.user.id, organization_id: null})
           .then(function() { dbUtils.deleteOrgAsync(org); });
     }).then(function() { controllerUtils.serveStatus(res, 204); })
-    .catch(function(error) { console.error(error); controllerUtils.checkError(res, error); });
+    .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
   // User must be in organization

@@ -119,6 +119,6 @@ module.exports = {
       return [smsPromise, emailPromise];
     }).all().then(function() {
       controllerUtils.serveStatus(res, 204);
-    }).catch(function(error) { console.error(error); controllerUtils.checkError(res, error); });
+    }).catch(function(error) { controllerUtils.checkError(res, error); });
   }
 };
