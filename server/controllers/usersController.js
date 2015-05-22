@@ -97,10 +97,20 @@ module.exports = {
     }).then(function(member) {
       // SMS ping
       var smsPromise = Promise.resolve();
+
+      // Construct message text
+      var subject = member.first_name + ' ' + member.last_name + ', ';
+      subject += req.body.visitor ? req.body.visitor + ' is here to see you' : 'you have a visitor';
+      var text;
+      if (req.body.text) {
+        text = '"' + req.body.text + '"';
+      }
+
+      // SMS ping
       if (member.phone) {
-        var message = req.body.visitor ? 'Visit from ' + req.body.visitor : 'You have a visitor';
-        if (req.body.text) {
-          message += ' - ' + req.body.text;
+        var message = subject;
+        if(text) {
+          message += ': ' + text;
         }
         var smsOptions = {
           to: member.phone,
@@ -108,14 +118,15 @@ module.exports = {
         };
         smsPromise = smsUtilsAsync(smsOptions);
       }
+
       // Email ping
-      var subject = req.body.visitor ? req.body.visitor + ' is here to see you' : 'You have a visitor';
       var mailOptions = {
         to: member.email,
         subject: subject,
-        text: req.body.text
+        text: text
       };
       var emailPromise = emailUtilsAsync(mailOptions);
+
       return [smsPromise, emailPromise];
     }).all().then(function() {
       controllerUtils.serveStatus(res, 204);
