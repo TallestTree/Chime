@@ -112,7 +112,7 @@ var Landing = React.createClass({
 
               <div className="row">
                 <form className="col-xs-10 col-xs-push-1">
-                  <div className="col-xs-2 col-xs-push-5">
+                  <div className="col-xs-6 col-xs-push-3 col-lg-4 col-lg-push-4">
                     <Link to="signup" className="btn btn-default dashboard-button-medium-black dashboard-large">Sign Up</Link>
                   </div>
                 </form>
