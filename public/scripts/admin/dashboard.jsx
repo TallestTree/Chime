@@ -77,7 +77,7 @@ var Dashboard = React.createClass({
       <SectionRotatingBg>
         <NavBar page="dashboard" />
         <div className="col-xs-8 col-xs-push-2 dashboard-content-short">
-          <div className="row text-center dashboard-large">{this.state.org.name}</div>
+          <div className="row text-center dashboard-large-org-name">{this.state.org.name}</div>
           <div className="col-xs-6 col-xs-push-3 col-lg-4 col-lg-push-4 text-center">
             <button type="submit" onClick={this.handleClient} className="col-xs-12 btn btn-default dashboard-button-small dashboard-medium dashboard-button-launch">Launch Client</button>
           </div>
