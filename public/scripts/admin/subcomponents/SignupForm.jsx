@@ -8,8 +8,12 @@ var Form = require('../../shared/form.jsx');
 // The signup form class, which displays the form for users to create a new user
 var SignupForm = React.createClass({
   mixins: [Router.Navigation],
+  getInitialState: function() {
+    return {error: null};
+  },
   handleSubmit: function(e) {
     e.preventDefault();
+    this.setState({error: null});
 
     var props = utils.pullRefs(this.refs, FORM_REFS);
 
@@ -32,9 +36,9 @@ var SignupForm = React.createClass({
         this.transitionTo('addOrg');
         location.reload(false);
       }.bind(this),
-      error: function(error) {
-        alert(error);
-      }
+      error: function(error, status) {
+        this.setState({error: error});
+      }.bind(this)
     });
   },
   render: function() {
@@ -43,7 +47,7 @@ var SignupForm = React.createClass({
         <NavBar page="signup" />
         <div className="col-xs-6 col-xs-push-3 dashboard-content">
           <div className="row text-center dashboard-large">SIGN UP</div>
-          <Form.Form onSubmit={this.handleSubmit}>
+          <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
             <Form.Input label="Email:" type="email" ref="email" />
             <Form.Input label="First Name:" type="text" ref="first_name" />
             <Form.Input label="Last Name:" type="text" ref="last_name" />
