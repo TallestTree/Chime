@@ -2,24 +2,24 @@ module.exports = {
   // Serves default messages for corresponding error codes
   serveStatus: function(res, statusCode, message) {
     statusCode = statusCode || 500;
-    message = message || '';
+    var defaultMessage;
     res.status(statusCode);
     if (statusCode === 201) {
-      message = 'Created';
+      defaultMessage = 'Created';
     } else if (statusCode === 204) {
-      message = 'No content';
+      defaultMessage = 'No content';
     } else if (statusCode === 301) {
-      message = 'Ping sent';
+      defaultMessage = 'Ping sent';
     } else if (statusCode === 401) {
-      message = 'Invalid login';
+      defaultMessage = 'Invalid login';
     } else if (statusCode === 403) {
-      message = 'Forbidden';
+      defaultMessage = 'Forbidden';
     } else if (statusCode === 422) {
-      message = 'Unique field already taken';
+      defaultMessage = 'Unique field already taken';
     } else if (statusCode === 500) {
-      message = 'Internal server error';
+      defaultMessage = 'Internal server error';
     }
-    return res.end(message);
+    return res.end(message || defaultMessage);
   },
 
   // Handles connection errors
@@ -30,9 +30,6 @@ module.exports = {
       // Check for user errors
       if (error.match(/user/i)) {
         if (error.match(/unique/i)) {
-          if (error.match(/phone/i)) {
-            return module.exports.serveStatus(res, 422, 'Phone number taken');
-          }
           if (error.match(/email/i)) {
             return module.exports.serveStatus(res, 422, 'Email taken');
           }

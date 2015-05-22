@@ -11,7 +11,7 @@ describe('dbUtils', function() {
 
   // Reference entries used multiple times
   var john = {first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567};
-  var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234568};
+  var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567};
   var tallestTree = {name: 'Tallest Tree', admin_id: 1};
 
   dbUtils.__set__('config', config);
@@ -61,7 +61,7 @@ describe('dbUtils', function() {
           return dbUtils.getUserAsync({id: 1});
         }).then(function(user) {
           expect(user.email).to.equal('janedoe@myurl.com');
-          expect(user.phone).to.equal('5551234568');
+          expect(user.phone).to.equal('5551234567');
           done();
         }).catch(done);
     });
@@ -85,7 +85,7 @@ describe('dbUtils', function() {
     it('throws an error if a unique field is inserted twice', function(done) {
       dbUtils.addUserAsync(john)
         .then(function() {
-          return dbUtils.addUserAsync({first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567}) // Phone number collision
+          return dbUtils.addUserAsync({first_name: 'Jane', last_name: 'Doe', email: 'johndoe@myurl.com'}) // Email collision
             .then(function() { done(new Error('No error thrown')); })
             .catch(function() { done(); });
         });

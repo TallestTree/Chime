@@ -10,7 +10,7 @@ var allFields = {
     required: ['first_name', 'last_name', 'email'],
     optional: ['organization_id', 'middle_name', 'password_hash', 'phone', 'photo', 'department', 'title'],
     auto: ['id'],
-    unique: ['id', 'phone', 'email']
+    unique: ['id', 'email']
   },
   organization: {
     required: ['admin_id', 'name'],
