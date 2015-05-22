@@ -26,11 +26,6 @@ var Directory = React.createClass({
         <div className="row client-app-logo cursorPointer" onClick={this.handleHomeClick}>
           <img className="col-xs-2 col-sm-2 col-md-2" src="images/logo_03.png" />
         </div>
-        <div className="row text-center">
-          <div className="col-xs-4 col-xs-push-4 col-xm-4 col-xm-push-4">
-            <img className="client-org-logo-directory" src={this.props.org.logo} />
-          </div>
-        </div>
         <div className="row text-center client-directory-intro">
           <p className="client-large">Please tap on the person you're here to see.</p>
           <p className="client-large">Not sure? <span className="client-large linkColored cursorPointer" onClick={this.handleDefaultPingClick}>TAP HERE</span></p>

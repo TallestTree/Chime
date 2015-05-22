@@ -8,11 +8,22 @@ var Member = require('./Member.jsx');  // TODO:  Remove these two later. PLB
 var MemberList = require('./MemberList.jsx');
 var PingConfirm = require('./PingConfirm.jsx');
 
+// Defaults
+var defaultGreetingString = "Hello!  I'm waiting for you in the reception area.";
+
 
 var PingForm = React.createClass({
   mixins: [Router.Navigation, Router.State],
   getInitialState: function() {
     return {visitorName: '', visitorMessage: ''};
+  },
+  focus: function() {
+    // this.setState({focused: true});
+    console.log("Focused!");
+    if(defaultGreetingString === React.findDOMNode(this.refs.visitorMessage).value) {
+      React.findDOMNode(this.refs.visitorMessage).value = '';
+    }
+
   },
   handleSubmit: function(e) {
     var messageObj = {
@@ -49,7 +60,7 @@ var PingForm = React.createClass({
       // MemberIndex not found, so return to Directory.
       this.exitView();
     }
-    this.jobTitle = member.title;
+    this.jobTitle = (typeof(member.title) === undefined) ? "" : member.title;
     return(
 
       <div className="main-content container-fluid">
@@ -74,12 +85,12 @@ var PingForm = React.createClass({
 
             <form className="client-ping-form col-xs-8 col-xs-push-2" onSubmit={this.handleSubmit}>
               <div className="form-group">
-                <label for="your-name" className="client-medium">Your name</label>
+                <label className="client-medium">Your name</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorName" />
               </div>
               <div className="form-group">
-                <label for="your-message" className="text-left client-medium">Message (optional)</label>
-                <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
+                <label className="text-left client-medium">Message (optional)</label>
+                <input type="text" className="form-control client-small client-input" onFocus={this.focus} ref="visitorMessage" defaultValue={defaultGreetingString}/>
               </div>
               <div className="row">
                 <div className="col-xs-6">
