@@ -47,7 +47,7 @@ var PingConfirm = React.createClass({
           <div className="row">
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
-              <p className="client-large text-center">Sorry!</p>
+              <p className="client-large text-center">Error!</p>
               <p className="client-medium text-center">Try sending your message again, or choose another recipient.</p>
 
             </div>
