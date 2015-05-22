@@ -1,4 +1,4 @@
-# Project Name #
+# Chime #
 
 <!--
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
 
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > "Chime" - the smart greeting solution for your busy small office.
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > Many workplaces don't have receptionists -- and they don't need one, as long as they have "Chime".
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > "Chime" is a tablet app, that allows company visitors to announce their arrival via a text message, directly to an employee's cell phone.  Privately and securely.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > In many busy small offices... it often just isn't practical to hire a dedicated front-desk person.  But without someone to assist them, visitors are left to wander the office, hunting for a specific employee themselves.  And employees are busy... and not always in the same spot.  Chime solves these problems... simply and elegantly.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > With "Chime", visitors to your busy office can announce their arrival precisely to the employee that they are meeting with.  No matter where the employee is in the office, they of their guest's arrival.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Thank you!  We are so pleased at the overwhelmingly positive response to our "Chime" workplace greeting app.  Clearly, "Chime" is filling an important need for the busy and efficiently run small businesses."
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Getting started is easy.  Just visit our website on your desktop PC to create an account.  Enter some basic company and employee information.  And launch the page on your tablet! And lastly, mount your tablet securely near your front door, in a location that's visible when guests arrive.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "Thank you Chime for the beautiful app! ... Your slick looking app gives my front office a modern, clean feel.  Just the impression I want to give my potential customers!"
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Need a more efficient way to greet your workplace visitors?  Try "Chime" today!
