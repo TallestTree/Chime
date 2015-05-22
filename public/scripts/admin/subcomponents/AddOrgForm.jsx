@@ -6,11 +6,15 @@ var utils = require('../../shared/utils.jsx');
 
 var AddOrgForm = React.createClass({
   mixins: [Router.Navigation],
+  getInitialState: function() {
+    return {error: null};
+  },
   componentDidMount: function() {
     utils.fillRefs(this.props.org, this.refs, FORM_REFS);
   },
   handleSubmit: function(e) {
     e.preventDefault();
+    this.setState({error: null});
 
     var org = utils.pullRefs(this.refs, FORM_REFS);
     if (!org) {
@@ -25,8 +29,7 @@ var AddOrgForm = React.createClass({
         this.transitionTo('dashboard');
       }.bind(this),
       error: function(error) {
-        // TODO: Display error on page
-        alert(error);
+        this.setState({error: error});
       }.bind(this)
     });
   },
@@ -38,7 +41,7 @@ var AddOrgForm = React.createClass({
     return (
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
         <div className="row text-center dashboard-large">CREATE ORGANIZATION</div>
-        <Form.Form onSubmit={this.handleSubmit}>
+        <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
           <Form.Input label="Organization Name" type="text" ref="name" />
           <Form.Input label="Logo Url" type="url" ref="logo" />
           <Form.Input label="Welcome Message" type="text" ref="welcome_message" />

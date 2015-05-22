@@ -3,12 +3,14 @@ var React = require('react');
 
 var Form = React.createClass({
   propTypes: {
+    error: React.PropTypes.string,
     onSubmit: React.PropTypes.func.isRequired
   },
   render: function() {
     return (
       <form className="dashboard-ping-form col-xs-6 col-xs-push-3" onSubmit={this.props.onSubmit}>
-      {this.props.children}
+        <div className="warning-label">{this.props.error}</div>
+        {this.props.children}
       </form>
     );
   }
@@ -23,8 +25,8 @@ var Input = React.createClass({
     return (
       <div className="form-group">
         <label className="text-left dashboard-medium">{this.props.label}</label>
-        <label className="warning-label hidden">Required</label>
         <input type={this.props.type} className="dashboard-input form-control dashboard-small" />
+        <span className="warning-label hidden">Required</span>
       </div>
     );
   }

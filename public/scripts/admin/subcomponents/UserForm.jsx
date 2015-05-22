@@ -10,6 +10,9 @@ var UserForm = React.createClass({
     member: React.PropTypes.object,
   },
   mixins: [Router.Navigation],
+  getInitialState: function() {
+    return {error: null};
+  },
   componentDidMount: function() {
     // If a member is provided, fill in the input fields with that member's current info
     utils.fillRefs(this.props.member, this.refs, FORM_REFS);
@@ -19,6 +22,7 @@ var UserForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
+    this.setState({error: null});
 
     var member = utils.pullRefs(this.refs, FORM_REFS);
     // Validation
@@ -54,8 +58,7 @@ var UserForm = React.createClass({
         this.transitionTo('dashboard');
       }.bind(this),
       error: function(error) {
-        // TODO: Display error on page
-        // alert(error);
+        this.setState({error: error});
       }.bind(this)
     });
   },
@@ -70,7 +73,7 @@ var UserForm = React.createClass({
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
         <div className="row text-center dashboard-large">{this.props.title}</div>
         <div className="row dashboard-directory">
-          <Form.Form onSubmit={this.handleSubmit}>
+          <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
             <Form.Input label="First Name" type="text" ref="first_name" />
             <Form.Input label="Last Name" type="text" ref="last_name" />
             <Form.Input label="Title" type="text" ref="title" />
@@ -88,12 +91,13 @@ var UserForm = React.createClass({
 });
 
 var FORM_REFS = {
-  required: [],
-  optional: [
+  required: [
     'first_name',
     'last_name',
+    'email'
+  ],
+  optional: [
     'title',
-    'email',
     'phone'
   ]
 };
