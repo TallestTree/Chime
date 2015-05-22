@@ -1,8 +1,8 @@
 # Chime
 
-- Product Owner: Lance Fulton
-- Scrum Master: Joseph Pei
-- Development Team: Paul Brady, Bryan Lee, Matt Sperry
+- Product Owner: [Lance Fulton](https://github.com/LanceFulton)
+- Scrum Master: [Joseph Pei](https://github.com/jpei)
+- Development Team: [Paul Brady](https://github.com/pablobrady), [Bryan Lee](https://github.com/LanceFulton), [Matt Sperry](https://github.com/sperrow)
 
 
 # Running
