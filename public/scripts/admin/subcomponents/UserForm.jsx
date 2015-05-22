@@ -79,6 +79,7 @@ var UserForm = React.createClass({
             <Form.Input label="Title" type="text" ref="title" />
             <Form.Input label="Email" type="email" ref="email" />
             <Form.Input label="Phone" type="tel" ref="phone" />
+            <Form.Input label="Photo URL" type="url" ref="photo" />
             <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
               {deleteButton}
@@ -98,7 +99,8 @@ var FORM_REFS = {
   ],
   optional: [
     'title',
-    'phone'
+    'phone',
+    'photo'
   ]
 };
 

@@ -210,6 +210,33 @@ describe('front-end admin pages', function() {
     });
   });
 
+  describe('delete org confirm', function() {
+    var DeleteOrgConfirm = require('../../../public/scripts/admin/subcomponents/DeleteOrgConfirm.jsx');
+    var DeleteOrgConfirmStub = stubRouterContext(DeleteOrgConfirm, {
+      members: mockMembers
+    });
+
+    beforeEach(function() {
+      instance = TestUtils.renderIntoDocument(<DeleteOrgConfirmStub />);
+    });
+
+    it('should contain \'Delete\' and \'Cancel\' buttons', function() {
+      var buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+      var deleteButton = false;
+      var cancelButton = false;
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].props.children === 'Delete') {
+          deleteButton = true;
+        } else if (buttons[i].props.children === 'Cancel') {
+          cancelButton = true;
+        }
+      }
+
+      expect(deleteButton).to.equal(true);
+      expect(cancelButton).to.equal(true);
+    });
+  });
+
   describe('add user form', function() {
     var AddForm = require('../../../public/scripts/admin/subcomponents/AddForm.jsx');
     var AddFormStub = stubRouterContext(AddForm);
@@ -219,7 +246,7 @@ describe('front-end admin pages', function() {
     });
 
     describe('inputs', function() {
-      it('should contain inputs with type \'email\', \'tel\' and \'text\'', function() {
+      it('should contain inputs with type \'text\', \'email\', \'tel\', and \'url\'', function() {
         var inputs = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input');
         var inputsArray = Array.prototype.slice.call(inputs);
         var types = {};
@@ -229,9 +256,10 @@ describe('front-end admin pages', function() {
           }
           types[element.props.type]++;
         });
+        expect(types.text).to.be.at.least(3);
         expect(types.email).to.equal(1);
         expect(types.tel).to.equal(1);
-        expect(types.text).to.be.at.least(1);
+        expect(types.url).to.equal(1);
       });
     });
   });
@@ -248,7 +276,7 @@ describe('front-end admin pages', function() {
     });
 
     describe('inputs', function() {
-      it('should contain inputs with type \'email\', \'tel\' and \'text\'', function() {
+      it('should contain inputs with type \'text\', \'email\', \'tel\', and \'url\'', function() {
         var inputs = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input');
         var inputsArray = Array.prototype.slice.call(inputs);
         var types = {};
@@ -258,9 +286,10 @@ describe('front-end admin pages', function() {
           }
           types[element.props.type]++;
         });
+        expect(types.text).to.be.at.least(3);
         expect(types.email).to.equal(1);
         expect(types.tel).to.equal(1);
-        expect(types.text).to.be.at.least(1);
+        expect(types.url).to.equal(1);
       });
       it('should have an input with value \'Banana\'', function() {
         var inputs = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input');
@@ -271,6 +300,35 @@ describe('front-end admin pages', function() {
         });
         expect(values.Banana).to.equal(true);
       });
+    });
+  });
+
+  describe('delete user confirm', function() {
+    var DeleteUserConfirm = require('../../../public/scripts/admin/subcomponents/DeleteUserConfirm.jsx');
+    var DeleteUserConfirmStub = stubRouterContext(DeleteUserConfirm, {
+      params: {user: 2},
+      members: mockMembers
+    });
+
+    beforeEach(function() {
+      instance = TestUtils.renderIntoDocument(<DeleteUserConfirmStub />);
+    });
+
+    it('should contain \'Delete\' and \'Cancel\' buttons', function() {
+      var buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+      var deleteButton = false;
+      var cancelButton = false;
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].props.children === 'Delete') {
+          deleteButton = true;
+        } else if (buttons[i].props.children === 'Cancel') {
+          cancelButton = true;
+        }
+      }
+
+      expect(deleteButton).to.equal(true);
+      expect(cancelButton).to.equal(true);
     });
   });
 });
