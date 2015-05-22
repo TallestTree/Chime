@@ -20,13 +20,13 @@ Once the project moves into development, the press release can be used as a touc
   > "Chime" - the smart greeting solution for your busy small office.
 
 ## Sub-Heading ##
-  > Many workplaces don't have receptionists -- and they don't need one, as long as they have "Chime".
+  > Use "Chime" to make your best first impression.
 
 ## Summary ##
   > "Chime" is a tablet app, that allows company visitors to announce their arrival via a text message, directly to an employee's cell phone.  Privately and securely.
 
 ## Problem ##
-  > In many busy small offices... it often just isn't practical to hire a dedicated front-desk person.  But without someone to assist them, visitors are left to wander the office, hunting for a specific employee themselves.  And employees are busy... and not always in the same spot.  Chime solves these problems... simply and elegantly.
+  > In many busy small offices... it isn't practical to hire a dedicated front-desk person.  But without someone to assist them, visitors are left to wander the office, hunting for a specific employee themselves.  And employees are busy... and not always in the same spot.  Chime solves these problems... simply and elegantly.
 
 ## Solution ##
   > With "Chime", visitors to your busy office can announce their arrival precisely to the employee that they are meeting with.  No matter where the employee is in the office, they of their guest's arrival.
@@ -35,7 +35,7 @@ Once the project moves into development, the press release can be used as a touc
   > "Thank you!  We are so pleased at the overwhelmingly positive response to our "Chime" workplace greeting app.  Clearly, "Chime" is filling an important need for the busy and efficiently run small businesses."
 
 ## How to Get Started ##
-  > Getting started is easy.  Just visit our website on your desktop PC to create an account.  Enter some basic company and employee information.  And launch the page on your tablet! And lastly, mount your tablet securely near your front door, in a location that's visible when guests arrive.
+  > Visit our website on your desktop PC, to create an admin account.  Enter some basic company and employee information (with employee phone numbers).  Then launch the page on your tablet! And lastly, mount your tablet securely near your front door, in a location that's easily visible to guests when they arrive.
 
 ## Customer Quote ##
   > "Thank you Chime for the beautiful app! ... Your slick looking app gives my front office a modern, clean feel.  Just the impression I want to give my potential customers!"
