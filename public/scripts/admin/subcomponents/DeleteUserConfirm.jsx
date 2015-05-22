@@ -39,9 +39,17 @@ var DeleteUserConfirm = React.createClass({
     return (
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
         <div className="row text-center dashboard-large">DELETE USER</div>
-        <div className="row text-center dashboard-medium">Are you sure you want to delete {member.first_name} {member.last_name} from your organization?</div>
-        <button type="submit" onClick={this.handleSubmit} className="btn btn-default dashboard-medium dashboard-button-medium">Confirm</button>
-        <button type="submit" onClick={this.exitView} className="btn btn-default dashboard-medium dashboard-button-medium">Cancel</button>
+        <div className="row text-center dashboard-medium">
+          <div className="col-xs-8 col-xs-push-2 dashboard-deletion-box">
+            <p>Are you sure you want to delete {member.first_name} {member.last_name}?</p>
+            <div className="col-xs-6 col-md-4 col-md-push-2 text-right">
+              <button type="submit" onClick={this.handleSubmit} className="btn btn-default dashboard-button-small dashboard-medium">Delete</button>
+            </div>
+            <div className="col-xs-6 col-md-4 col-md-push-2 text-left">
+              <button type="submit" onClick={this.exitView} className="btn btn-default dashboard-button-small dashboard-medium">Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
