@@ -101,7 +101,7 @@ module.exports = {
       // Construct message text
       var subject = member.first_name + ' ' + member.last_name + ', ';
       subject += req.body.visitor ? req.body.visitor + ' is here to see you' : 'you have a visitor';
-      var text;
+      var text = '';
       if (req.body.text) {
         text = '"' + req.body.text + '"';
       }
