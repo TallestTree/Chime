@@ -71,8 +71,8 @@ var EditOrgForm = React.createClass({
         <div className="row text-center dashboard-large">EDIT ORGANIZATION</div>
         <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
           <Form.Input label="Organization Name" type="text" ref="name" />
-          <Form.Input label="Logo Url" type="url" ref="logo" />
           <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
+          <Form.Input label="Logo URL" type="url" ref="logo" />
           <div className="form-group">
             <label className="text-left dashboard-medium">Default Contact</label>
             <Dropdown options={options} value={defaultOption} onChange={this.onSelect} />
@@ -92,8 +92,8 @@ var FORM_REFS = {
     'name'
   ],
   optional: [
-    'logo',
-    'welcome_message'
+    'welcome_message',
+    'logo'
   ]
 };
 

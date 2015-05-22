@@ -36,7 +36,7 @@ var AddOrgForm = React.createClass({
   },
   render: function() {
     if (this.props.org) {
-      this.transitionTo('/dashboard');
+      this.transitionTo('dashboard');
     }
 
     return (
@@ -46,8 +46,8 @@ var AddOrgForm = React.createClass({
           <div className="row text-center dashboard-large">CREATE ORGANIZATION</div>
           <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
             <Form.Input label="Organization Name" type="text" ref="name" />
-            <Form.Input label="Logo Url" type="url" ref="logo" />
             <Form.Input label="Welcome Message" type="text" ref="welcome_message" />
+            <Form.Input label="Logo URL" type="url" ref="logo" />
             <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
             </div>
@@ -63,8 +63,8 @@ var FORM_REFS = {
     'name'
   ],
   optional: [
-    'logo',
-    'welcome_message'
+    'welcome_message',
+    'logo'
   ]
 };
 
