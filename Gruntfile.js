@@ -178,7 +178,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', ['jshint', 'csslint', 'clean', 'copy', 'browserify', 'exorcise', 'uglify', 'cssmin']);
-  grunt.registerTask('test', ['build', 'mochaTest']);
+  grunt.registerTask('test', ['mochaTest']);
   grunt.registerTask('serve', ['build', 'concurrent']);
   grunt.registerTask('default', ['serve']);
 };

@@ -9,7 +9,7 @@ CREATE TABLE users (
   middle_name TEXT ,
   last_name TEXT NOT NULL ,
   password_hash TEXT ,
-  phone BIGINT UNIQUE,
+  phone BIGINT,
   email TEXT NOT NULL UNIQUE,
   photo TEXT ,
   department TEXT ,
