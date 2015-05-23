@@ -26,6 +26,9 @@ var EditOrgForm = React.createClass({
   confirmDelete: function() {
     this.transitionTo('deleteOrg');
   },
+  exitView: function() {
+    this.transitionTo('dashboard');
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     this.setState({error: null});
@@ -77,8 +80,13 @@ var EditOrgForm = React.createClass({
             <label className="text-left dashboard-medium">Default Contact</label>
             <Dropdown options={options} value={defaultOption} onChange={this.onSelect} />
           </div>
-          <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+          <div className="col-md-6">
             <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
+          </div>
+          <div className="col-md-6">
+            <button type="button" onClick={this.exitView} className="btn btn-default dashboard-medium dashboard-button-medium">Cancel</button>
+          </div>
+          <div className="col-xs-12 col-md-8 col-md-push-2">
             <button type="button" onClick={this.confirmDelete} className="btn btn-default dashboard-medium dashboard-button-medium dashboard-button-red">Delete Organization</button>
           </div>
         </Form.Form>

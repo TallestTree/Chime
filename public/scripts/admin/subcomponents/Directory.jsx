@@ -30,10 +30,10 @@ var Directory = React.createClass({
         </div>
 
         <div className="col-xs-12">
-          <div className="col-xs-6 col-md-4 col-md-push-2 text-right">
-            <Link to="editOrg" className="btn btn-default dashboard-button-small dashboard-medium">Team Info</Link>
+          <div className="col-xs-6 col-lg-4 col-lg-push-2 text-right">
+            <Link to="editOrg" className="btn btn-default dashboard-button-small dashboard-medium">Organization Info</Link>
           </div>
-          <div className="col-xs-6 col-md-4 col-md-push-2 text-left">
+          <div className="col-xs-6 col-lg-4 col-lg-push-2 text-left">
             <Link to="addUser" className="btn btn-default dashboard-button-small dashboard-medium">Add Member</Link>
           </div>
         </div>
