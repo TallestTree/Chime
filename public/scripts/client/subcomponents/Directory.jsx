@@ -24,11 +24,11 @@ var Directory = React.createClass({
 
       <div className="main-content container-fluid">
         <div className="row client-app-logo cursorPointer" onClick={this.handleHomeClick}>
-          <img className="col-xs-2 col-sm-2 col-md-2" src="images/logo_03.png" />
+          <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
         </div>
         <div className="row text-center client-directory-intro">
           <p className="client-large">Please tap on the person you're here to see.</p>
-          <p className="client-large">Not sure? <span className="client-large linkColored cursorPointer" onClick={this.handleDefaultPingClick}>TAP HERE</span></p>
+          <p className="client-large">Not sure? <span className="client-large linkColored cursorPointer" onClick={this.handleDefaultPingClick}><b>Tap here.</b></span></p>
         </div>
         <div className="row text-center">
           <div className="col-xs-10 col-xs-push-1 client-directory cursorPointer">

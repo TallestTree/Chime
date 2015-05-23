@@ -18,8 +18,8 @@ var Member = React.createClass({
     return (
       <div className="col-xs-3 client-contact" onClick={this.handleClick}>
         <img className="client-avatar-photo" src={this.props.data.photo} />
-        <div className="row client-avatar-footer">
-          <p className="client-avatar-name">{this.props.data.first_name} {this.props.data.last_name}</p>
+        <div className="client-avatar-footer">
+          <b><p className="client-avatar-name">{this.props.data.first_name} {this.props.data.last_name}</p></b>
           <p className="client-avatar-position">&nbsp;{this.props.data.title}&nbsp;</p>
         </div>
       </div>
