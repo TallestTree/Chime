@@ -8,7 +8,7 @@ var SectionRotatingBg = React.createClass({
         'images/02r.jpg',
         'images/03r.jpg',
         'images/04r.jpg'
-      ], {fade: 'slow', duration: 5000});
+      ], {fade: 1000, duration: 10000});
     }
   },
   render: function() {
