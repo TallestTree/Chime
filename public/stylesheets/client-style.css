@@ -104,61 +104,25 @@ label {
   background-color: #FFF
 }
 
-.btn-xl {
-  padding: 18px 28px;
-  width: 300px;
-  font-size: 18px;
-  line-height: normal;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-}
-
-.btn-member {
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  padding: 10px;
-}
-
-.member-photo {
-  width: 100px;
-  height: 100px;
-  float: left;
-}
-
-.member-info {
-  padding: 5px 0 5px 10px;
-  float: left;
-  text-align: left;
-}
-
-.member-name {
-  font-weight: bold;
-}
-
-.client-org-logo-welcome {
-  margin-top: 75px;
-  margin-bottom: 20px;
-  max-width: 75%;
-}
-
-.client-welcome {
-  margin-top: 30px;
-  color: #FFF;
-}
-
 .client-input {
   border-radius: 0;
 }
 
 @media screen and (min-width:992px) {
+  .client-welcome {
+    margin-top: 3vh;
+    color: #FFF;
+  }
+  .client-org-logo-welcome {
+    margin-top: 7vh;
+    width: 100%;
+  }
   .client-huge {
     font-size: 6.0vw;
     font-weight: 100;
   }
   .client-large {
-    font-size: 3.0vw;
+    font-size: 3.5vw;
     font-weight: 100;
   }
 
@@ -181,12 +145,20 @@ label {
 }
 
 @media screen and (max-width:991px) {
+  .client-welcome {
+    margin-top: 1vh;
+    color: #FFF;
+  }
+  .client-org-logo-welcome {
+    margin-top: 2vh;
+    width: 65%;
+  }
   .client-huge {
     font-size: 8vw;
     font-weight: 100;
   }
   .client-large {
-    font-size: 5vw;
+    font-size: 4vw;
     font-weight: 100;
   }
   .client-medium {

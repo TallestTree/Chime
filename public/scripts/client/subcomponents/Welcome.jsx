@@ -24,7 +24,7 @@ var Welcome = React.createClass({
           </div>
 
           <div className="row text-center">
-            <div className="col-xs-4 col-xs-push-4 col-xm-4 col-xm-push-4">
+            <div className="col-xs-4 col-xs-push-4 col-md-2 col-md-push-5">
               <img className="client-org-logo-welcome" src={this.props.org.logo} />
             </div>
           </div>

@@ -86,7 +86,7 @@ var PingForm = React.createClass({
                 <input type="text" className="form-control client-small client-input" ref="visitorName" />
               </div>
               <div className="form-group">
-                <label className="text-left client-medium">Message (optional)</label>
+                <label className="text-left client-medium">Message</label>
                 <input type="text" className="form-control client-small client-input" onFocus={this.focus} ref="visitorMessage" defaultValue={defaultGreetingString}/>
               </div>
               <div className="row">
