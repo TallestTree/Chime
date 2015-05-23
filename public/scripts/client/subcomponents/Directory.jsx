@@ -8,6 +8,12 @@ var MemberList = require('./MemberList.jsx');
 
 var Directory = React.createClass({
   mixins: [Router.Navigation, Router.State],
+  componentDidMount: function() {
+    var outerScope = this;
+    window.setTimeout((function() {
+      outerScope.transitionTo('/');
+    }), 60000); // Timeout - return to Welcome page
+  },
   handleHomeClick: function(e) {
     this.exitView();
     e.preventDefault();
