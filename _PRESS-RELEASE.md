@@ -32,7 +32,7 @@ Once the project moves into development, the press release can be used as a touc
   > With "Chime", visitors to your busy office can announce their arrival precisely to the employee that they are meeting with.  No matter where the employee is in the office, they of their guest's arrival.
 
 ## Quote from You ##
-  > "Thank you!  We are so pleased at the overwhelmingly positive response to our "Chime" workplace greeting app.  Clearly, "Chime" is filling an important need for the busy and efficiently run small businesses."
+  > "Thank you!  We are so pleased at the overwhelmingly positive response to our "Chime" workplace greeting app.  Clearly, "Chime" is filling an important need for the busy and efficiently-run small business."
 
 ## How to Get Started ##
   > Getting started is easy.  Just visit our website on your desktop PC to create an account.  Enter some basic company and employee information.  And launch the page on your tablet! And lastly, mount your tablet securely near your front door, in a location that's visible when guests arrive.
