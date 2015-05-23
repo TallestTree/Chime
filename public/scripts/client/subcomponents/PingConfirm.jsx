@@ -10,8 +10,8 @@ var PingConfirm = React.createClass({
   componentDidMount: function() {
     var outerScope = this;
     window.setTimeout((function() {
-      outerScope.transitionTo('directory');
-    }), 6000);
+      outerScope.transitionTo('/');
+    }), 7000);
 
   },
   render: function() {
@@ -30,10 +30,11 @@ var PingConfirm = React.createClass({
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
               <p className="client-large text-center">Success!</p>
-              <p className="client-medium text-center">Your message has been sent!</p>
+              <p className="client-medium text-center">Your message has been sent.</p>
 
             </div>
           </div>
+
         </div>
 
       );
@@ -41,17 +42,20 @@ var PingConfirm = React.createClass({
       return(
 
         <div className="main-content container-fluid">
+
           <div className="row client-app-logo">
             <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
           </div>
+
           <div className="row">
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
-              <p className="client-large text-center">Error!</p>
-              <p className="client-medium text-center">Try sending your message again, or choose another recipient.</p>
+              <p className="client-large text-center">ERROR!</p>
+              <p className="client-medium text-center">Please try sending your message again, or choose another recipient.</p>
 
             </div>
           </div>
+
         </div>
 
       );
