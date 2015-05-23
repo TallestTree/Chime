@@ -44,8 +44,8 @@ var LoginForm = React.createClass({
         <div className="col-xs-6 col-xs-push-3 dashboard-content">
           <div className="row text-center dashboard-large">LOG IN</div>
           <Form.Form error={this.state.error} onSubmit={this.handleSubmit}>
-            <Form.Input label="Email:" type="email" ref="email" />
-            <Form.Input label="Password:" type="password" ref="password" />
+            <Form.Input label="Email" type="email" ref="email" />
+            <Form.Input label="Password" type="password" ref="password" />
             <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
             </div>

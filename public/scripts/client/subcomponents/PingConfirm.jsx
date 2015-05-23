@@ -21,7 +21,7 @@ var PingConfirm = React.createClass({
 
         <div className="main-content container-fluid">
 
-          <div className="row client-app-logo">
+          <div className="row client-app-logo cursorPointer" onClick={this.exitView}>
             <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
           </div>
 
