@@ -4,20 +4,6 @@ var expect = chai.expect;
 describe('apiRouter', function() {
   this.timeout(10000);
 
-  // Remember old information to revert afterwards
-  var oldInfo = {
-    PORT: process.env.PORT,
-    TEST: process.env.TEST
-  };
-
-  // Change some environmental variables before starting tests
-  // On dev machines, allow this to run concurrently with the server (on another port)
-  // On production machines, test before running the server
-  if (!process.env.PORT) {
-    process.env.PORT = 55987;
-  }
-  process.env.TEST = true;
-
   var http = require('http');
   var app = require('../../../server/app');
   var Promise = require('bluebird');
@@ -56,15 +42,6 @@ describe('apiRouter', function() {
   });
   after(function() {
     instance.close();
-    // process.env properties are coerced into strings so delete these to stop string 'undefined'
-    if (!oldInfo.PORT) {
-      delete process.env.PORT;
-    }
-    if (oldInfo.TEST) {
-      process.env.TEST = oldInfo.TEST;
-    } else {
-      delete process.env.TEST;
-    }
     console.log('Stopped');
   });
   beforeEach(function(done) {
