@@ -36,7 +36,7 @@ var App = React.createClass({
 
 // The routes that the index page will use
 var routes = (
-  <Route ignoreScrollBehavior path="/" handler={App}>
+  <Route path="/" handler={App}>
     <DefaultRoute handler={Landing} />
     <Route name="login" path="/login" handler={LoginContainer}>
       <DefaultRoute handler={LoginForm} />
@@ -56,6 +56,7 @@ var routes = (
 
 // Create a router instance to be able to access the history location and transition routes
 var router = Router.create({
+  scrollBehavior: Router.ScrollToTopBehavior,
   routes: routes,
   location: Router.HashLocation
 });
