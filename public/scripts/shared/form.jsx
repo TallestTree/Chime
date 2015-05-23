@@ -8,7 +8,7 @@ var Form = React.createClass({
   },
   render: function() {
     return (
-      <form className="dashboard-ping-form col-xs-6 col-xs-push-3" onSubmit={this.props.onSubmit}>
+      <form className="dashboard-ping-form col-xs-10 col-xs-push-1 col-md-8 col-md-push-2 col-lg-6 col-lg-push-3" onSubmit={this.props.onSubmit}>
         <div className="warning-label">{this.props.error}</div>
         {this.props.children}
       </form>

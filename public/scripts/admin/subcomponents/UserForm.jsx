@@ -20,6 +20,9 @@ var UserForm = React.createClass({
   confirmDelete: function() {
     this.transitionTo('deleteUser', {user: this.props.member.id});
   },
+  exitView: function() {
+    this.transitionTo('dashboard');
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     this.setState({error: null});
@@ -80,9 +83,11 @@ var UserForm = React.createClass({
             <Form.Input label="Email" type="email" ref="email" />
             <Form.Input label="Phone" type="tel" ref="phone" />
             <Form.Input label="Photo URL" type="url" ref="photo" />
-            <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+            <div className="col-md-6">
               <button type="submit" className="btn btn-default dashboard-medium dashboard-button-medium">Submit</button>
-              {deleteButton}
+            </div>
+            <div className="col-md-6">
+              <button type="button" onClick={this.exitView} className="btn btn-default dashboard-medium dashboard-button-medium">Cancel</button>
             </div>
           </Form.Form>
         </div>
