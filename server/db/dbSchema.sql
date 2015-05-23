@@ -35,3 +35,13 @@ CREATE TABLE organizations (
 ALTER TABLE users ADD FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE;
 ALTER TABLE organizations ADD FOREIGN KEY (admin_id) REFERENCES users (id) ON DELETE RESTRICT;
 ALTER TABLE organizations ADD FOREIGN KEY (default_id) REFERENCES users (id) ON DELETE RESTRICT;
+
+-- Create session table to use for permanent session storage
+DROP TABLE IF EXISTS session;
+CREATE TABLE session (
+  sid varchar NOT NULL COLLATE "default",
+  sess json NOT NULL,
+  expire timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE session ADD CONSTRAINT session_pkey PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE;

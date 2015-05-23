@@ -6,6 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
+var pg = require('pg');
+var pgSession = require('connect-pg-simple')(session);
+var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('./config/config').testdb.config) : (process.env.DATABASE_URL || require('./config/config').proddb.config);
 
 var app = express();
 
@@ -22,6 +25,12 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 var secret = process.env.SESSION_SECRET || require('./config/config').session_secret;
 app.use(session({
+  store: new pgSession({
+    pg: pg,
+    conString: config,
+    ttl: 1000*365*24*60*60, // 1000 years as workaround for never expiring
+    pruneSessionInterval: false // Don't automatically remove expired sessions
+  }),
   secret: secret,
   resave: false,
   saveUninitialized: false
