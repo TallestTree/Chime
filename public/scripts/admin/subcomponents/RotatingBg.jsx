@@ -2,23 +2,13 @@ var React = require('react');
 
 var SectionRotatingBg = React.createClass({
   componentDidMount: function() {
-    if ($('.dashboard-photo-background').easybg) {
-      $('.dashboard-photo-background').easybg({
-        images: [ // an array of background dimages
-          'images/01r.jpg',
-          'images/02r.jpg',
-          'images/03r.jpg',
-          'images/04r.jpg'
-        ],
-        interval: 10000,
-        speed : 1000, // 1 minute
-        ignoreError : false,
-        changeMode : 'normal', // normal or random
-        initIndex : 0,
-        cloneClassId : null,
-        cloneClassName : 'easybgClone',
-        debug : false
-      });
+    if ($('.dashboard-photo-background').backstretch) {
+      $('.dashboard-photo-background').backstretch([
+        'images/01r.jpg',
+        'images/02r.jpg',
+        'images/03r.jpg',
+        'images/04r.jpg'
+      ], {fade: 'slow', duration: 5000});
     }
   },
   render: function() {
