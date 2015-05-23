@@ -30,8 +30,8 @@ html, body {
 }
 
 .header {
-  margin-top: 0px;
-  height: 0px;
+  margin-top: 0;
+  height: 0;
 }
 
 .welcome-wrapper {
@@ -44,7 +44,7 @@ html, body {
 }
 
 .welcome-content {
-  padding: 0px 15px;
+  padding: 0 15px;
 }
 
 .middle {
@@ -52,8 +52,8 @@ html, body {
 }
 
 .footer {
-  margin-bottom: 0px;
-  height: 0px;
+  margin-bottom: 0;
+  height: 0;
 }
 
 .container-fluid .row {
@@ -233,7 +233,7 @@ label {
 
 .client-ping {
   color: #FFF;
-  margin-top: 0px;
+  margin-top: 0;
   margin-bottom: 100px;
   padding-top: 30px;
   padding-bottom: 50px;
