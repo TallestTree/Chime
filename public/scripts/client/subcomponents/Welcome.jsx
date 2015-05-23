@@ -20,7 +20,7 @@ var Welcome = React.createClass({
         <div className="main-content container-fluid">
 
           <div className="row client-app-logo">
-            <img className="col-xs-2 col-sm-2 col-md-2" src="images/logo_03.png" />
+            <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
           </div>
 
           <div className="row text-center">
