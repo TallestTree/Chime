@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         separator: ';\n'
       },
       adminProd: {
-        src: ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/build/admin.min.js'],
+        src: ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/scripts/admin/jquery.backstretch.min.js', 'public/build/admin.min.js'],
         dest: 'public/build/adminBundle.js'
       },
       clientProd: {
@@ -123,7 +123,7 @@ module.exports = function(grunt) {
     uglify: {
       admin: {
         files: {
-          'public/build/admin.min.js': ['public/scripts/admin/jquery.backstretch.min.js', 'public/build/admin.js']
+          'public/build/admin.min.js': ['public/build/admin.js']
         },
       },
       client: {
