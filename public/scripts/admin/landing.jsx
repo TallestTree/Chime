@@ -9,7 +9,7 @@ var Landing = React.createClass({
   toAbout: function(e) {
     e.preventDefault();
     window.history.pushState({}, 'About', '/#/');
-    document.body.scrollTop = document.getElementById('about').offsetTop;
+    $('html, body').animate({scrollTop: document.getElementById('about').offsetTop}, 'slow');
   },
   render: function() {
     return (
@@ -31,7 +31,7 @@ var Landing = React.createClass({
             </div>
           </div>
         </SectionRotatingBg>
-        <section id="about">
+        <section className="row" id="about">
           <div className="row dashboard-features-white">
 
             <div className="text-center dashboard-extralarge-features">
@@ -126,6 +126,5 @@ var Landing = React.createClass({
     );
   }
 });
-      // </div>
 
 module.exports = Landing;
