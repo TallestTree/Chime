@@ -14,12 +14,6 @@ var PingDefault = React.createClass({
   getInitialState: function() {
     return {visitorName: '', visitorMessage: ''};
   },
-  componentDidMount: function() {
-    var outerScope = this;
-    window.setTimeout((function() {
-      outerScope.transitionTo('/');
-    }), 60000); // Timeout - return to Welcome page
-  },
   handleSubmit: function(e) {
     var messageObj = {
       id: this.props.params.id,
