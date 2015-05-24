@@ -21,6 +21,7 @@ var DeleteUserConfirm = require('./subcomponents/DeleteUserConfirm.jsx');
 var AddOrgForm = require('./subcomponents/AddOrgForm.jsx');
 var EditOrgForm = require('./subcomponents/EditOrgForm.jsx');
 var DeleteOrgConfirm = require('./subcomponents/DeleteOrgConfirm.jsx');
+var ChangePasswordForm = require('./subcomponents/ChangePasswordForm.jsx');
 var SectionRotatingBg = require('./subcomponents/RotatingBg.jsx');
 
 // Main content class that holds everything on the page
@@ -50,6 +51,7 @@ var routes = (
       <Route name="deleteUser" path="deleteUser/:user" handler={DeleteUserConfirm} />
       <Route name="editOrg" path="organization" handler={EditOrgForm} />
       <Route name="deleteOrg" path="deleteOrg" handler={DeleteOrgConfirm} />
+      <Route name="changePassword" path="changePassword" handler={ChangePasswordForm} />
     </Route>
   </Route>
 );

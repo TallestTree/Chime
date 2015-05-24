@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var dbUtils = Promise.promisifyAll(require('../db/dbUtils'));
 var controllerUtils = require('./controllerUtils');
+var authUtils = Promise.promisifyAll(require('../auth/authUtils'));
 var emailUtilsAsync = Promise.promisify(require('../ping/emailUtils'));
 var smsUtilsAsync = Promise.promisify(require('../ping/smsUtils'));
 
@@ -22,7 +23,7 @@ module.exports = {
   },
 
   // Users can update themselves, and admins can update members of their organization
-  postUpdateMember: function(req, res, next) {
+  putUpdateMember: function(req, res, next) {
     // First check if we have permission to update
     Promise.try(function() {
       // Users can update themselves
@@ -42,9 +43,29 @@ module.exports = {
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
+  // Users can change their password
+  putChangePassword: function(req, res, next) {
+    // First check if we have permission to update
+    dbUtils.getUserAsync(req.user)
+    .then(function(user) {
+      return authUtils.checkPasswordAsync(user, req.body.old_password);
+    }).then(function(match) {
+      if (!match) {
+        throw new Error(403);
+      }
+      return authUtils.hashPasswordAsync(req.body.new_password);
+    }).then(function(hash) {
+      return dbUtils.updateUserAsync({id: req.user.id, password_hash: hash});
+    }).then(function() {
+      controllerUtils.serveStatus(res, 204);
+    }).catch(function(error) {
+      controllerUtils.checkError(res, error);
+    });
+  },
+
   // Users can delete themselves, and admins can delete members of their organization
   // Admins cannot be deleted
-  postDeleteMember: function(req, res, next) {
+  deleteMember: function(req, res, next) {
     Promise.try(function() {
       if (req.user.id === +req.params.id) {
         return dbUtils.getUserAsync(req.user)
