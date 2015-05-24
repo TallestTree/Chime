@@ -34,7 +34,7 @@ module.exports = function(app) {
   usersRouter.route('/:id')
     .put(loggedInAdmin, usersController.putUpdateMember);
   usersRouter.route('/:id')
-    .delete(loggedInAdmin, usersController.postDeleteMember);
+    .delete(loggedInAdmin, usersController.deleteMember);
   usersRouter.route('/ping')
     .post(loggedInClient, usersController.postPing);
 
@@ -43,7 +43,7 @@ module.exports = function(app) {
   orgsRouter.route('/')
     .put(loggedInAdmin, orgsController.putUpdateOrg);
   orgsRouter.route('/')
-    .delete(loggedInAdmin, orgsController.postDeleteOrg);
+    .delete(loggedInAdmin, orgsController.deleteOrg);
   orgsRouter.route('/dashboard')
     .get(loggedInAdmin, orgsController.getDashboardInfo);
   orgsRouter.route('/client')

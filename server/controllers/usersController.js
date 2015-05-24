@@ -65,7 +65,7 @@ module.exports = {
 
   // Users can delete themselves, and admins can delete members of their organization
   // Admins cannot be deleted
-  postDeleteMember: function(req, res, next) {
+  deleteMember: function(req, res, next) {
     Promise.try(function() {
       if (req.user.id === +req.params.id) {
         return dbUtils.getUserAsync(req.user)

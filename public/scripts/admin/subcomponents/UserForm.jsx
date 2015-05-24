@@ -89,6 +89,9 @@ var UserForm = React.createClass({
             <div className="col-md-6">
               <button type="button" onClick={this.exitView} className="btn btn-default dashboard-medium dashboard-button-medium">Cancel</button>
             </div>
+            <div className="col-xs-6 col-xs-push-3 col-md-8 col-md-push-2">
+              {deleteButton}
+            </div>
           </Form.Form>
         </div>
       </div>

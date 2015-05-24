@@ -46,7 +46,7 @@ module.exports = {
   },
 
   // User must be admin
-  postDeleteOrg: function(req, res, next) {
+  deleteOrg: function(req, res, next) {
     dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
         // Change user's organization to null
