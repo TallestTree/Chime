@@ -9,17 +9,31 @@ var MemberList = require('./MemberList.jsx');
 var Directory = React.createClass({
   mixins: [Router.Navigation, Router.State],
   handleHomeClick: function(e) {
+    this.clearTimer();
     this.exitView();
     e.preventDefault();
+  },
+  restartTimer: function() {
+    var outerScope = this;
+    this.timeoutId = window.setTimeout((function() {
+      this.timeoutId = null;
+      outerScope.transitionTo('/');
+    }), 300 * 1000); // 5 mins to complete the process (300 seconds).  Else it returns to Welcome page.
+  },
+  clearTimer: function() {
+    console.log("clear timeoutId = " + this.timeoutId);
+    window.clearTimeout(this.timeoutId);
   },
   exitView: function() {
     this.transitionTo('/');
   },
   handleDefaultPingClick: function(e) {
+    this.clearTimer();
     var defaultId = this.props.org.default_id || this.props.data.id;
     this.transitionTo('pingdefault', {id: this.props.org.default_id});
   },
   render: function() {
+    this.restartTimer();
     return (
 
       <div className="main-content container-fluid">

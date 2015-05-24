@@ -46,7 +46,10 @@ var PingForm = React.createClass({
 
   },
   exitView: function() {
-    this.transitionTo('directory');
+    var outerScope = this;
+    window.setTimeout((function() {
+      outerScope.transitionTo('directory');
+    }), 300);
   },
   render: function() {
     var targetId = +this.props.params.id;
