@@ -15,22 +15,24 @@ module.exports = function(app) {
   apiRouter.use('/orgs', orgsRouter);
 
   apiRouter.route('/signup')
-     .post(apiController.postSignup);
+    .post(apiController.postSignup);
   apiRouter.route('/login')
-     .post(apiController.postLogin);
+    .post(apiController.postLogin);
   apiRouter.route('/client-login')
-     .post(loggedInAdmin, apiController.postClientLogin);
+    .post(loggedInAdmin, apiController.postClientLogin);
   apiRouter.route('/logout')
-     .post(apiController.postLogout);
+    .post(apiController.postLogout);
   apiRouter.route('/auth-admin')
-     .get(loggedInAdmin, apiController.getAuth);
+    .get(loggedInAdmin, apiController.getAuth);
   apiRouter.route('/auth-client')
-     .get(loggedInClient, apiController.getAuth);
+    .get(loggedInClient, apiController.getAuth);
 
   usersRouter.route('/')
     .post(loggedInAdmin, usersController.postAddMember);
+  usersRouter.route('/password')
+    .put(loggedInAdmin, usersController.putChangePassword);
   usersRouter.route('/:id')
-    .put(loggedInAdmin, usersController.postUpdateMember);
+    .put(loggedInAdmin, usersController.putUpdateMember);
   usersRouter.route('/:id')
     .delete(loggedInAdmin, usersController.postDeleteMember);
   usersRouter.route('/ping')
@@ -39,7 +41,7 @@ module.exports = function(app) {
   orgsRouter.route('/')
     .post(loggedInAdmin, orgsController.postAddOrg);
   orgsRouter.route('/')
-    .put(loggedInAdmin, orgsController.postUpdateOrg);
+    .put(loggedInAdmin, orgsController.putUpdateOrg);
   orgsRouter.route('/')
     .delete(loggedInAdmin, orgsController.postDeleteOrg);
   orgsRouter.route('/dashboard')

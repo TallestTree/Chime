@@ -21,7 +21,7 @@ var Directory = React.createClass({
         );
       }.bind(this));
     } else {
-      members = ( <div>Loading directory</div> );
+      members = ( <div className="dashboard-large">Loading directory...</div> );
     }
     return (
       <div className="col-xs-8 col-xs-push-2 dashboard-content">
@@ -35,6 +35,9 @@ var Directory = React.createClass({
           </div>
           <div className="col-xs-6 col-lg-4 col-lg-push-2 text-left">
             <Link to="addUser" className="btn btn-default dashboard-button-small dashboard-medium">Add Member</Link>
+          </div>
+          <div className="col-xs-6 col-lg-4 col-lg-push-2 text-left">
+            <Link to="changePassword" className="btn btn-default dashboard-button-small dashboard-medium">Change Password</Link>
           </div>
         </div>
 

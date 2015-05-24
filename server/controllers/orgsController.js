@@ -26,7 +26,7 @@ module.exports = {
   },
 
   // User must be admin
-  postUpdateOrg: function(req, res, next) {
+  putUpdateOrg: function(req, res, next) {
     dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
         // Updates are on user's organization
