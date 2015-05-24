@@ -1,5 +1,5 @@
 var pg = require('pg');
-var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('../config/config').testdb.config) : (process.env.DATABASE_URL || require('../config/config').proddb.config);
+var config = process.env.NODE_ENV === 'test' ? (process.env.DATABASE_TEST_URL || require('../config/config').testdb.config) : (process.env.DATABASE_URL || require('../config/config').proddb.config);
 var md5 = require('md5');
 var fs = require('fs');
 

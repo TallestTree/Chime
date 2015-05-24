@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var _ = require('underscore');
 
 // Create reusable transporter object using SMTP transport
-if (!process.env.TEST) {
+if (process.env.NODE_ENV !== 'test') {
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
