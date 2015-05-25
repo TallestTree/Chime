@@ -146,6 +146,29 @@ describe('front-end admin pages', function() {
         expect(members.length).to.equal(3);
       });
     });
+
+    describe('links', function() {
+      it('should contain \'Organization Info\', \'Add Member\' and \'Change Password\' links', function() {
+        var links = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'a');
+
+        var orgLink = false;
+        var addLink = false;
+        var passwordLink = false;
+        for (var i = 0; i < links.length; i++) {
+          if (links[i].props.children === 'Organization Info') {
+            orgLink = true;
+          } else if (links[i].props.children === 'Add Member') {
+            addLink = true;
+          } else if (links[i].props.children === 'Change Password') {
+            passwordLink = true;
+          }
+        }
+
+        expect(orgLink).to.equal(true);
+        expect(addLink).to.equal(true);
+        expect(passwordLink).to.equal(true);
+      });
+    });
   });
 
   describe('add org form', function() {
@@ -206,6 +229,29 @@ describe('front-end admin pages', function() {
         var defaultUser = TestUtils.findRenderedDOMComponentWithClass(dropdown, 'placeholder');
         var node = React.findDOMNode(defaultUser);
         expect(node.innerHTML).to.equal('Banana Man');
+      });
+    });
+
+    describe('buttons', function() {
+      it('should contain \'Submit\', \'Cancel\' and \'Delete\' buttons', function() {
+        var buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+        var submitButton = false;
+        var cancelButton = false;
+        var deleteButton = false;
+        for (var i = 0; i < buttons.length; i++) {
+          if (buttons[i].props.children === 'Submit') {
+            submitButton = true;
+          } else if (buttons[i].props.children === 'Cancel') {
+            cancelButton = true;
+          } else if (buttons[i].props.children === 'Delete Organization') {
+            deleteButton = true;
+          }
+        }
+
+        expect(submitButton).to.equal(true);
+        expect(cancelButton).to.equal(true);
+        expect(deleteButton).to.equal(true);
       });
     });
   });
@@ -299,6 +345,29 @@ describe('front-end admin pages', function() {
           values[React.findDOMNode(element).value] = true;
         });
         expect(values.Banana).to.equal(true);
+      });
+    });
+
+    describe('buttons', function() {
+      it('should contain \'Submit\', \'Cancel\' and \'Delete\' buttons', function() {
+        var buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+        var submitButton = false;
+        var cancelButton = false;
+        var deleteButton = false;
+        for (var i = 0; i < buttons.length; i++) {
+          if (buttons[i].props.children === 'Submit') {
+            submitButton = true;
+          } else if (buttons[i].props.children === 'Cancel') {
+            cancelButton = true;
+          } else if (buttons[i].props.children === 'Delete User') {
+            deleteButton = true;
+          }
+        }
+
+        expect(submitButton).to.equal(true);
+        expect(cancelButton).to.equal(true);
+        expect(deleteButton).to.equal(true);
       });
     });
   });
