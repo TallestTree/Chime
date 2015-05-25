@@ -86,7 +86,7 @@ module.exports = function(grunt) {
     // Change environmental variables for tests
     env: {
       test: {
-        TEST: true,
+        NODE_ENV: 'test',
         options: {
           add: {
             PORT: 55987
@@ -108,6 +108,9 @@ module.exports = function(grunt) {
       },
       server: {
         src: ['tests/server/**/*.js']
+      },
+      e2e: {
+        src: ['tests/e2e/**/*.js']
       }
     },
 

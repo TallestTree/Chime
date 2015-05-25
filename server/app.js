@@ -8,12 +8,12 @@ var passport = require('passport');
 var session = require('express-session');
 var pg = require('pg');
 var pgSession = require('connect-pg-simple')(session);
-var config = process.env.TEST ? (process.env.DATABASE_TEST_URL || require('./config/config').testdb.config) : (process.env.DATABASE_URL || require('./config/config').proddb.config);
+var config = process.env.NODE_ENV === 'test' ? (process.env.DATABASE_TEST_URL || require('./config/config').testdb.config) : (process.env.DATABASE_URL || require('./config/config').proddb.config);
 
 var app = express();
 
 app.use(favicon(path.join(__dirname, '../public/images/favicon.ico')));
-if (!process.env.TEST) {
+if (process.env.NODE_ENV !== 'test') {
   // Suppress logger while testing to clean up output
   app.use(logger('dev'));
 }

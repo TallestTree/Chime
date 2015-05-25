@@ -2,7 +2,7 @@ var voicejs = require('voice.js');
 var _ = require('underscore');
 
 // Create reusable client object
-if (!process.env.TEST) {
+if (process.env.NODE_ENV !== 'test') {
   var client = new voicejs.Client({
     email: process.env.GMAIL_EMAIL || require('../config/config').gmail.email,
     password: process.env.GMAIL_PASSWORD || require('../config/config').gmail.password
