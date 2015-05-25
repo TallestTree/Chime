@@ -72,11 +72,11 @@ var PingDefault = React.createClass({
 
             <form className="client-ping-form col-xs-8 col-xs-push-2" onSubmit={this.handleSubmit}>
               <div className="form-group">
-                <label className="client-medium">Your name:</label>
+                <label className="client-medium">Your name</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorName" />
               </div>
               <div className="form-group">
-                <label className="text-left client-medium">Message:</label>
+                <label className="text-left client-medium">Message</label>
                 <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
               </div>
               <div className="row">
