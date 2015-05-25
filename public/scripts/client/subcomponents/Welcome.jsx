@@ -16,25 +16,29 @@ var Welcome = React.createClass({
   render: function() {
     return (
 
-      <div onClick={this.handleClick} className="cursorPointer">
-        <div className="main-content container-fluid">
+      <div onClick={this.handleClick} className="cursorPointer welcome-wrapper">
+        <div className="header"></div>
+        <div className="middle">
+          <div className="welcome-content container-fluid">
 
-          <div className="row client-app-logo">
-            <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
-          </div>
-
-          <div className="row text-center">
-            <div className="col-xs-4 col-xs-push-4 col-md-2 col-md-push-5">
-              <img className="client-org-logo-welcome" src={this.props.org.logo} />
+            <div className="row client-app-logo">
+              <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
             </div>
-          </div>
 
-          <div className="row text-center client-welcome">
-            <p className="client-huge">{this.props.org.welcome_message}</p>
-            <p className="client-large">Please tap the screen and let us know you're here.</p>
-          </div>
+            <div className="row text-center">
+              <div className="col-xs-4 col-xs-push-4 col-md-2 col-md-push-5">
+                <img className="client-org-logo-welcome" src={this.props.org.logo} />
+              </div>
+            </div>
 
+            <div className="row text-center client-welcome">
+              <p className="client-huge">{this.props.org.welcome_message}</p>
+              <p className="client-large">Please tap the screen and let us know you're here.</p>
+            </div>
+
+          </div>
         </div>
+        <div className="footer"></div>
       </div>
 
     );
