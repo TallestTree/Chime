@@ -25,6 +25,37 @@ body {
   background-attachment: fixed;
 }
 
+html, body {
+  min-height: 100%;
+}
+
+.header {
+  margin-top: 0px;
+  height: 0px;
+}
+
+.welcome-wrapper {
+  padding: 0 0;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+.welcome-content {
+  padding: 0px 15px;
+}
+
+.middle {
+  min-height: 100%;
+}
+
+.footer {
+  margin-bottom: 0px;
+  height: 0px;
+}
+
 .container-fluid .row {
     margin-left: 0;
     margin-right: 0;
