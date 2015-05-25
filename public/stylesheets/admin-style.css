@@ -298,7 +298,7 @@ label {
 
 .dashboard-navbar {
   width: 100%;
-  padding: 0;
+  padding: 0 8.33333333%;
   margin: 0;
   background-color: #000;
   background-color: rgba(0,0,0,0.8);
@@ -311,8 +311,26 @@ label {
   border-radius: 0;
 }
 
-.dashboard-navbar-button {
-  width: 100%;
+.dashboard-navbar-buttons {
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .dashboard-navbar-button {
+    width: 20%;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .dashboard-navbar-button {
+    width: 10%;
+    padding-right: 15px;
+  }
+}
+
+.btn-navbar {
+  padding: 6px 12px;
 }
 
 .dashboard-navbar-app-logo {
