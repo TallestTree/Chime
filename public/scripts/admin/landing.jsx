@@ -41,7 +41,7 @@ var Landing = React.createClass({
             <div className="row col-xs-10 col-xs-push-1">
 
               <div className="col-xs-5 col-xs-push-1">
-                <img src="images/ipad-02-screenshot-welcome-02.png" className="col-xs-12" />
+                <img src="images/ipad-02-client-welcome.png" className="col-xs-12" />
               </div>
 
               <div className="text-center vertical-center col-xs-5 col-xs-push-6">
@@ -63,7 +63,7 @@ var Landing = React.createClass({
               </div>
 
               <div className="col-xs-5 col-xs-push-6">
-                <img src="images/ipad-02-screenshot-directory-03.png" className="col-xs-12" />
+                <img src="images/ipad-02-client-directory.png" className="col-xs-12" />
               </div>
 
             </div>
@@ -75,7 +75,7 @@ var Landing = React.createClass({
             <div className="row col-xs-10 col-xs-push-1">
 
               <div className="col-xs-5 col-xs-push-1">
-                <img src="images/ipad-02-screenshot-ping-02.png" className="col-xs-12" />
+                <img src="images/ipad-02-client-ping.png" className="col-xs-12" />
               </div>
 
               <div className="text-center vertical-center col-xs-5 col-xs-push-6">
@@ -97,7 +97,7 @@ var Landing = React.createClass({
               </div>
 
               <div className="col-xs-5 col-xs-push-6">
-                <img src="images/imac-01-screenshot-dashboard.png" className="col-xs-12" />
+                <img src="images/imac-01-admin-directory.png" className="col-xs-12" />
               </div>
 
             </div>
