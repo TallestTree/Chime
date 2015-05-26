@@ -10,9 +10,6 @@ var UserForm = React.createClass({
     member: React.PropTypes.object,
   },
   mixins: [Router.Navigation],
-  getInitialState: function() {
-    return {error: null};
-  },
   componentDidMount: function() {
     // If a member is provided, fill in the input fields with that member's current info
     utils.fillRefs(this.props.member, this.refs, FORM_REFS);
@@ -22,6 +19,9 @@ var UserForm = React.createClass({
   },
   exitView: function() {
     this.transitionTo('dashboard');
+  },
+  getInitialState: function() {
+    return {error: null};
   },
   handleSubmit: function(e) {
     e.preventDefault();

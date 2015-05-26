@@ -8,19 +8,45 @@ var Member = require('./Member.jsx');  // TODO:  Remove these two later. PLB
 var MemberList = require('./MemberList.jsx');
 var PingConfirm = require('./PingConfirm.jsx');
 
+// Defaults
+var defaultGreetingString = "Hello! I'm waiting for you in the reception area.";
 
 var PingDefault = React.createClass({
   mixins: [Router.Navigation, Router.State],
+  clearTimer: function() {
+    if (this.state.timeoutId) {
+      window.clearTimeout(this.state.timeoutId);
+    }
+  },
+  componentDidMount: function() {
+    var timeoutId = window.setTimeout(function() {
+      this.transitionTo('/');
+      location.reload(false);
+    }.bind(this), 1000 * 60 * 2); // 2 mins to compose and send message, then redirect to welcome screen
+
+    this.setState({timeoutId: timeoutId});
+  },
+  exitView: function() {
+    this.clearTimer();
+    this.transitionTo('directory');
+  },
+  focus: function() {
+    if(defaultGreetingString === React.findDOMNode(this.refs.visitorMessage).value) {
+      React.findDOMNode(this.refs.visitorMessage).value = '';
+    }
+  },
   getInitialState: function() {
     return {visitorName: '', visitorMessage: ''};
   },
   handleSubmit: function(e) {
+    e.preventDefault();
+    this.clearTimer();
+
     var messageObj = {
       id: this.props.params.id,
       visitor: React.findDOMNode(this.refs.visitorName).value,
       text: React.findDOMNode(this.refs.visitorMessage).value.slice(0, 160),
     };
-    e.preventDefault();
 
     $.ajax({
       url: '/api/users/ping',
@@ -35,10 +61,6 @@ var PingDefault = React.createClass({
       }.bind(this),
       timeout: 10000
     });
-
-  },
-  exitView: function() {
-    this.transitionTo('directory');
   },
   render: function() {
     var targetId = +this.props.params.id;
@@ -77,7 +99,7 @@ var PingDefault = React.createClass({
               </div>
               <div className="form-group">
                 <label className="text-left client-medium">Message</label>
-                <input type="text" className="form-control client-small client-input" ref="visitorMessage" />
+                <input type="text" className="form-control client-small client-input" onFocus={this.focus} ref="visitorMessage" defaultValue={defaultGreetingString} />
               </div>
               <div className="row">
                 <div className="col-xs-6">
