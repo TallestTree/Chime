@@ -14,6 +14,7 @@ module.exports = function(app) {
   apiRouter.use('/users', usersRouter);
   apiRouter.use('/orgs', orgsRouter);
 
+  // /api route
   apiRouter.route('/signup')
     .post(apiController.postSignup);
   apiRouter.route('/login')
@@ -27,6 +28,7 @@ module.exports = function(app) {
   apiRouter.route('/auth-client')
     .get(loggedInClient, apiController.getAuth);
 
+  // /api/users route
   usersRouter.route('/')
     .post(loggedInAdmin, usersController.postAddMember);
   usersRouter.route('/password')
@@ -38,6 +40,7 @@ module.exports = function(app) {
   usersRouter.route('/ping')
     .post(loggedInClient, usersController.postPing);
 
+  // /api/orgs route
   orgsRouter.route('/')
     .post(loggedInAdmin, orgsController.postAddOrg);
   orgsRouter.route('/')

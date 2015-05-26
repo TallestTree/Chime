@@ -19,6 +19,7 @@ module.exports = {
     });
   },
 
+  // Admin mode can demote to client mode, which prevents going back to view or edit information
   loggedInAdmin: function(req, res, next) {
     if (req.isAuthenticated() && req.session.passport.user.admin_only) {
       next();
@@ -30,6 +31,7 @@ module.exports = {
     }
   },
 
+  // Forces admin to demote permissions in order to start client to prevent information leaks
   loggedInClient: function(req, res, next) {
     if (req.isAuthenticated() && !req.session.passport.user.admin_only) {
       next();

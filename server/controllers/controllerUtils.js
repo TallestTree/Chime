@@ -27,7 +27,7 @@ module.exports = {
     if (error) {
       error = error.message || error;
 
-      // Check for user errors
+      // Checks for user errors
       if (error.match(/user/i)) {
         if (error.match(/unique/i)) {
           if (error.match(/email/i)) {
@@ -36,7 +36,7 @@ module.exports = {
         }
       }
 
-      // Check for org errors
+      // Checks for org errors
       if (error.match(/organization/i)) {
         if (error.match(/unique/i)) {
           if (error.match(/name/i)) {
@@ -48,16 +48,17 @@ module.exports = {
         }
       }
 
-      // Parse out error code if one exists
+      // Parses out error code if one exists
       if (error.match(/\d{3}/)) {
         return module.exports.serveStatus(res, +error.match(/\d{3}/), error.replace(/\d{3}\s?/, ''));
       }
-      // Log out internal server errors
+      // Logs out internal server errors
       console.error(error);
       return module.exports.serveStatus(res, 500);
     }
   },
 
+  // Sanitizes the information sent back to the client
   sanitizeFields: function(members, fields) {
     if (members) {
       members.forEach(function(member) {

@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var dbUtils = Promise.promisifyAll(require('../db/dbUtils'));
 var controllerUtils = require('./controllerUtils');
 
+// Helper function for getDashboardInfo and getClientInfo
 var getInfo = function(req, res, next, fields) {
   dbUtils.getUsersShareOrgAsync(req.user)
     .then(function(results) {
@@ -11,6 +12,7 @@ var getInfo = function(req, res, next, fields) {
 };
 
 module.exports = {
+  // User adds an organization and becomes admin
   // User must not have an organization
   postAddOrg: function(req, res, next) {
     dbUtils.getUserAsync(req.user)
@@ -25,7 +27,7 @@ module.exports = {
       .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // User must be admin
+  // Admin updates organization
   putUpdateOrg: function(req, res, next) {
     dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
@@ -45,7 +47,7 @@ module.exports = {
       .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // User must be admin
+  // Admin deletes organization
   deleteOrg: function(req, res, next) {
     dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
@@ -57,13 +59,12 @@ module.exports = {
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // User must be in organization
+  // Admin gets organization information
   getDashboardInfo: function(req, res, next) {
     getInfo(req, res, next, ['password_hash']);
   },
 
-  // User must be in organization
-  // Acts like getDashboardInfo except direct contact info is removed
+  // User gets organization information
   getClientInfo: function(req, res, next) {
     getInfo(req, res, next, ['password_hash', 'phone', 'email']);
   }
