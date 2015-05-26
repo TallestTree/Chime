@@ -23,8 +23,8 @@ var PingDefault = require('./subcomponents/PingDefault.jsx');
 
 // Main content class that holds everything on the page
 var App = React.createClass({
-  getInitialState: function() {
-    return {org: {}, members: []};
+  componentDidMount: function() {
+    this.fetchCompanyData();
   },
   fetchCompanyData: function() {
     // Make a request to the server to retrieve the member data
@@ -60,8 +60,8 @@ var App = React.createClass({
       }.bind(this)
     });
   },
-  componentDidMount: function() {
-    this.fetchCompanyData();
+  getInitialState: function() {
+    return {org: {}, members: []};
   },
   render: function() {
     return (

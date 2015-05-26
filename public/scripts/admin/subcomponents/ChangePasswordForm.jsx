@@ -5,11 +5,11 @@ var utils = require('../../shared/utils.jsx');
 
 var ChangePasswordForm = React.createClass({
   mixins: [Router.Navigation],
-  getInitialState: function() {
-    return {error: null};
-  },
   exitView: function() {
     this.transitionTo('dashboard');
+  },
+  getInitialState: function() {
+    return {error: null};
   },
   handleSubmit: function(e) {
     e.preventDefault();

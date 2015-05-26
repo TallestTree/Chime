@@ -8,15 +8,21 @@ var RouteHandler = Router.RouteHandler;
 var PingConfirm = React.createClass({
   mixins: [Router.Navigation, Router.State],
   componentDidMount: function() {
-    var outerScope = this;
-    window.setTimeout((function() {
-      outerScope.transitionTo('/');
-    }), 7000);
-
+    // Redirect to welcome screen, also refresh page if there was an error
+    if (this.props.params.success==='1') {
+      window.setTimeout(function() {
+        this.transitionTo('/');
+      }.bind(this), 1000 * 7);
+    } else {
+      window.setTimeout(function() {
+        this.transitionTo('/');
+        location.reload(false);
+      }.bind(this), 1000 * 7);
+    }
   },
   render: function() {
 
-    if(this.props.params.success==='1') {
+    if (this.props.params.success==='1') {
       return(
 
         <div className="main-content container-fluid">
@@ -50,8 +56,8 @@ var PingConfirm = React.createClass({
           <div className="row">
             <div className="col-xs-8 col-xs-push-2 client-ping">
 
-              <p className="client-large text-center">ERROR!</p>
-              <p className="client-medium text-center">Please try sending your message again, or choose another recipient.</p>
+              <p className="client-large text-center">Sorry!</p>
+              <p className="client-medium text-center">Please check the internet connection and try again.</p>
 
             </div>
           </div>

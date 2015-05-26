@@ -9,26 +9,46 @@ var MemberList = require('./MemberList.jsx');
 var PingConfirm = require('./PingConfirm.jsx');
 
 // Defaults
-var defaultGreetingString = "Hello!  I'm waiting for you in the reception area.";
-
+var defaultGreetingString = "Hello! I'm waiting for you in the reception area.";
 
 var PingForm = React.createClass({
   mixins: [Router.Navigation, Router.State],
-  getInitialState: function() {
-    return {visitorName: '', visitorMessage: ''};
+  clearTimer: function() {
+    if (this.state.timeoutId) {
+      window.clearTimeout(this.state.timeoutId);
+    }
+  },
+  componentDidMount: function() {
+    var timeoutId = window.setTimeout(function() {
+      this.transitionTo('/');
+      location.reload(false);
+    }.bind(this), 1000 * 60 * 2); // 2 mins to compose and send message, then redirect to welcome screen
+
+    this.setState({timeoutId: timeoutId});
+  },
+  exitView: function() {
+    this.clearTimer();
+    window.setTimeout(function() {
+      this.transitionTo('directory');
+    }.bind(this), 300);
   },
   focus: function() {
     if(defaultGreetingString === React.findDOMNode(this.refs.visitorMessage).value) {
       React.findDOMNode(this.refs.visitorMessage).value = '';
     }
   },
+  getInitialState: function() {
+    return {visitorName: '', visitorMessage: ''};
+  },
   handleSubmit: function(e) {
+    e.preventDefault();
+    this.clearTimer();
+
     var messageObj = {
       id: this.props.params.id,
       visitor: React.findDOMNode(this.refs.visitorName).value,
       text: React.findDOMNode(this.refs.visitorMessage).value,
     };
-    e.preventDefault();
 
     $.ajax({
       url: '/api/users/ping',
@@ -44,12 +64,6 @@ var PingForm = React.createClass({
       timeout: 10000
     });
 
-  },
-  exitView: function() {
-    var outerScope = this;
-    window.setTimeout((function() {
-      outerScope.transitionTo('directory');
-    }), 300);
   },
   render: function() {
     var targetId = +this.props.params.id;

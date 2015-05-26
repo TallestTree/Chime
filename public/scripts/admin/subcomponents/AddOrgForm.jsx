@@ -7,11 +7,11 @@ var utils = require('../../shared/utils.jsx');
 
 var AddOrgForm = React.createClass({
   mixins: [Router.Navigation],
-  getInitialState: function() {
-    return {error: null};
-  },
   componentDidMount: function() {
     utils.fillRefs(this.props.org, this.refs, FORM_REFS);
+  },
+  getInitialState: function() {
+    return {error: null};
   },
   handleSubmit: function(e) {
     e.preventDefault();
