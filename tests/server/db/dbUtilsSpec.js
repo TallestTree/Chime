@@ -12,7 +12,7 @@ dbUtils.__set__('config', config);
 describe('dbUtils', function() {
   this.timeout(10000);
 
-  // Reference entries used multiple times
+  // References entries used multiple times
   var john = {first_name: 'John', last_name: 'Doe', email: 'johndoe@myurl.com', phone: 5551234567};
   var jane = {first_name: 'Jane', last_name: 'Doe', email: 'janedoe@myurl.com', phone: 5551234567};
   var tallestTree = {name: 'Tallest Tree', admin_id: 1};
@@ -23,7 +23,7 @@ describe('dbUtils', function() {
   });
 
   after(function() {
-    // Free up any open connections
+    // Frees up any open connections
     pg.end();
   });
 

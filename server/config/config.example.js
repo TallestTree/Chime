@@ -10,7 +10,7 @@ module.exports = {
       database: 'YourDbHere',
       password: 'YourPasswordHere',
       port: 5432,
-      host: 'www.yourhosthere.com',
+      host: 'www.YourHostHere.com',
       ssl: true
     }
   },
@@ -20,8 +20,9 @@ module.exports = {
       database: 'YourDbHere',
       password: 'YourPasswordHere',
       port: 5432,
-      host: 'www.yourhosthere.com',
+      host: 'www.YourHostHere.com',
       ssl: true
     }
-  }
+  },
+  session_secret: 'YourSecretHere'
 };

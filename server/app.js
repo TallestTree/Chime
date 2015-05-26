@@ -14,7 +14,7 @@ var app = express();
 
 app.use(favicon(path.join(__dirname, '../public/images/favicon.ico')));
 if (process.env.NODE_ENV !== 'test') {
-  // Suppress logger while testing to clean up output
+  // Suppresses logger while testing to clean up output
   app.use(logger('dev'));
 }
 app.use(bodyParser.json());
@@ -48,14 +48,14 @@ app.get('/', function(req, res) {
 
 require('./routers/apiRouter')(app);
 
-// catch 404 and forward to error handler
+// Catches 404 and forwards to error handler
 app.use(function(req, res, next) {
   var error = new Error('Not Found');
   error.status = 404;
   next(error);
 });
 
-// error handler
+// Error handler
 app.use(function(error, req, res, next) {
   res.status(error.status || 500);
 });

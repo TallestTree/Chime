@@ -6,7 +6,7 @@ var emailUtilsAsync = Promise.promisify(require('../ping/emailUtils'));
 var smsUtilsAsync = Promise.promisify(require('../ping/smsUtils'));
 
 module.exports = {
-  // Admins can add members into their organization
+  // Admin adds members into organization
   postAddMember: function(req, res, next) {
     dbUtils.getOrgAsync({admin_id: req.user.id})
       .then(function(org) {
@@ -22,11 +22,11 @@ module.exports = {
       .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // Users can update themselves, and admins can update members of their organization
+  // User updates self, or admin updates members of organization
   putUpdateMember: function(req, res, next) {
-    // First check if we have permission to update
+    // Checks if we have permission to update
     Promise.try(function() {
-      // Users can update themselves
+      // User updates self
       if (req.user.id === +req.params.id) {
         return;
       }
@@ -43,9 +43,9 @@ module.exports = {
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // Users can change their password
+  // User changes password
   putChangePassword: function(req, res, next) {
-    // First check if we have permission to update
+    // Checks if we have permission to update
     dbUtils.getUserAsync(req.user)
     .then(function(user) {
       return authUtils.checkPasswordAsync(user, req.body.old_password);
@@ -63,8 +63,7 @@ module.exports = {
     });
   },
 
-  // Users can delete themselves, and admins can delete members of their organization
-  // Admins cannot be deleted
+  // User deletes self, and admin deletes members of their organization
   deleteMember: function(req, res, next) {
     Promise.try(function() {
       if (req.user.id === +req.params.id) {
@@ -119,15 +118,13 @@ module.exports = {
       // SMS ping
       var smsPromise = Promise.resolve();
 
-      // Construct message text
+      // Constructs message text
       var subject = member.first_name + ' ' + member.last_name + ', ';
       subject += req.body.visitor ? req.body.visitor + ' is here to see you' : 'you have a visitor';
       var text = '';
       if (req.body.text) {
         text = '"' + req.body.text + '"';
       }
-
-      // SMS ping
       if (member.phone) {
         var message = subject;
         if(text) {

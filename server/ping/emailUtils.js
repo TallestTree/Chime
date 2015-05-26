@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
 var _ = require('underscore');
 
-// Create reusable transporter object using SMTP transport
+// Creates reusable transporter object using SMTP transport
 if (process.env.NODE_ENV !== 'test') {
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -15,9 +15,7 @@ if (process.env.NODE_ENV !== 'test') {
 module.exports = function(mailOptions, cb) {
   mailOptions = mailOptions || {};
   _.defaults(mailOptions, {
-    from: 'Chime <'+process.env.GMAIL_EMAIL||config.gmail.email+'>',
-    subject: '☎ Visit from Anon',
-    text: 'You have an anonymous visitor.',
+    from: 'Chime <'+process.env.GMAIL_EMAIL||config.gmail.email+'>'
   });
 
   cb = cb || function(error, info) {

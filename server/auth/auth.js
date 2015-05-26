@@ -15,6 +15,7 @@ passport.use(new LocalStrategy({
     usernameField: 'email'
   },
   function(username, password, done) {
+    // Authenticates if and only if user exists and password matches
     dbUtils.getUser({ email: username }, function(error, user) {
       if (error) {
         return done(null, false);

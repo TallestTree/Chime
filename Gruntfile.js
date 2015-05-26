@@ -83,7 +83,7 @@ module.exports = function(grunt) {
       }
     },
 
-    // Change environmental variables for tests
+    // Changes environmental variables for tests
     env: {
       test: {
         NODE_ENV: 'test',

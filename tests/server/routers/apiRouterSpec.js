@@ -6,8 +6,9 @@ var app = require('../../../server/app');
 var Promise = require('bluebird');
 var dbUtils = Promise.promisifyAll(require('../../../server/db/dbUtils'));
 var config = process.env.DATABASE_TEST_URL || require('../../../server/config/config').testdb.config;
+
 // Promise-returning request with session
-  var reqAsync = Promise.promisify(require('request').defaults({jar: true}));
+var reqAsync = Promise.promisify(require('request').defaults({jar: true}));
 
 describe('apiRouter', function() {
   this.timeout(10000);
@@ -177,7 +178,7 @@ describe('apiRouter', function() {
     });
     it('fails to retrieve sensitive fields', function() {
       return reqAsync(getOrgClient).spread(function(res, body) {
-        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // User Error
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         var orgInfo = JSON.parse(body);
         expect(orgInfo.members[0].last_name).to.equal('Bryan');
         expect(orgInfo.members[0].password_hash).to.equal(undefined);
@@ -264,7 +265,7 @@ describe('apiRouter', function() {
         }
       };
       return reqAsync(updateOrg).spread(function(res, body) {
-        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // Success
+        expect(res.statusCode.toString()).to.match(/^4\d\d$/); // User Error
       });
     });
     it('throws an error if deleting self as admin', function() {
@@ -282,10 +283,10 @@ describe('apiRouter', function() {
         uri: url+'api/orgs/'
       };
       return reqAsync(deleteOrg).spread(function(res, body) {
-        expect(res.statusCode.toString()).to.match(/^2\d\d$/);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         return reqAsync(getOrgDashboard);
       }).spread(function(res, body) {
-        expect(res.statusCode.toString()).to.match(/^2\d\d$/);
+        expect(res.statusCode.toString()).to.match(/^2\d\d$/); // Success
         expect(body).to.equal('{}');
       });
     });

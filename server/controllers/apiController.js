@@ -17,7 +17,7 @@ var login = function(req, res, next) {
         return next(error);
       }
       req.session.passport.user.admin_only = true;
-      return controllerUtils.serveStatus(res, 201);
+      return controllerUtils.serveStatus(res, 204);
     });
   })(req, res, next);
 };
@@ -31,7 +31,7 @@ module.exports = {
         return controllerUtils.serveStatus(res, 500);
       }
       user.password_hash = hash;
-      dbUtils.addUser(user, function(error, results) {
+      dbUtils.addUser(user, function(error) {
         if (!controllerUtils.checkError(res, error)) {
           login(req, res, next);
         }
@@ -39,6 +39,7 @@ module.exports = {
     });
   },
 
+  // Login form returns admin mode
   postLogin: function(req, res, next) {
     login(req, res, next);
   },
@@ -50,7 +51,7 @@ module.exports = {
         return next(error);
       }
       req.session.passport.user.admin_only = false;
-      return controllerUtils.serveStatus(res, 201, 'Switched to client');
+      return controllerUtils.serveStatus(res, 204);
     });
   },
 
@@ -59,7 +60,8 @@ module.exports = {
     return controllerUtils.serveStatus(res, 204);
   },
 
+  // If the request does not have correct authorization, then middleware would already have intercepted and rejected it
   getAuth: function(req, res, next) {
-    return controllerUtils.serveStatus(res, 200);
+    return controllerUtils.serveStatus(res, 204);
   }
 };

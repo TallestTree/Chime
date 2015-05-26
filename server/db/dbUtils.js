@@ -70,7 +70,7 @@ var augmentFields = function(entry, fields) {
   return validatedEntry;
 };
 
-// Validate against possible fields
+// Validates against possible fields
 var getEntryFields = function(entry, possibleEntryFields) {
   if (!entry) {
     return [];
@@ -91,7 +91,7 @@ var connect = function(params) {
       return entryField.join(',');
     });
 
-    // Create outer scope paramIndex so entryFields' index counts don't reset
+    // Creates outer scope paramIndex so entryFields' index counts don't reset
     var paramIndex = 1;
     var parameters = params.entryFields.map(function(entryField) {
       return '$'+entryField.map(function() {
@@ -143,7 +143,7 @@ var addEntry = function(type, entry, cb) {
 // Helper function for updateUser and updateOrg
 // Uses id field attached to entry to update the rest
 var updateEntry = function(type, entry, cb) {
-  // Validate against possible fields
+  // Validates against possible fields
   var fields = getEntryFields(entry, allFields[type].required.concat(allFields[type].optional));
   if (!entry.id) {
     return cb('id field missing');
@@ -170,7 +170,7 @@ var updateEntry = function(type, entry, cb) {
 
 // Helper function for getUsers and getOrgs
 var getEntries = function(type, entry, cb) {
-  // Validate against possible fields
+  // Validates against possible fields
   var fields = getEntryFields(entry, allFields[type].required.concat(allFields[type].optional, allFields[type].auto));
   if (!fields.length) {
     return cb('no fields supplied');
@@ -316,7 +316,7 @@ exports.getUsersShareOrg = function(user, cb) {
   exports.getUser(user, augmentCb(cb, 'getting users share organization', getUsersByOrg));
 };
 
-var schemaCache; // Cache the schema to prevent multiple file reads during testing
+var schemaCache; // Caches the schema to prevent multiple file reads during testing
 exports.clearDb = function(config, cb) {
   config = config || process.env.DATABASE_TEST_URL || require('../config/config').testdb.config;
   if (config === process.env.DATABASE_URL || (!process.env.DATABASE_URL && config.database && config.database === require('../config/config').proddb.config.database)) {

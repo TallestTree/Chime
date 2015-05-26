@@ -8,7 +8,7 @@ var dbUtils = Promise.promisifyAll(require('../../server/db/dbUtils'));
 var config = process.env.DATABASE_TEST_URL || require('../../server/config/config').testdb.config;
 var Browser = require('zombie');
 
-// Suppress React's instruction to install DevTools
+// Suppresses React's instruction to install DevTools
 console.log = function() {
   var oldLog = console.log.bind(console);
   return function() {
@@ -29,7 +29,7 @@ describe('e2e', function() {
   var url = 'http://localhost:'+process.env.PORT+'/';
   var browser = new Browser({ site: url });
 
-  // Repeated form filling
+  // Stores repeated form fills
   var fillSignup = function() {
     browser
       .fill('input[type="email"]', 'bryan@bryan') // Email
@@ -152,7 +152,7 @@ describe('e2e', function() {
           return browser.wait();
         }).then(function() {
           // There's no button to click since this click event is handled by React
-          // Thus, jump directory to next location
+          // Thus, jumps directory to next location
           browser.location.href += 'directory';
           return browser.wait();
         });

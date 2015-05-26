@@ -1,7 +1,7 @@
 var voicejs = require('voice.js');
 var _ = require('underscore');
 
-// Create reusable client object
+// Creates reusable client object
 if (process.env.NODE_ENV !== 'test') {
   var client = new voicejs.Client({
     email: process.env.GMAIL_EMAIL || require('../config/config').gmail.email,
@@ -10,11 +10,8 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = function(smsOptions, cb) {
-  // Use voice.js for Google Voice
+  // Uses voice.js for Google Voice
   smsOptions = smsOptions || {};
-  _.defaults(smsOptions, {
-    text: 'You have an anonymous visitor. - Chime',
-  });
 
   cb = cb || function(error, response, data) {
     if (error || !response.body.ok) {
