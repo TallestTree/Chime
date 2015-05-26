@@ -38,7 +38,7 @@ var PingForm = React.createClass({
     }
   },
   getInitialState: function() {
-    return {visitorName: '', visitorMessage: ''};
+    return {visitorName: '', visitorMessage: '', sending: false};
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -49,6 +49,8 @@ var PingForm = React.createClass({
       visitor: React.findDOMNode(this.refs.visitorName).value,
       text: React.findDOMNode(this.refs.visitorMessage).value,
     };
+
+    this.setState({sending: true});
 
     $.ajax({
       url: '/api/users/ping',
@@ -75,28 +77,32 @@ var PingForm = React.createClass({
       this.exitView();
     }
     this.jobTitle = (typeof(member.title) === undefined) ? "" : member.title;
-    return(
+
+    // Show spinner gif when sending
+    var classString;
+    if (this.state.sending) {
+      classString = 'spinner';
+    } else {
+      classString = 'spinner hidden';
+    }
+
+    return (
 
       <div className="main-content container-fluid">
-
         <div className="row client-app-logo cursorPointer" onClick={this.exitView}>
           <img className="col-xs-4 col-sm-3 col-md-2" src="images/logo_03.png" />
         </div>
 
         <div className="row">
-
           <div className="col-xs-8 col-xs-push-2 client-ping">
-
             <p className="client-large text-center">{member.first_name} {member.last_name}</p>
             <p className="client-medium text-center">{this.jobTitle}</p>
             <p className="client-medium text-center">{this.defaultIdMsg}</p>
-
             <div className="row">
               <div className="col-xs-8 col-xs-push-2 col-md-4 col-md-push-4 text-center">
                 <img className="client-ping-avatar" src={member.photo} />
               </div>
             </div>
-
             <form className="client-ping-form col-xs-8 col-xs-push-2" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label className="client-medium">Your name</label>
@@ -114,17 +120,16 @@ var PingForm = React.createClass({
                   <button type="button" className="btn btn-default client-button client-medium pull-left" onClick={this.exitView}>Cancel</button>
                 </div>
               </div>
+              <div className={classString}>
+                <div className="double-bounce1"></div>
+                <div className="double-bounce2"></div>
+              </div>
             </form>
-
           </div>
-
         </div>
-
       </div>
-
     );
   }
 });
 
 module.exports = PingForm;
-
