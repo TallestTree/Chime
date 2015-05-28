@@ -118,6 +118,8 @@ var Landing = React.createClass({
                 </form>
               </div>
 
+              <p className="dashboard-medium-features"><a href="https://github.com/TallestTree/Chime" target="_blank">See our code on GitHub</a></p>
+
             </div>
 
           </div>
