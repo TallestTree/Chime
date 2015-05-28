@@ -4,6 +4,7 @@
 - Scrum Master: [Joseph Pei](https://github.com/jpei)
 - Development Team: [Paul Brady](https://github.com/pablobrady), [Bryan Lee](https://github.com/LanceFulton), [Matt Sperry](https://github.com/sperrow)
 
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-ping.png?raw=true)
 
 # Running
 
