@@ -5,6 +5,10 @@
 - Development Team: [Paul Brady](https://github.com/pablobrady), [Bryan Lee](https://github.com/LanceFulton), [Matt Sperry](https://github.com/sperrow)
 
 
+
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-ping.png)
+
+
 # Running
 
 ## Installing Dependencies
@@ -28,3 +32,13 @@
 
 To find more about our product, visit our [press release](https://github.com/TallestTree/Chime/blob/master/_PRESS-RELEASE.md).
 To find out how to contribute, visit our [contributing](https://github.com/TallestTree/Chime/blob/master/_CONTRIBUTING.md) and [style](https://github.com/TallestTree/Chime/blob/master/_STYLE-GUIDE.md) guides.
+
+
+
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-welcome.png)
+
+
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-directory.png)
+
+
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/imac-01-admin-directory.png)
