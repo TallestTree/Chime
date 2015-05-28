@@ -6,8 +6,8 @@
 
 
 
-![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-ping.png)
-
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-welcome.png)
+The Chime client app welcomes visitors to the office before connecting them with the appropriate contact.
 
 # Running
 
@@ -35,10 +35,10 @@ To find out how to contribute, visit our [contributing](https://github.com/Talle
 
 
 
-![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-welcome.png)
-
-
 ![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-directory.png)
+
+
+![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/ipad-02-client-ping.png)
 
 
 ![alt tag](https://github.com/TallestTree/Chime/blob/development/public/images/imac-01-admin-directory.png)
