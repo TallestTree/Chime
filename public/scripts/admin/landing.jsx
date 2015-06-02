@@ -44,7 +44,7 @@ var Landing = React.createClass({
                 <img src="images/ipad-02-client-welcome.png" className="col-xs-12" />
               </div>
 
-              <div className="text-center vertical-center col-xs-5 col-xs-push-6">
+              <div className="text-center col-xs-5 col-xs-push-1">
                 <p className="dashboard-large-features">Welcome All</p>
                 <p className="dashboard-medium-features">The Chime Client provides your office with a way to ensure that every visitor is greeted and assisted.</p>
               </div>
@@ -57,12 +57,12 @@ var Landing = React.createClass({
 
             <div className="row col-xs-10 col-xs-push-1">
 
-              <div className="text-center vertical-center col-xs-5 col-xs-push-1">
+              <div className="text-center col-xs-5 col-xs-push-1">
                 <p className="dashboard-large-features">Best Face Forward</p>
                 <p className="dashboard-medium-features">Visitors can see all of your staff and their titles, and select the right contact for their needs.</p>
               </div>
 
-              <div className="col-xs-5 col-xs-push-6">
+              <div className="col-xs-5 col-xs-push-1">
                 <img src="images/ipad-02-client-directory.png" className="col-xs-12" />
               </div>
 
@@ -78,7 +78,7 @@ var Landing = React.createClass({
                 <img src="images/ipad-02-client-ping.png" className="col-xs-12" />
               </div>
 
-              <div className="text-center vertical-center col-xs-5 col-xs-push-6">
+              <div className="text-center col-xs-5 col-xs-push-1">
                 <p className="dashboard-large-features">Touch Base</p>
                 <p className="dashboard-medium-features">Your guests can then ping their contact, add their own custom message, and get a confirmation.</p>
               </div>
@@ -91,12 +91,12 @@ var Landing = React.createClass({
 
             <div className="row col-xs-10 col-xs-push-1">
 
-              <div className="text-center vertical-center col-xs-5 col-xs-push-1">
+              <div className="text-center col-xs-5 col-xs-push-1">
                 <p className="dashboard-large-features">Take Control</p>
                 <p className="dashboard-medium-features">The Chime Dashboard allows you to manage your organization, its members, and their contact info.</p>
               </div>
 
-              <div className="col-xs-5 col-xs-push-6">
+              <div className="col-xs-5 col-xs-push-1">
                 <img src="images/imac-01-admin-directory.png" className="col-xs-12" />
               </div>
 
