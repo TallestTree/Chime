@@ -7,7 +7,7 @@ The Chime client app welcomes visitors to the office before connecting them with
 
 - Product Owner: [Lance Fulton](https://github.com/LanceFulton)
 - Scrum Master: [Joseph Pei](https://github.com/jpei)
-- Development Team: [Paul Brady](https://github.com/pablobrady), [Bryan Lee](https://github.com/LanceFulton), [Matt Sperry](https://github.com/sperrow)
+- Development Team: [Paul Brady](https://github.com/pablobrady), [Bryan Lee](https://github.com/bryclee), [Matt Sperry](https://github.com/sperrow)
 
 # Running
 
