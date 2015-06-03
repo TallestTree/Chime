@@ -1,29 +1,29 @@
-var voicejs = require('voice.js');
 var _ = require('underscore');
-
-// Creates reusable client object
-if (process.env.NODE_ENV !== 'test') {
-  var client = new voicejs.Client({
-    email: process.env.GMAIL_EMAIL || require('../config/config').gmail.email,
-    password: process.env.GMAIL_PASSWORD || require('../config/config').gmail.password
-  });
-}
+var Promise = require('bluebird');
+var request = Promise.promisify(require('request'));
 
 module.exports = function(smsOptions, cb) {
-  // Uses voice.js for Google Voice
+  // Uses textbelt
   smsOptions = smsOptions || {};
-
-  cb = cb || function(error, response, data) {
-    if (error || !response.body.ok) {
-      console.error(error || 'Error sending text: ' + response.body.data.code);
-    } else {
-      console.log('Text sent: ', response);
-    }
-  };
 
   if (!smsOptions.to) {
     cb('Error: No destination address for text');
   } else {
-    client.altsms(smsOptions, cb);
+    request({
+      method: 'POST',
+      uri: 'http://textbelt.com/text',
+      json: {
+        number: smsOptions.to,
+        message: smsOptions.text
+      }
+    }).then(function(result) {
+      if (result.success) {
+        cb(null);
+      } else {
+        cb(result.message);
+      }
+    }).catch(function(error) {
+      cb(error);
+    });
   }
 };
