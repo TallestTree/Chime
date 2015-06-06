@@ -30,8 +30,8 @@ module.exports = {
       if (req.user.id === +req.params.id) {
         return;
       }
+      // Otherwise admin updates members of organization
       return Promise.join(dbUtils.getUserAsync({id: req.params.id}), dbUtils.getOrgAsync({admin_id: req.user.id}), function(member, org) {
-        // Member must be of the same organization
         if (member.organization_id !== org.id) {
           throw new Error(403);
         }
@@ -63,18 +63,20 @@ module.exports = {
     });
   },
 
-  // User deletes self, and admin deletes members of their organization
+  // User deletes self, and admin deletes members of organization
   deleteMember: function(req, res, next) {
     Promise.try(function() {
+      // User deletes self
       if (req.user.id === +req.params.id) {
         return dbUtils.getUserAsync(req.user)
           .then(function(user) {
+            // User can be without organization
             if (!user.organization_id) {
-              return false;
+              return null;
             }
+            // Or user can be a non-admin member
             return dbUtils.getOrgAsync({id: user.organization_id})
               .then(function(org) {
-                // Admins cannot be deleted
                 if (+req.params.id === org.admin_id) {
                   throw new Error(403);
                 }
@@ -82,7 +84,9 @@ module.exports = {
               });
           });
       }
+      // Otherwise admin deletes members of organization
       return Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.params.id}), function(user, member) {
+          // Must share organizations
           if (!user.organization_id || user.organization_id !== member.organization_id) {
             throw new Error(403);
           }
@@ -107,17 +111,15 @@ module.exports = {
     .catch(function(error) { controllerUtils.checkError(res, error); });
   },
 
-  // Must share organizations
+  // User pings someone in same organization
   postPing: function(req, res, next) {
     Promise.join(dbUtils.getUserAsync(req.user), dbUtils.getUserAsync({id: req.body.id}), function(user, member) {
+      // Must share organizations
       if (!user.organization_id || user.organization_id !== member.organization_id) {
         throw new Error(403);
       }
       return member;
     }).then(function(member) {
-      // SMS ping
-      var smsPromise = Promise.resolve();
-
       // Constructs message text
       var subject = member.first_name + ' ' + member.last_name + ', ';
       subject += req.body.visitor ? req.body.visitor + ' is here to see you' : 'you have a visitor';
@@ -125,6 +127,11 @@ module.exports = {
       if (req.body.text) {
         text = '"' + req.body.text + '"';
       }
+
+      // Defaults the sms promise to automatically resolve if the optional phone number is missing
+      var smsPromise = Promise.resolve();
+
+      // SMS ping
       if (member.phone) {
         var message = subject;
         if(text) {
@@ -147,6 +154,7 @@ module.exports = {
 
       return [smsPromise, emailPromise];
     }).all().then(function() {
+      // Throws an error if any supplied method fails
       controllerUtils.serveStatus(res, 204);
     }).catch(function(error) { controllerUtils.checkError(res, error); });
   }
