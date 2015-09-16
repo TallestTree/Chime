@@ -275,6 +275,10 @@ label {
   margin-bottom: 30px;
 }
 
+.client-contact:nth-child(4n+1) {
+  clear: left;
+}
+
 .client-contact:hover {
   background-color: #808080;
   background-color: rgba(255, 255, 255, 0.4);
